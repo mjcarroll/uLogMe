@@ -6,22 +6,31 @@
 // may get mapped to just "Google Chrome".
 // these get applied in order they are specified, from top to bottom
 var title_mappings = [
-{pattern : /Google Chrome/, mapto : 'Google Chrome'},
-{pattern : /Firefox/, mapto : 'Google Chrome'}, // lol
+// Internet
+{pattern : /Google Chrome/, mapto : 'Firefox'}, // lol
+{pattern : /Firefox/, mapto : 'Firefox'},
+{pattern : /Outlook/, mapto : 'Outlook'},
+{pattern : /Skype/, mapto : 'Skype'},
+{pattern : /Facebook/, mapto : 'Facebook'},
+{pattern : /YouTube/, mapto : 'YouTube'},
+{pattern : /GitHub/, mapto : 'GitHub'},
+{pattern : /Bitbucket/, mapto : 'Bitbucket'},
+{pattern : /Slack/, mapto : 'Slack'},
+// Programming
 {pattern : /MATLAB/, mapto : 'Matlab'},
-{pattern : /Figure/, mapto : 'Matlab'},
-{pattern : /Inotebook/, mapto : 'INotebook'},
-{pattern : /.pdf/, mapto : 'Papers'},
-{pattern : /Gmail/, mapto : 'Gmail'},
-{pattern : /karpathy@/, mapto : 'Terminal'},
-{pattern : /Sublime Text/, mapto : 'SubText2'},
-{pattern : /\.js.*Sublime Text/, mapto : 'SubText2 Coding'},
-{pattern : /\.py.*Sublime Text/, mapto : 'SubText2 Coding'},
-{pattern : /\.html.*Sublime Text/, mapto : 'SubText2 Coding'},
-{pattern : /\.cpp.*Sublime Text/, mapto : 'SubText2 Coding'},
-{pattern : /\.h.*Sublime Text/, mapto : 'SubText2 Coding'},
-{pattern : /__LOCKEDSCREEN/, mapto : 'Locked Screen'}, // __LOCKEDSCREEN is a special token
-{pattern : /TeXworks/, mapto : 'Latex'},
+// {pattern : /Figure/, mapto : 'Matlab'},
+// {pattern : /Inotebook/, mapto : 'INotebook'},
+// {pattern : /.pdf/, mapto : 'Papers'},
+{pattern : /Terminal/, mapto : 'Terminal'},
+{pattern : /Sublime Text/, mapto : 'ST3'},
+{pattern : /\.py.*Sublime Text/, mapto : 'ST3 Python'},
+{pattern : /\.js.*Sublime Text/, mapto : 'ST3 JS'},
+{pattern : /\.html.*Sublime Text/, mapto : 'ST3 HTML'},
+{pattern : /\.tex.*Sublime Text/, mapto : 'ST3 LaTeX'},
+{pattern : /\.md.*Sublime Text/, mapto : 'ST3 Markdown'},
+{pattern : /\.rst.*Sublime Text/, mapto : 'ST3 rST'},
+// Extra
+{pattern : /__LOCKEDSCREEN/, mapto : 'Locked Screen'}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
 ];
 
 // be very careful with ordering in the above because titles
@@ -49,24 +58,25 @@ function mapwin(w) {
 // These groups will be rendered together in the "barcode view". For example, I like
 // to group my work stuff and play stuff together.
 var display_groups = [];
-display_groups.push(["Gmail", "Google Chrome", "MISC", "SubText2"]); // internet related
-display_groups.push(["Matlab", "SubText2 Coding", "INotebook", "Terminal", "Papers"]); // work related
-display_groups.push(["TeXworks"]); // paper writing related
-display_groups.push(["Locked Screen"]); // computer not being used 
+display_groups.push(["Outlook", "Firefox", "Skype", "Facebook", "YouTube", "GitHub", "Bitbucket", "Slack"]); // internet related
+display_groups.push(["MISC", "ST3"]);
+display_groups.push(["Matlab", "ST3 Coding", "INotebook", "Terminal", "Papers"]); // work related
+display_groups.push(["ST3 LaTeX"]); // paper writing related
+display_groups.push(["Locked Screen"]); // computer not being used
 
 // list of titles that classify as "hacking", or being productive in general
 // the main goal of the day is to get a lot of focused sessions of hacking
 // done throughout the day. Windows that arent in this list do not
 // classify as hacking, and they break "streaks" (events of focused hacking)
-// the implementation is currently quite hacky, experimental and contains 
+// the implementation is currently quite hacky, experimental and contains
 // many magic numbers.
-var hacking_titles = ["INotebook", "Terminal", "Matlab", "SubText2 Coding"];
+var hacking_titles = ["INotebook", "Terminal", "Matlab", "ST3 Coding"];
 var draw_hacking = true; // by default turning this off
 
 // draw notes row?
 var draw_notes = true;
 
 // experimental coffee levels indicator :)
-// looks for notes that mention coffee and shows 
+// looks for notes that mention coffee and shows
 // levels of coffee in body over time
 var draw_coffee = false;
