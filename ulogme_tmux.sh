@@ -5,7 +5,7 @@
 # oldpwd="$(pwd)"
 echo "Calling 'ulogme_tmux.sh' ..."
 
-cd ~/.local/share/ulogme/
+cd ~/.local/share/ulogme/  # XXX change according to your installation
 
 # XXX assume runing inside a tmux session
 if [ "X${TMUX}" = "X" ]; then
