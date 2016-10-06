@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/Naereen/ulogme/
 
 cd ~/.local/share/ulogme/
 echo "Starting 'ulogme.sh' ..."

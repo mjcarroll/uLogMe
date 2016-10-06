@@ -1,5 +1,8 @@
 #!/bin/bash
-oldpwd="$(pwd)"
+# Experimental script to start a new tab in a tmux session, launching the data collection on the right & and Python web server on the left.
+# https://github.com/Naereen/ulogme/
+
+# oldpwd="$(pwd)"
 echo "Calling 'ulogme_tmux.sh' ..."
 
 cd ~/.local/share/ulogme/
@@ -18,7 +21,7 @@ tmux new-window -n 'uLogMe' 'ulogme_serve.sh'
 # launch 'ulogme_serve.sh' in second one
 # split it half
 # tmux split-window -h 'ulogme_serve.sh'
-tmux split-window -h 'ulogme.sh'
+tmux split-window -h 'ulogme_data.sh'
 # tmux rename-window 'uLogMe Server'
 
 # launch 'ulogme.sh' in first one
@@ -26,7 +29,7 @@ tmux split-window -h 'ulogme.sh'
 # tmux rename-window 'uLogMe Data'
 # tmux run-shell ulogme.sh
 
+sleep 10
 # return to current tab ?
 tmux last-window
-
-cd "${oldpwd}"
+# cd "${oldpwd}"  # DEBUG ?
