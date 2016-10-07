@@ -13,15 +13,17 @@ if [ "X${TMUX}" = "X" ]; then
     exit 1
 fi
 
+port=${1:-8124}
+
 # Reference https://linux.die.net/man/1/tmux
 # start a new window,
 # name it ulogme
-tmux new-window -n 'uLogMe' 'ulogme_serve.sh'
+tmux new-window -n 'uLogMe' ulogme_serve.sh ${port}
 
 # launch 'ulogme_serve.sh' in second one
 # split it half
-# tmux split-window -h 'ulogme_serve.sh'
-tmux split-window -h 'ulogme_data.sh'
+# tmux split-window -h ulogme_serve.sh
+tmux split-window -h ulogme_data.sh
 # tmux rename-window 'uLogMe Server'
 
 # launch 'ulogme.sh' in first one
