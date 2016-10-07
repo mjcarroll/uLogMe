@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ulogme</title>
+    <title>ulogme - overview</title>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
     <link href='overview_style.css' rel='stylesheet' type='text/css'>
 
@@ -99,8 +99,8 @@
         .data(event_list)
       .enter()
         .append("line")
-        .attr("stroke", function(d) { 
-          var dobj = new Date(d.t0 * 1000); 
+        .attr("stroke", function(d) {
+          var dobj = new Date(d.t0 * 1000);
           var isMonday = dobj.getDay() === 1;
           return isMonday ? "#BBB" : "#EEE"
         })
@@ -124,7 +124,7 @@
 
         svgg = svg.append('g')
           .attr("style", "cursor:pointer;")
-          .on("click", function(q){ 
+          .on("click", function(q){
             return function(){
               window.location.href = 'index.html?gotoday=' + q;
             };
@@ -149,8 +149,8 @@
       for(var i=0,N=es.length;i<N;i++) {
         var e = es[i];
         e.m = mapwin(e.s);
-        if(etypes.indexOf(e.m) === -1) { 
-          etypes.push(e.m); 
+        if(etypes.indexOf(e.m) === -1) {
+          etypes.push(e.m);
           skipdraw[e.m] = false;
         }
       }
@@ -186,7 +186,7 @@
         mapEvents(es); // assign group names to structure in field .m, build etypes[]
       }
       color_hash = colorHashStrings(etypes);
-      
+
       for(var k=0;k<events.length;k++) {
         edur.push({}) // hmmm
         var es = events[k]['window_events']; // window events for day k
@@ -213,7 +213,7 @@
       var sum_kevents_global = 0;
       for(var k=0;k<events.length;k++) {
         var es = events[k]['keyfreq_events']; // window events for day k
-        
+
         // get 7am time on this day
         var d0 = new Date(es[0].t * 1000);
         d0.setHours(7);
@@ -225,10 +225,10 @@
         var ft = t00 + 60*60*24; // 7am the next day
         var kevents = [];
         var t = t00;
-        while(t <= ft) { 
+        while(t <= ft) {
           kevents.push(0); t += time_bin; // create time bins
           if(k===0) { kevents_global.push(0); }
-        } 
+        }
 
         // bucket up the events
         var ktot = 0;
@@ -243,7 +243,7 @@
           kevents_global[binix] = newg;
           if(newg > max_kevents_global) { max_kevents_global = newg; }
           sum_kevents_global += kw.s;
-          
+
           ktot += kw.s;
         }
         allkevents.push(kevents);
@@ -353,10 +353,10 @@
       }).catch(function(err){
         console.log('some error happened: ' + err);
       }).then(function() {
-        
+
         analyzeEvents(); // all events have been loaded. Analyze!
         drawEvents(); // and d3js draw!
-        
+
         key_stats_all = mergeWindowKeyEvents();
         visualizeKeySummary(key_stats_all);
         visualizeTimeSummary(edur);
@@ -452,7 +452,7 @@
     var event_list;
     var events;
     function start() {
-      
+
       loadAllEvents();
 
       $("#reloadbutton").click(function() {
@@ -477,7 +477,7 @@
     <div id="spinnerdiv"></div>
     <div id="reloadbutton">&#10226</div>
     <div id="indexlink"><a href="index.html">Single-day View</a></div>
-    <h1>ulogme</h1>
+    <h1><a style="text-decoration:none; color:white;" title="On GitHub" href="https://github.com/Naereen/ulogme/">ulogme</a></h1>
     <div id="wrap">
       <div id="graphopts">
       </div>
