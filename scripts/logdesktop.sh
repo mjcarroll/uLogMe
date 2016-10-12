@@ -8,7 +8,7 @@
 waittime="60"
 # directory to save screenshots to
 saveprefix="../desktopscr/scr"
-mkdir -p desktopscr
+mkdir -p ../desktopscr
 
 #------------------------------
 
