@@ -1,7 +1,7 @@
 
 // place for some more generic utility functions
 
-// take number of seconds and convert it to human-readable 
+// take number of seconds and convert it to human-readable
 // string like 5h30m21s
 function strTimeDelta(secs) {
   var hours = Math.floor(secs/60/60);
@@ -16,22 +16,33 @@ function strTimeDelta(secs) {
 
 // pretty print date in a nice format, utility function
 function ppDate(date) {
-  return ['Jan.', 'Feb.', 'Mar.', 
-        'Apr.', 'May.', 'Jun.',
-        'Jul.', 'Aug.', 'Sep.', 
-        'Oct.', 'Nov.', 'Dec.'][date.getMonth()] + " " +
-        (function (d) { 
+  return ['Sunday', 'Monday', 'Tuesday',
+        'Wednesday', 'Thursday', 'Friday',
+        'Saturday'][date.getDay()]
+        + " "
+        + (function (d) {
             var s = d.toString(), l = s[s.length-1];
             return s+(['st','nd','rd'][l-1] || 'th');
-        })(date.getDate()) + ", " +
-        date.getFullYear() + " " +
-        date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
+        })(date.getDate())
+        + " "
+        + ['Jan.', 'Feb.', 'Mar.',
+        'Apr.', 'May.', 'Jun.',
+        'Jul.', 'Aug.', 'Sep.',
+        'Oct.', 'Nov.', 'Dec.'][date.getMonth()]
+        + ", "
+        + date.getFullYear()
+        + " "
+        + date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
+}
+
+function ppHour(date) {
+  return date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
 }
 
 function ppDateShort(date) {
-  var months = ['Jan', 'Feb', 'Mar', 
+  var months = ['Jan', 'Feb', 'Mar',
         'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 
+        'Jul', 'Aug', 'Sep',
         'Oct', 'Nov', 'Dec'];
   var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
   return days[date.getDay()] + ', ' + date.getDate() + " " + months[date.getMonth()];
