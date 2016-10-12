@@ -63,7 +63,7 @@ do
 		# number of seconds elapsed since Jan 1, 1970 0:00 UTC
 		logfile="../logs/window_$(python rewind7am.py).txt"
 		echo "$T $curtitle" >> $logfile
-		echo "logged window title: $(date) $curtitle into $logfile"
+		echo "logged window title: '$(date)' '$curtitle' into '$logfile'"
 		last_write=$T
 	fi
 

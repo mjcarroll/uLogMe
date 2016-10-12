@@ -47,7 +47,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             refresh_time = form.getvalue('time')
             os.chdir(rootdir)  # pop out
             updateEvents()  # defined in export_events.py
-            os.chdir('render')  # pop back to render directory
+            os.chdir('../render')  # pop back to render directory
             result = 'OK'
 
         if self.path == '/addnote':
@@ -55,9 +55,9 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             note = form.getvalue('note')
             note_time = form.getvalue('time')
             os.chdir(rootdir)  # pop out
-            os.system('echo %s | ./note.sh %s' % (note, note_time))
+            os.system('echo %s | ../scripts/note.sh %s' % (note, note_time))
             updateEvents()  # defined in export_events.py
-            os.chdir('render')  # go back to render
+            os.chdir('../render')  # go back to render
             result = 'OK'
 
         if self.path == '/blog':
