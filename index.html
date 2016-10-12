@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Ulogme : Automatically collect and visualize usage statistics in (X,K,L,)Ubuntu environments.">
+    <meta name="description" content="uLogMe : Automatically collect and visualize usage statistics in (X,K,L,)Ubuntu environments.">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Ulogme</title>
+    <title>uLogMe</title>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/Naereen/ulogme">View on GitHub</a>
 
-          <h1 id="project_title">Ulogme</h1>
+          <h1 id="project_title">uLogMe</h1>
           <h2 id="project_tagline">Automatically collect and visualize usage statistics in (X,K,L,)Ubuntu environments.</h2>
 
             <section id="downloads">
@@ -32,58 +32,91 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="ulogme" class="anchor" href="#ulogme" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ulogme</h1>
+<a id="ulogme" class="anchor" href="#ulogme" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>ulogme</strong>
+</h1>
 
 <blockquote>
 <h3>
 <a id="how-productive-were-you-today-how-much-code-have-you-written-where-did-your-time-go" class="anchor" href="#how-productive-were-you-today-how-much-code-have-you-written-where-did-your-time-go" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How productive were you today? How much code have you written? Where did your time go?</h3>
 </blockquote>
 
-<p>Keep track of your computer activity throughout the day: visualize your active window titles and the number of keystrokes in beautiful HTML timelines. Current features:</p>
+<p>Keep track of your computer activity throughout the day: visualize your active window titles and the number of keystrokes, in beautiful HTML timelines.</p>
+
+<p>Current features:</p>
 
 <ul>
 <li>Records your <strong>active window</strong> title throughout the day</li>
-<li>Records the <strong>frequency of key presses</strong> throughout the day</li>
+<li>Records the <strong>frequency of key presses</strong> throughout the day (but not the actual key: no security threat)</li>
 <li>Record custom <strong>note annotations</strong> for particular times of day, or for day in general</li>
-<li>Everything runs <strong>completely locally</strong>: none of your data is uploaded anywhere</li>
+<li>Everything runs <strong>completely locally</strong>: <em>none</em> of your data is uploaded anywhere</li>
 <li>
-<strong>Beautiful, customizable UI</strong> in HTML/CSS/JS (d3js).</li>
+<strong>Beautiful, customizable UI</strong> in HTML/CSS/JS (using <a href="https://www.d3js.org/">d3js</a>).</li>
 </ul>
 
-<p>The project currently <strong>only works on Ubuntu and OSX</strong>, and uses new fancy <strong>Promises</strong> feature of ECMAScript 6. This might not be implemented in all browsers. My Chrome has it, but for example my Firefox doesn't.</p>
+<p>The project currently <strong>only works on Ubuntu</strong> or Debian-like Linux (for an OSX version, see <a href="https://github.com/karpathy/ulogme">the original project</a>).
+It uses the new fancy <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"><code>Promises</code></a> feature of ECMAScript 6. This might not be implemented in all browsers, but recent one should have it (recent Chrome and Firefox are fine, at least).</p>
 
 <h2>
-<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo</h2>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screenshots</h2>
+
+<h3>
+<a id="daily-view-page" class="anchor" href="#daily-view-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>"Daily view" page</h3>
+
+<p><img src="https://github.com/Naereen/ulogme/raw/master/screenshots/demo_daily1.png" alt="Demo - Daily view"></p>
+
+<h3>
+<a id="overview-page" class="anchor" href="#overview-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>"Overview" page</h3>
+
+<p><img src="https://github.com/Naereen/ulogme/raw/master/screenshots/demo_overview1.png" alt="Demo - Overview">
+<img src="https://github.com/Naereen/ulogme/raw/master/screenshots/demo_overview2.png" alt="Demo - Overview"></p>
+
+<h2>
+<a id="demo-by-karpathy" class="anchor" href="#demo-by-karpathy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo (by <a href="https://github.com/karpathy">@karpathy</a>)</h2>
 
 <p>See a blog post (along with multiple screenshots) describing the project <a href="http://karpathy.github.io/2014/08/03/quantifying-productivity/">here.</a></p>
 
+<hr>
+
 <h2>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h2>
 
 <p><strong>To start recording</strong></p>
 
 <ol>
-<li>Clone the repository to some folder: <code>$ git clone https://github.com/karpathy/ulogme.git</code>
+<li>Clone the repository to some folder: <code>$ git clone https://github.com/Naereen/ulogme.git</code>
 </li>
-<li>If you're on Ubuntu, make sure you have the dependencies: <code>$ sudo apt-get install xdotool wmctrl</code>. On Fedora, you may also need <code>sudo yum install gnome-screensaver</code>.</li>
+<li>If you're on Ubuntu, make sure you have the dependencies: <code>$ sudo apt-get install xdotool wmctrl</code>. On Fedora, you may also need <code>$ sudo yum install gnome-screensaver</code>.</li>
 <li>
-<code>cd</code> inside and run <code>$ ./ulogme.sh</code> (note: this will ask you for sudo authentication which is required for <code>showkey</code> command). This will launch two scripts. One records the frequency of keystrokes and the other records active window titles. Both write their logs into log files in the <code>logs/</code> directory. Every log file is very simply just the unix time stamp followed by data, one per line.</li>
-<li>For <strong>OSX</strong> only: there might be an additional step where you have to go to System Preferences &gt; Security &amp; Privacy &gt; Accessibility, and make sure that Terminal (or iTerm2, or whatever you use to launch ulogme) is checked. If it wasn't checked previously and you just checked it, you may need to restart ulogme. If you don't do this step, you might find that window logging works but keypress logging doesn't.</li>
+<code>cd</code> inside and run <code>$ ./ulogme.sh</code> (note: this will ask you for sudo authentication which is required for <code>showkey</code> command). This will launch two scripts. <a href="keyfreq.sh">One</a> records the frequency of keystrokes and the <a href="logactivewin.sh">other</a> records active window titles. Both write their logs into log files in the <code>logs/</code> directory. Every log file is very simple: just the unix time stamp followed by data, one per line (plain text file).</li>
 </ol>
 
 <p><strong>The user interface</strong></p>
 
 <ol>
 <li>
-<strong>Important</strong>. As a one-time setup, copy over the example settings file to your own copy: <code>$ cp render/render_settings_example.js render/render_settings.js</code> to create your own <code>render_settings.js</code> settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Google Chrome". Follow the provided example and read the comments for all settings in the file.</li>
-<li>Once that's set up, start the web server viewer: <code>$ python ulogme_serve.py</code>, and go to to the provided address) for example <code>http://localhost:8123</code>) in your browser. Hit the refresh button on top right every time you'd like to refresh the results based on most recently recorded activity</li>
-<li>If your data isn't loading, try to explicitly run <code>python export_events.py</code> and then hit refresh. This should only be an issue the very first time you run ulogme.</li>
+<strong>Important</strong>. As <em>a one-time setup</em>, copy over <a href="render/render_settings_example.js">the example settings file</a> to your own copy: <code>$ cp render/render_settings_example.js render/render_settings.js</code> to create your own <code>render_settings.js</code> settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Chrome", or "GitHub - Mozilla Firefox" into just "GitHub". Follow <a href="render/render_settings_example.js">the provided example</a> and read the comments for all settings in the file.</li>
+<li>Once that is set up, start the web server viewer: <code>$ python ulogme_serve.py</code>, and go to <a href="http://localhost:8124">the provided address</a> (for example <code>http://localhost:8124</code>) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file <a href="ulogme_serve.sh"><code>ulogme_serve.sh</code></a> to do both: start the server, and open the web-page.</li>
+<li>If your data is not loading, try to explicitly run <code>$ python export_events.py</code> and then hit refresh. This should only be an issue the very first time you run ulogme.</li>
 </ol>
+
+<p><strong>If you are using <a href="https://tmux.github.io/">tmux</a></strong></p>
+
+<ol>
+<li>The script <code>ulogme_tmux.sh</code> can be used to create a new tab in your current <a href="https://tmux.github.io/">tmux</a> session, name it "uLogMe", split it in half vertically, and then it starts the user interface script in the left column, and the data recording in the right column. Very convenient!</li>
+</ol>
+
+<p><strong>What is <a href="https://tmux.github.io/">tmux</a>?</strong></p>
+
+<ol>
+<li>The best terminal multiplexer. Just go <a href="https://tmux.github.io/">discover more by yourself</a> (by <a href="https://github.com/tmux" class="user-mention">@tmux</a>).</li>
+</ol>
+
+<hr>
 
 <h2>
 <a id="user-interface" class="anchor" href="#user-interface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>User Interface</h2>
 
-<p>The user interface can switch between a single day view and an overview view by link on top. You have to hit the refresh button every time you'd like to pull in new data.</p>
+<p>The user interface can switch between a <a href="render/index.html">single day view</a> and an <a href="render/overview.html">overview view</a> by link on top. You have to hit the refresh button every time you'd like to pull in new data (and not your browser's refresh, Ctrl-R or F5, as it reads the cache by default).</p>
 
 <h4>
 <a id="single-day-page" class="anchor" href="#single-day-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Single day page</h4>
@@ -94,67 +127,90 @@
 </ul>
 
 <h4>
-<a id="overview-page" class="anchor" href="#overview-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview page</h4>
+<a id="overview-page-1" class="anchor" href="#overview-page-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview page</h4>
 
 <ul>
-<li>You can click the window titles to toggle them on and off from the visualization </li>
+<li>You can click the window titles to toggle them on and off from the visualization.</li>
 <li>Clicking on the vertical bars takes you to the full statistics for that day.</li>
 </ul>
+
+<hr>
 
 <h2>
 <a id="known-issues" class="anchor" href="#known-issues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Known issues</h2>
 
 <ul>
-<li>One Ubuntu user reported broken view with no data. On further inspection we found that the logs were corrupt. One of the lines in a file in <code>/logs</code> was, instead of looking as <code>{timestamp} {data}</code>  looked as <code>@@@@@@@{timestamp} {data}</code>, in other words an odd character was appended to the timestamp somehow. We manually erased these characters from the log file to fix the issue.</li>
-<li>Legacy code note: if you used ulogme from before 28 July, you will have to run <code>$ python legacy_split_events.py</code> to convert your events files, once.</li>
-<li>You may see <em>"address already in use"</em> if you try to run <code>python ulogme_serve.py</code>. Sometimes the system can get confused and takes a while to update what ports are being used. Use the optional argument to specify a different port, for example <code>python ulogme_serve.py 8124</code> and then go to <code>http://localhost:8124</code> instead, for example.</li>
-<li>Overview page is blank. Are you sure your browser supports ECMAScript 6? Chrome should be fine, Firefox might not be, yet. </li>
+<li>You may see <em>"address already in use"</em> if you try to run <code>python ulogme_serve.py</code>. Sometimes the system can get confused and takes a while to update what ports are being used (or the port can be actually used by another software). Use the optional argument to specify a different port, for example <code>$ python ulogme_serve.py 8125</code> and then go to <code>http://localhost:8125/</code> instead, for example.</li>
+<li>Overview page is blank. Are you sure your browser supports ECMAScript 6 ? You can check it with these tools: <a href="https://ruanyf.github.io/es-checker/">ES6 checker</a> or <a href="https://kangax.github.io/compat-table/es6/">Compat-Table ES6</a>. Any recent browser should be fine (Chrome and Firefox, at least).</li>
 </ul>
 
-<h2>
-<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+<hr>
 
-<p>The Ubuntu and OSX code base are a little separate on the data collection side. However, they each just record very simple log files in <code>/logs</code>. Once the log files are written, <code>export_events.py</code> takes the log files, does some simple processing and writes the results into <code>.json</code> files in <code>/render</code>. The Javascript/HTML/CSS UI codebase is all common and all lives in <code>/render</code>.</p>
+<h2>
+<a id="explanations-on-the-architecture" class="anchor" href="#explanations-on-the-architecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Explanations on the architecture</h2>
+
+<ul>
+<li>The Ubuntu and OSX code base are a little separate on the data collection side (note: I am NOT keeping the OSX code in <a href="https://github.com/Naereen/ulogme/">my fork</a>, cf. the <a href="https://github.com/karpathy/ulogme/">original project</a>).</li>
+<li>However, they each just record very simple log files in <code>/logs</code>.</li>
+<li>Once the log files are written, <code>export_events.py</code> takes the log files, does some simple processing and writes the results into <code>.json</code> files in <a href="render/"><code>/render</code></a>.</li>
+<li>The Javascript/HTML/CSS UI codebase is all common and all lives in <a href="render/"><code>/render</code></a>.</li>
+</ul>
 
 <h3>
-<a id="ubuntu" class="anchor" href="#ubuntu" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ubuntu</h3>
+<a id="ubuntu-or-any-debian-like-linux" class="anchor" href="#ubuntu-or-any-debian-like-linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ubuntu (or any Debian-like Linux)</h3>
 
-<p>ulogme has three main parts: </p>
+<p>ulogme has three main parts:</p>
 
 <ol>
-<li>Recording scripts <code>keyfreq.sh</code> and <code>logactivewin.sh</code>. You probably won't touch these.</li>
-<li>Webserver: <code>ulogme_serve.py</code> which wraps Python's <code>SimpleHTTPServer</code> and does some basic communication with the UI. For example, the UI can ask the server to write a note to a log file, or for a refresh.</li>
-<li>The UI. Majority of the codebase is here, reading the <code>.json</code> files in <code>/render</code> and creating the visualizations. There are several common <code>.js</code> files, and crucially the <code>index.html</code> and <code>overview.html</code> files. I expect that most people might be able to contribute here to add features/cleanup/bugfix.</li>
+<li>Recording scripts <a href="keyfreq.sh"><code>keyfreq.sh</code></a> and <a href="logactivewin.sh"><code>logactivewin.sh</code></a>. You probably will not touch these.</li>
+<li>Webserver: <a href="ulogme_serve.py"><code>ulogme_serve.py</code></a> which wraps Python's <code>SimpleHTTPServer</code> and does some basic communication with the UI. For example, the UI can ask the server to write a note to a log file, or for a refresh. <a href="ulogme_serve.sh"><code>ulogme_serve.sh</code></a> helps to launch the Python web server more easily.</li>
+<li>The UI. Majority of the codebase is here, reading the <code>.json</code> files in <a href="render/"><code>/render</code></a> and creating the visualizations. There are several common <code>.js</code> files, and crucially the <a href="index.html"><code>index.html</code></a> and <a href="overview.html"><code>overview.html</code></a> files, that are simple HTML template (with a lot of Javascript in the beginning). Feel free to adapt them to your preferences. I expect that most people might be able to contribute here to add features/cleanup/bugfix.</li>
+<li>
+<em>Bonus:</em> the <code>ulogme_tmux.sh</code> script, if you are using <a href="https://tmux.github.io/">tmux</a>.</li>
 </ol>
 
 <h3>
 <a id="osx-code" class="anchor" href="#osx-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OSX code</h3>
 
-<p>Things get a little ugly in OSX if you want to change anything with recording the log files because you have to recompile these portions any time you make any changes. It's ugly and it had to be done. However, if you're only interested in hacking with the UI, just change Javascript in <code>render</code> and no recompile is necessary, naturally.</p>
+<blockquote>
+<p>Not in my fork, refer to <a href="https://github.com/karpathy/ulogme">the original project</a></p>
+</blockquote>
+
+<hr>
 
 <h2>
-<a id="related-projects" class="anchor" href="#related-projects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Related projects</h2>
+<a id="related-projects-" class="anchor" href="#related-projects-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Related projects ?</h2>
 
 <ul>
 <li>
-<a href="https://github.com/gurgeh/selfspy">selfspy</a>, Log everything you do on the computer, for statistics, future reference and all-around fun.</li>
-<li>
-<a href="http://freecode.com/projects/arbtt">arbtt</a>, automatic rule-based time tracker.</li>
+<a href="https://github.com/gurgeh/selfspy">selfspy</a>, Log everything you do on the computer, for statistics, future reference and all-around fun. I also worked a little bit on <a href="http://github.com/Naereen/selfspy-vis">selfspy-vis</a>, some tools to visualize the data collected by <a href="https://github.com/gurgeh/selfspy">selfspy</a>.</li>
+<li>My minimalist dashboard, generated every hour with this bash script <a href="https://bitbucket.org/lbesson/bin/src/master/GenerateStatsMarkdown.sh">GenerateStatsMarkdown.sh</a>.</li>
 </ul>
 
 <p>For more projects, <a href="https://productivity.stackexchange.com/questions/13913/automatic-time-tracking-software-for-computer-work-for-windows-linux-mac">this question on Personal Productivity Stack Exchange</a> might be also worth a look.</p>
 
-<h2>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+<ul>
+<li>
+<a href="https://wakatime.com/">WakaTime</a>, to keep a finer track of your time while editing files on your text editor.</li>
+<li>
+<a href="http://munin-monitoring.org/">Munin</a>, can also help to keep track of the uptime (and many more stats) of your (Linux) machine.</li>
+</ul>
 
-<p>MIT</p>
+<h2>
+<a id="license-" class="anchor" href="#license-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License ?</h2>
+
+<p><a href="https://lbesson.mit-license.org/">MIT Licensed</a> (file <a href="LICENSE.txt">LICENSE.txt</a>).
+© <a href="https://github.com/Naereen">Lilian Besson</a>, 2016-17.</p>
+
+<p><a href="https://github.com/Naereen/ama"><img src="https://img.shields.io/badge/ask%20me-anything-1abc9c.svg" alt="Ask Me Anything"></a>
+<a href="https://github.com/Naereen/ulogme/"><img src="https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/ulogme/README.md?pixel" alt="Analytics"></a></p>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Ulogme maintained by <a href="https://github.com/Naereen">Naereen</a></p>
+        <p class="copyright">uLogMe maintained by <a href="https://github.com/Naereen">Naereen</a></p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
