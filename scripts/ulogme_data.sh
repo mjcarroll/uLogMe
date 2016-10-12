@@ -1,16 +1,12 @@
 #!/bin/bash
 # https://github.com/Naereen/ulogme/
 
-cd ~/.local/share/ulogme/
+# FIXME adapt this to the path where you stored ulogme.git/
+cd ~/.local/share/ulogme/scripts/
 echo "Starting 'ulogme.sh' ..."
 
-if [ "$(uname)" == "Darwin" ]; then
-    # This is a Mac
-    ./osx/run_ulogme_osx.sh
-else
-    # Assume Linux
-    echo "Password is needed please, to run 'keyfreq.sh' as sudo"
-    sudo echo -n ""
-    sudo ./keyfreq.sh &
-    ./logactivewin.sh
-fi
+# Assume Linux
+echo "Password is needed please, to run 'keyfreq.sh' as sudo"
+sudo echo -n ""
+sudo ./keyfreq.sh &
+./logactivewin.sh

@@ -1,10 +1,11 @@
 #!/bin/bash
-# Experimental script to start a new tab in a tmux session, launching the data collection on the right & and Python web server on the left.
 # https://github.com/Naereen/ulogme/
+# Experimental script to start a new tab in a tmux session, launching the data collection on the right & and Python web server on the left.
 
 # oldpwd="$(pwd)"
-echo "Calling 'ulogme_tmux.sh' ..."
+echo "Starting 'ulogme_tmux.sh' ..."
 
+# FIXME adapt this to the path where you stored ulogme.git/
 cd ~/.local/share/ulogme/  # XXX change according to your installation
 
 # XXX assume runing inside a tmux session
@@ -31,7 +32,7 @@ tmux split-window -h ulogme_data.sh
 # tmux rename-window 'uLogMe Data'
 # tmux run-shell ulogme.sh
 
-sleep 10
+sleep 12
 # return to current tab ?
 tmux last-window
 # cd "${oldpwd}"  # DEBUG ?

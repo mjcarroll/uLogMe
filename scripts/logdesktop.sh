@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/Naereen/ulogme/
 
 # periodically takes screenshot and saves them to desktopscr/
 # the filename contains unix time
@@ -6,7 +7,7 @@
 # wait time in seconds
 waittime="60"
 # directory to save screenshots to
-saveprefix="desktopscr/scr"
+saveprefix="../desktopscr/scr"
 mkdir -p desktopscr
 
 #------------------------------

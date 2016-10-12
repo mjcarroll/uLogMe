@@ -2,8 +2,8 @@
 # https://github.com/Naereen/ulogme/
 
 # FIXME adapt this to the path where you stored ulogme.git/
-cd ~/.local/share/ulogme/
-echo "Calling 'ulogme_serve.sh' ..."
+cd ~/.local/share/ulogme/scripts/
+echo "Starting 'ulogme_serve.sh' ..."
 
 port=${1:-8124}
 

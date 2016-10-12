@@ -1,11 +1,12 @@
 #!/bin/bash
-# logs the key press frequency over 9 second window.
-# Logs are written in logs/keyfreqX.txt every 9 seconds, where X is unix timestamp of 7am of the recording day.
+# https://github.com/Naereen/ulogme/
 
-# LANG=en_US.utf8
-LANG=en
+# Logs the key press frequency over 10 second window.
+# Logs are written in logs/keyfreqX.txt every 10 seconds, where X is unix timestamp of 7am of the recording day.
 
-helperfile="logs/keyfreqraw.txt"  # temporary helper file
+LANG=en_US.utf8
+
+helperfile="../logs/keyfreqraw.txt"  # temporary helper file
 
 mkdir -p logs
 
@@ -13,16 +14,19 @@ while true; do
     showkey &> $helperfile &
     PID=$!
 
-    # work in windows of 9 seconds
-    sleep 9
+    # work in windows of 10 seconds
+    sleep 10
     kill $PID
 
     # count number of key release events
     num=$(grep -c release "$helperfile")
 
     # append unix time stamp and the number into file
-    logfile="logs/keyfreq_$(python rewind7am.py).txt"
+    logfile="../logs/keyfreq_$(python rewind7am.py).txt"
     echo "$(date +%s) $num"  >> $logfile
-    echo "logged key frequency: $(date) $num release events detected into $logfile"
+    # only print if $num > 0
+    if [ $num -gt 0 ]; then
+        echo "logged key frequency: $(date) $num release events detected into $logfile"
+    fi
 done
 
