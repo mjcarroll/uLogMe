@@ -94,7 +94,7 @@ ulogme has three main parts:
 
 ## Related projects ?
 - [selfspy](https://github.com/gurgeh/selfspy), Log everything you do on the computer, for statistics, future reference and all-around fun. I also worked a little bit on [selfspy-vis](http://github.com/Naereen/selfspy-vis), some tools to visualize the data collected by [selfspy](https://github.com/gurgeh/selfspy).
-- My minimalist dashboard, generated every hour with this bash script [GenerateStatsMarkdown.sh](bitbucket.org/lbesson/bin/src/master/GenerateStatsMarkdown.sh).
+- My minimalist dashboard, generated every hour with this bash script [GenerateStatsMarkdown.sh](https://bitbucket.org/lbesson/bin/src/master/GenerateStatsMarkdown.sh).
 
 For more projects, [this question on Personal Productivity Stack Exchange](https://productivity.stackexchange.com/questions/13913/automatic-time-tracking-software-for-computer-work-for-windows-linux-mac) might be also worth a look.
 
