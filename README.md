@@ -17,10 +17,10 @@ It uses the new fancy [`Promises`](https://developer.mozilla.org/en-US/docs/Web/
 
 ## Screenshots
 ### "Daily view" page
-![Demo - Daily view](demo_daily1.png)
+![Demo - Daily view](screenshots/demo_daily1.png)
 ### "Overview" page
-![Demo - Overview](demo_overview1.png)
-![Demo - Overview](demo_overview2.png)
+![Demo - Overview](screenshots/demo_overview1.png)
+![Demo - Overview](screenshots/demo_overview2.png)
 
 ## Demo (by [@karpathy](https://github.com/karpathy))
 See a blog post (along with multiple screenshots) describing the project [here.](http://karpathy.github.io/2014/08/03/quantifying-productivity/)
