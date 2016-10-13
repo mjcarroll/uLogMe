@@ -50,7 +50,7 @@ def updateEvents():
     L.extend(glob.glob("../logs/keyfreq_*.txt"))
     L.extend(glob.glob("../logs/window_*.txt"))
     L.extend(glob.glob("../logs/notes_*.txt"))
-    print("L =", L)
+    # print("L =", L)  # DEBUG
 
     # extract all times. all log files of form {type}_{stamp}.txt
     ts = [int(x[x.find('_') + 1: x.find('.txt')]) for x in L]
