@@ -2,6 +2,8 @@
 # -*- coding: utf8 -*-
 # https://github.com/Naereen/ulogme/
 
+from __future__ import print_function  # Python 2 compatibility
+
 # convert old type events to new type events, in case you used legacy ulogme code
 # where all events were written to one file based on type. In new version these are
 # split also by date.

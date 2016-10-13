@@ -2,6 +2,8 @@
 # -*- coding: utf8 -*-
 # https://github.com/Naereen/ulogme/
 
+from __future__ import print_function  # Python 2 compatibility
+
 import sys
 import datetime
 import time
