@@ -21,7 +21,7 @@ def loadEvents(fname):
     """
     events = []
 
-    print("os.cwd =", os.cwd)
+    # print("os.getcwd() =", os.getcwd())  # DEBUG
     try:
         with open(fname, "r") as f:
             ws = f.read().decode("utf-8").splitlines()
@@ -77,6 +77,7 @@ def updateEvents():
         out_list.append({"t0": t0, "t1": t1, "fname": fout})
 
         fwrite = os.path.join(RENDER_ROOT, fout)
+        # print("os.getcwd() =", os.getcwd())  # DEBUG
         e1f = os.path.join("..", "logs", "window_%d.txt" % (t0, ))
         e2f = os.path.join("..", "logs", "keyfreq_%d.txt" % (t0, ))
         e3f = os.path.join("..", "logs", "notes_%d.txt" % (t0, ))
