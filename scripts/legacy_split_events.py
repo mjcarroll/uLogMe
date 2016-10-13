@@ -6,12 +6,9 @@
 # where all events were written to one file based on type. In new version these are
 # split also by date.
 
-# import time
 import datetime
-# import json
 import os
 import os.path
-# import sys
 
 mint = -1
 maxt = -1
@@ -52,19 +49,19 @@ def loadEvents(fname):
 
 if __name__ == '__main__':
     # load all window events
-    active_window_file = os.path.join(ROOT, '../logs/activewin.txt')
+    active_window_file = os.path.join(ROOT, '..', 'logs', 'activewin.txt')
     print('loading windows events...')
     wevents = loadEvents(active_window_file)
 
     # load all keypress events
-    keyfreq_file = os.path.join(ROOT, '../logs/keyfreq.txt')
+    keyfreq_file = os.path.join(ROOT, '..', 'logs', 'keyfreq.txt')
     print('loading key frequencies...')
     kevents = loadEvents(keyfreq_file)
     for k in kevents:  # convert the key frequency to just be an int, not string
         k['s'] = int(k['s'])
 
     print('loading notes...')
-    notes_file = os.path.join(ROOT, '../logs/notes.txt')
+    notes_file = os.path.join(ROOT, '..', 'logs', 'notes.txt')
     nevents = loadEvents(notes_file)
 
     # rewind time to 7am on earliest data collection day
@@ -90,19 +87,19 @@ if __name__ == '__main__':
 
         # write out log files split up
         if e3:
-            fout = '../logs/notes_%d.txt' % (t0, )
+            fout = os.path.join(ROOT, '..', 'logs', 'notes_%d.txt' % (t0, ))
             with open(fout, 'w') as f:
                 f.write(''.join(['%d %s\n' % (x['t'], x['s']) for x in e3]))
             print('wrote ' + fout)
 
         if e2:
-            fout = '../logs/keyfreq_%d.txt' % (t0, )
+            fout = os.path.join(ROOT, '..', 'logs', 'keyfreq_%d.txt' % (t0, ))
             with open(fout, 'w') as f:
                 f.write(''.join(['%d %s\n' % (x['t'], x['s']) for x in e2]))
             print('wrote ' + fout)
 
         if e1:
-            fout = '../logs/window_%d.txt' % (t0, )
+            fout = os.path.join(ROOT, '..', 'logs', 'window_%d.txt' % (t0, ))
             with open(fout, 'w') as f:
                 f.write(''.join(['%d %s\n' % (x['t'], x['s']) for x in e1]))
             print('wrote ' + fout)

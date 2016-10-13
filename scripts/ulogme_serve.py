@@ -21,7 +21,7 @@ else:
 
 # serve render/ folder, not current folder
 rootdir = os.getcwd()
-os.chdir('../render')
+os.chdir(os.path.join('..', 'render'))
 
 
 # Custom handler
@@ -68,7 +68,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             post_time = int(form.getvalue('time'))
             os.chdir(rootdir)  # pop out
             trev = rewindTime(post_time)
-            with open('../logs/blog_%d.txt' % (post_time, ), 'w') as f:
+            with open(os.path.join('..', 'logs', 'blog_%d.txt' % (post_time, ), 'w')) as f:
                 f.write(post)
             updateEvents()  # defined in export_events.py
             os.chdir('../render')  # go back to render

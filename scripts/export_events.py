@@ -47,9 +47,10 @@ def mtime(f):
 def updateEvents():
     """ goes down the list of .txt log files and writes all .json files that can be used by the frontend. """
     L = []
-    L.extend(glob.glob("../logs/keyfreq_*.txt"))
-    L.extend(glob.glob("../logs/window_*.txt"))
-    L.extend(glob.glob("../logs/notes_*.txt"))
+    # FIXME use os.path.join
+    L.extend(glob.glob(os.path.join('..', 'logs', 'keyfreq_*.txt')))
+    L.extend(glob.glob(os.path.join('..', 'logs', 'window_*.txt')))
+    L.extend(glob.glob(os.path.join('..', 'logs', 'notes_*.txt')))
     # print("L =", L)  # DEBUG
 
     # extract all times. all log files of form {type}_{stamp}.txt
@@ -69,14 +70,14 @@ def updateEvents():
     for t in ts:
         t0 = t
         t1 = t0 + 60 * 60 * 24  # 24 hrs later
-        fout = 'events_%d.json' % (t0, )
+        fout = os.path.join('json', 'events_%d.json' % (t0, ))
         out_list.append({'t0': t0, 't1': t1, 'fname': fout})
 
         fwrite = os.path.join(RENDER_ROOT, fout)
-        e1f = '../logs/window_%d.txt' % (t0, )
-        e2f = '../logs/keyfreq_%d.txt' % (t0, )
-        e3f = '../logs/notes_%d.txt' % (t0, )
-        e4f = '../logs/blog_%d.txt' % (t0, )
+        e1f = os.path.join('..', 'logs', 'window_%d.txt' % (t0, ))
+        e2f = os.path.join('..', 'logs', 'keyfreq_%d.txt' % (t0, ))
+        e3f = os.path.join('..', 'logs', 'notes_%d.txt' % (t0, ))
+        e4f = os.path.join('..', 'logs', 'blog_%d.txt' % (t0, ))
 
         dowrite = False
 
@@ -112,7 +113,7 @@ def updateEvents():
                 f.write(json.dumps(eout))
             print('wrote ' + fwrite)
 
-    fwrite = os.path.join(RENDER_ROOT, 'export_list.json')
+    fwrite = os.path.join(RENDER_ROOT, 'json', 'export_list.json')
     with open(fwrite, 'w') as f:
         f.write(json.dumps(out_list).encode('utf8'))
     print('wrote ' + fwrite)
