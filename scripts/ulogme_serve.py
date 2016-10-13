@@ -21,7 +21,7 @@ else:
 
 # serve render/ folder, not current folder
 rootdir = os.getcwd()
-os.chdir(os.path.join('..', 'render'))
+os.chdir(os.path.join("..", "render"))
 
 
 # Custom handler
@@ -35,52 +35,52 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             fp=self.rfile,
             headers=self.headers,
             environ={
-                'REQUEST_METHOD': 'POST',
-                'CONTENT_TYPE': self.headers['Content-Type']
+                "REQUEST_METHOD": "POST",
+                "CONTENT_TYPE": self.headers["Content-Type"]
             }
         )
-        result = 'NOT_UNDERSTOOD'
+        result = "NOT_UNDERSTOOD"
 
-        if self.path == '/refresh':
+        if self.path == "/refresh":
             # recompute jsons. We have to pop out to root from render directory
             # temporarily. It's a little ugly
-            refresh_time = form.getvalue('time')
+            refresh_time = form.getvalue("time")
             os.chdir(rootdir)  # pop out
             updateEvents()  # defined in export_events.py
-            os.chdir('../render')  # pop back to render directory
-            result = 'OK'
+            os.chdir(os.path.join("..", "render"))  # pop back to render directory
+            result = "OK"
 
-        if self.path == '/addnote':
+        if self.path == "/addnote":
             # add note at specified time and refresh
-            note = form.getvalue('note')
-            note_time = form.getvalue('time')
+            note = form.getvalue("note")
+            note_time = form.getvalue("time")
             os.chdir(rootdir)  # pop out
-            os.system('echo %s | ../scripts/note.sh %s' % (note, note_time))
+            os.system("echo %s | ../scripts/note.sh %s" % (note, note_time))
             updateEvents()  # defined in export_events.py
-            os.chdir('../render')  # go back to render
-            result = 'OK'
+            os.chdir(os.path.join("..", "render"))  # go back to render
+            result = "OK"
 
-        if self.path == '/blog':
+        if self.path == "/blog":
             # add note at specified time and refresh
-            post = form.getvalue('post')
+            post = form.getvalue("post")
             if post is None:
-                post = ''
-            post_time = int(form.getvalue('time'))
+                post = ""
+            post_time = int(form.getvalue("time"))
             os.chdir(rootdir)  # pop out
             trev = rewindTime(post_time)
-            with open(os.path.join('..', 'logs', 'blog_%d.txt' % (post_time, ), 'w')) as f:
+            with open(os.path.join("..", "logs", "blog_%d.txt" % (post_time, ), "w")) as f:
                 f.write(post)
             updateEvents()  # defined in export_events.py
-            os.chdir('../render')  # go back to render
-            result = 'OK'
+            os.chdir(os.path.join("..", "render"))  # go back to render
+            result = "OK"
 
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
         self.wfile.write(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
-    print("Serving ulogme, see it on 'http://localhost:" + repr(PORT) + "' ...")
+    print("Serving ulogme, see it on 'http://localhost:", repr(PORT), "' ...")
     httpd.serve_forever()

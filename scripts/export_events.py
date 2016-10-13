@@ -20,17 +20,17 @@ def loadEvents(fname):
     events = []
 
     try:
-        with open(fname, 'r') as f:
-            ws = f.read().decode('utf-8').splitlines()
+        with open(fname, "r") as f:
+            ws = f.read().decode("utf-8").splitlines()
         events = []
         for w in ws:
-            ix = w.find(' ')  # find first space, that's where stamp ends
+            ix = w.find(" ")  # find first space, that's where stamp ends
             stamp = int(w[:ix])
             str = w[ix + 1:]
-            events.append({'t': stamp, 's': str})
+            events.append({"t": stamp, "s": str})
     except Exception, e:
-        print('%s probably does not exist, setting empty events list.' % (fname, ))
-        print('error was:')
+        print("%s probably does not exist, setting empty events list." % (fname, ))
+        print("error was:")
         print(e)
         events = []
     return events
@@ -47,14 +47,12 @@ def mtime(f):
 def updateEvents():
     """ goes down the list of .txt log files and writes all .json files that can be used by the frontend. """
     L = []
-    # FIXME use os.path.join
-    L.extend(glob.glob(os.path.join('..', 'logs', 'keyfreq_*.txt')))
-    L.extend(glob.glob(os.path.join('..', 'logs', 'window_*.txt')))
-    L.extend(glob.glob(os.path.join('..', 'logs', 'notes_*.txt')))
-    # print("L =", L)  # DEBUG
+    L.extend(glob.glob(os.path.join("..", "logs", "keyfreq_*.txt")))
+    L.extend(glob.glob(os.path.join("..", "logs", "window_*.txt")))
+    L.extend(glob.glob(os.path.join("..", "logs", "notes_*.txt")))
 
     # extract all times. all log files of form {type}_{stamp}.txt
-    ts = [int(x[x.find('_') + 1: x.find('.txt')]) for x in L]
+    ts = [int(x[x.find("_") + 1: x.find(".txt")]) for x in L]
     ts = list(set(ts))
     ts.sort()
 
@@ -62,22 +60,24 @@ def updateEvents():
     maxt = max(ts)
 
     # march from beginning to end, group events for each day and write json
-    ROOT = ''
-    RENDER_ROOT = os.path.join(ROOT, '..', 'render')
-    os.system('mkdir -p ' + RENDER_ROOT)  # make sure output directory exists
+    ROOT = ""
+    RENDER_ROOT = os.path.join(ROOT, "..", "render")
+    # FIXME should be done in a more Pythonic way
+    os.system("mkdir -p " + RENDER_ROOT)  # XXX make sure output directory exists
     t = mint
     out_list = []
     for t in ts:
         t0 = t
         t1 = t0 + 60 * 60 * 24  # 24 hrs later
-        fout = os.path.join('json', 'events_%d.json' % (t0, ))
-        out_list.append({'t0': t0, 't1': t1, 'fname': fout})
+        fout = os.path.join("json", "events_%d.json" % (t0, ))
+        print("fout =", fout)
+        out_list.append({"t0": t0, "t1": t1, "fname": fout})
 
         fwrite = os.path.join(RENDER_ROOT, fout)
-        e1f = os.path.join('..', 'logs', 'window_%d.txt' % (t0, ))
-        e2f = os.path.join('..', 'logs', 'keyfreq_%d.txt' % (t0, ))
-        e3f = os.path.join('..', 'logs', 'notes_%d.txt' % (t0, ))
-        e4f = os.path.join('..', 'logs', 'blog_%d.txt' % (t0, ))
+        e1f = os.path.join("..", "logs", "window_%d.txt" % (t0, ))
+        e2f = os.path.join("..", "logs", "keyfreq_%d.txt" % (t0, ))
+        e3f = os.path.join("..", "logs", "notes_%d.txt" % (t0, ))
+        e4f = os.path.join("..", "logs", "blog_%d.txt" % (t0, ))
 
         dowrite = False
 
@@ -91,7 +91,7 @@ def updateEvents():
             e4mod = mtime(e4f)
             if e1mod > tmod or e2mod > tmod or e3mod > tmod or e4mod > tmod:
                 dowrite = True  # better update!
-                print('a log file has changed, so will update %s' % (fwrite, ))
+                print("a log file has changed, so will update %s" % (fwrite, ))
         else:
             # output file doesnt exist, so write.
             dowrite = True
@@ -102,23 +102,23 @@ def updateEvents():
             e2 = loadEvents(e2f)
             e3 = loadEvents(e3f)
             for k in e2:
-                k['s'] = int(k['s'])  # int convert
+                k["s"] = int(k["s"])  # int convert
 
-            e4 = ''
+            e4 = ""
             if os.path.isfile(e4f):
-                e4 = open(e4f, 'r').read()
+                e4 = open(e4f, "r").read()
 
-            eout = {'window_events': e1, 'keyfreq_events': e2, 'notes_events': e3, 'blog': e4}
-            with open(fwrite, 'w') as f:
+            eout = {"window_events": e1, "keyfreq_events": e2, "notes_events": e3, "blog": e4}
+            with open(fwrite, "w") as f:
                 f.write(json.dumps(eout))
-            print('wrote ' + fwrite)
+            print("wrote to", fwrite)
 
-    fwrite = os.path.join(RENDER_ROOT, 'json', 'export_list.json')
-    with open(fwrite, 'w') as f:
-        f.write(json.dumps(out_list).encode('utf8'))
-    print('wrote ' + fwrite)
+    fwrite = os.path.join(RENDER_ROOT, "json", "export_list.json")
+    with open(fwrite, "w") as f:
+        f.write(json.dumps(out_list).encode("utf8"))
+    print("wrote to", fwrite)
 
 
 # invoked as script
-if __name__ == '__main__':
+if __name__ == "__main__":
     updateEvents()
