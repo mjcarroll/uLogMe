@@ -101,9 +101,14 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 - [WakaTime](https://wakatime.com/), to keep a finer track of your time while editing files on your text editor.
 - [Munin](http://munin-monitoring.org/), can also help to keep track of the uptime (and many more stats) of your (Linux) machine.
 
-## License ?
+## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/ulogme.svg)](https://github.com/Naereen/ulogme/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE.txt](LICENSE.txt)).
-© [Lilian Besson](https://github.com/Naereen), 2016-17.
+© [Lilian Besson](https://GitHub.com/Naereen), 2016.
 
-[![Ask Me Anything](https://img.shields.io/badge/ask%20me-anything-1abc9c.svg)](https://github.com/Naereen/ama)
-[![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/ulogme/README.md?pixel)](https://github.com/Naereen/ulogme/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/ulogme/graphs/commit-activity)
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
+[![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/ulogme/README.md?pixel)](https://GitHub.com/Naereen/ulogme/)
+
+[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
+[![ForTheBadge uses-badges](http://ForTheBadge.com/images/badges/uses-badges.svg)](http://ForTheBadge.com)
+[![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
