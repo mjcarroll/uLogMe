@@ -29,7 +29,7 @@ var QueryString = function () {
     } else {
       query_string[pair[0]].push(pair[1]);
     }
-  } 
+  }
     return query_string;
 }();
 
@@ -83,7 +83,7 @@ function computeKeyStats(ew, ek) {
   var ewn = ew.length;
   var ekn = ek.length;
   var cur_window = '';
-  
+
   // merge sort, basically
   while(i<ewn && j<ekn) {
     var popw; // pop window event?
@@ -113,7 +113,7 @@ function computeKeyStats(ew, ek) {
   return key_stats;
 }
 
-// same idea as computeKeyStats, but outputs "hacking" events, 
+// same idea as computeKeyStats, but outputs "hacking" events,
 // which are contiguous areas of high keystroke activity. That means
 // that the person is in hacking mode! :)
 function computeHackingStats(ew, ek, hacking_titles) {
@@ -182,13 +182,13 @@ function computeHackingStats(ew, ek, hacking_titles) {
         if(hacking_title) {
           // current active title is a hacking title. accumulate streak
           // magic numbers alert :)
-          if(fhere < 3) { 
+          if(fhere < 3) {
             // there are less than 3 keystrokes in last 9 seconds...
             hacking_reset_counter++;
             if(hacking_reset_counter > 10) {
-              // way too much time has gone by with no key events. 
+              // way too much time has gone by with no key events.
               // Person is sleeping. This aint hacking!
-              notHacking(tk); 
+              notHacking(tk);
             }
           } else {
             // there are more than 3 keystrokes in last 9 seconds

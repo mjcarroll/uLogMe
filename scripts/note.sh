@@ -3,7 +3,7 @@
 
 # allows the user to simply record a note, saves it together with unix time in ../logs/notes_...
 
-mkdir -p logs
+mkdir -p ../logs
 
 read -p "Enter note: " n
 
