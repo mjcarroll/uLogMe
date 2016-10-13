@@ -21,6 +21,7 @@ def loadEvents(fname):
     """
     events = []
 
+    print("os.cwd =", os.cwd)
     try:
         with open(fname, "r") as f:
             ws = f.read().decode("utf-8").splitlines()

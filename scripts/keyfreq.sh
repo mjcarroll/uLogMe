@@ -26,8 +26,8 @@ while true; do
     logfile="../logs/keyfreq_$(python rewind7am.py).txt"
     echo "$(date +%s) $num"  >> $logfile
     # only print if $num > 0
-    # if [ $num -gt 0 ]; then
-    echo "logged key frequency: $(date) $num release events detected into $logfile"
-    # fi
+    if [ $num -gt 0 ]; then
+        echo "logged key frequency: $(date) $num release events detected into $logfile"
+    fi
 done
 

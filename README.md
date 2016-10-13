@@ -1,4 +1,4 @@
-# **ulogme**
+# **uLogMe**
 
 > ### How productive were you today? How much code have you written? Where did your time go?
 
@@ -31,16 +31,16 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 
 **To start recording**
 
-1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/ulogme.git`
+1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/uLogMe.git`
 2. If you're on Ubuntu, make sure you have the dependencies: `$ sudo apt-get install xdotool wmctrl`. On Fedora, you may also need `$ sudo yum install gnome-screensaver`.
-3. `cd` inside and run `$ ./ulogme.sh` (note: this will ask you for sudo authentication which is required for `showkey` command). This will launch two scripts. [One](keyfreq.sh) records the frequency of keystrokes and the [other](logactivewin.sh) records active window titles. Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the unix time stamp followed by data, one per line (plain text file).
+3. `cd` inside and run `$ ./ulogme.sh` (note: this will ask you for sudo authentication which is required for `showkey` command). This will launch two scripts. [One](scripts/keyfreq.sh) records the frequency of keystrokes and the [other](scripts/logactivewin.sh) records active window titles. Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the unix time stamp followed by data, one per line (plain text file).
 
 
 **The user interface**
 
-1. **Important**. As *a one-time setup*, copy over [the example settings file](render/render_settings_example.js) to your own copy: `$ cp render/render_settings_example.js render/render_settings.js` to create your own `render_settings.js` settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Chrome", or "GitHub - Mozilla Firefox" into just "GitHub". Follow [the provided example](render/render_settings_example.js) and read the comments for all settings in the file.
-2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](http://localhost:8124) (for example `http://localhost:8124`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](ulogme_serve.sh) to do both: start the server, and open the web-page.
-3. If your data is not loading, try to explicitly run `$ python export_events.py` and then hit refresh. This should only be an issue the very first time you run ulogme.
+1. **Important**. As *a one-time setup*, copy over [the example settings file](render/js/render_settings_example.js) to your own copy: `$ cp render/js/render_settings_example.js render/js/render_settings.js` to create your own `render_settings.js` settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Chrome", or "GitHub - Mozilla Firefox" into just "GitHub". Follow [the provided example](render/js/render_settings_example.js) and read the comments for all settings in the file.
+2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](http://localhost:8124) (for example `http://localhost:8124`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
+3. If your data is not loading, try to explicitly run `$ python export_events.py` and then hit refresh. This should only be an issue the very first time you run uLogMe.
 
 
 **If you are using [tmux](https://tmux.github.io/)**
@@ -82,18 +82,18 @@ The user interface can switch between a [single day view](render/index.html) and
 ----
 
 ## Explanations on the architecture
-- The Ubuntu and OSX code base are a little separate on the data collection side (note: I am NOT keeping the OSX code in [my fork](https://github.com/Naereen/ulogme/), cf. the [original project](https://github.com/karpathy/ulogme/)).
+- The Ubuntu and OSX code base are a little separate on the data collection side (note: I am NOT keeping the OSX code in [my fork](https://github.com/Naereen/uLogMe/), cf. the [original project](https://github.com/karpathy/ulogme/)).
 - However, they each just record very simple log files in `/logs`.
-- Once the log files are written, `export_events.py` takes the log files, does some simple processing and writes the results into `.json` files in [`/render`](render/).
+- Once the log files are written, [`export_events.py`](scripts/export_events.py) takes the log files, does some simple processing and writes the results into `.json` files in [`/render`](render/).
 - The Javascript/HTML/CSS UI codebase is all common and all lives in [`/render`](render/).
 
 ### Ubuntu (or any Debian-like Linux)
-ulogme has three main parts:
+uLogMe has three main parts:
 
-1. Recording scripts [`keyfreq.sh`](keyfreq.sh) and [`logactivewin.sh`](logactivewin.sh). You probably will not touch these.
-2. Webserver: [`ulogme_serve.py`](ulogme_serve.py) which wraps Python's `SimpleHTTPServer` and does some basic communication with the UI. For example, the UI can ask the server to write a note to a log file, or for a refresh. [`ulogme_serve.sh`](ulogme_serve.sh) helps to launch the Python web server more easily.
-3. The UI. Majority of the codebase is here, reading the `.json` files in [`/render`](render/) and creating the visualizations. There are several common `.js` files, and crucially the [`index.html`](index.html) and [`overview.html`](overview.html) files, that are simple HTML template (with a lot of Javascript in the beginning). Feel free to adapt them to your preferences. I expect that most people might be able to contribute here to add features/cleanup/bugfix.
-4. *Bonus:* the `ulogme_tmux.sh` script, if you are using [tmux](https://tmux.github.io/).
+1. Recording scripts [`keyfreq.sh`](scripts/keyfreq.sh) and [`logactivewin.sh`](scripts/logactivewin.sh). You probably will not touch these.
+2. Webserver: [`ulogme_serve.py`](scripts/ulogme_serve.py) which wraps Python's `SimpleHTTPServer` and does some basic communication with the UI. For example, the UI can ask the server to write a note to a log file, or for a refresh. [`ulogme_serve.sh`](scripts/ulogme_serve.sh) helps to launch the Python web server more easily.
+3. The UI. Majority of the codebase is here, reading the `.json` files in [`/render`](render/) and creating the visualizations. There are several common `.js` files, and crucially the [`index.html`](render/index.html) and [`overview.html`](render/overview.html) files, that are simple HTML template (with a lot of Javascript in the beginning). Feel free to adapt them to your preferences. I expect that most people might be able to contribute here to add features/cleanup/bugfix.
+4. *Bonus:* the [`ulogme_tmux.sh`](scripts/ulogme_tmux.sh) script, if you are using [tmux](https://tmux.github.io/).
 
 ### OSX code
 > Not in my fork, refer to [the original project](https://github.com/karpathy/ulogme)
@@ -109,13 +109,13 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 - [WakaTime](https://wakatime.com/), to keep a finer track of your time while editing files on your text editor.
 - [Munin](http://munin-monitoring.org/), can also help to keep track of the uptime (and many more stats) of your (Linux) machine.
 
-## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/ulogme.svg)](https://github.com/Naereen/ulogme/blob/master/LICENSE)
+## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/uLogMe.svg)](https://github.com/Naereen/uLogMe/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE.txt](LICENSE.txt)).
 © [Lilian Besson](https://GitHub.com/Naereen), 2016.
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/ulogme/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/uLogMe/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
-[![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/ulogme/README.md?pixel)](https://GitHub.com/Naereen/ulogme/)
+[![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/uLogMe/README.md?pixel)](https://GitHub.com/Naereen/uLogMe/)
 
 [![ForTheBadge uses-badges](http://ForTheBadge.com/images/badges/uses-badges.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
