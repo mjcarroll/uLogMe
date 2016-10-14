@@ -35,6 +35,7 @@ var title_mappings = [
     {pattern: /Bitbucket/,            mapto: "Bitbucket"},
     // Music
     {pattern: /YouTube/,              mapto: "YouTube"},
+    {pattern: /VLC/,                  mapto: "VLC"},
     {pattern: / par /,                mapto: "GMusicBrowser"},
     // Programming
     {pattern: /MATLAB/,               mapto: "Matlab"},
@@ -82,7 +83,7 @@ function mapwin(w) {
 var display_groups = [];
 display_groups.push(["GitHub", "Bitbucket"]); // Hacking browsing
 display_groups.push(["Mail", "Skype", "Facebook", "Slack"]); // Social browsing
-display_groups.push(["YouTube", "GMusicBrowser"]); // Music
+display_groups.push(["YouTube", "VLC", "GMusicBrowser"]); // Music
 display_groups.push(["Agenda", "Self-Quantified"]); // Self-quantified browsing and Agenda
 display_groups.push(["Firefox", "ST3", "Terminal", "Misc"]); // Various works/geeking
 display_groups.push(["Matlab", "ST3 Coding", "ST3 Python", "Notebook"]); // Work related
