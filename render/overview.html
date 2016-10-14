@@ -340,7 +340,7 @@
       }
 
       var kevents_global
-      div.append("p").text("total keys pressed: " + sum_kevents_global + " in " + events.length + " days (" + Math.floor(sum_kevents_global/events.length) + " per day average)");
+      div.append("p").text("Total keys pressed: " + sum_kevents_global + " in " + events.length + " days (" + Math.floor(sum_kevents_global/events.length) + " per day average)");
     }
 
     function loadAllEvents() {
@@ -406,7 +406,7 @@
       chart_data.barheight = 30;
       chart_data.textpad = 300;
       chart_data.textmargin = 10;
-      chart_data.title = "total keys per window";
+      chart_data.title = "Total keys per window";
       chart_data.data = gstats;
       d3utils.drawHorizontalBarChart(d3.select("#keysummary"), chart_data);
     }
@@ -436,7 +436,7 @@
       chart_data.barheight = 30;
       chart_data.textpad = 300;
       chart_data.textmargin = 10;
-      chart_data.title = "total time per window";
+      chart_data.title = "Total time per window";
       chart_data.data = gstats;
       d3utils.drawHorizontalBarChart(d3.select("#timesummary"), chart_data);
     }
