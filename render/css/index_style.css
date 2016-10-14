@@ -1,5 +1,11 @@
+/*
+ * index_style.css for https://github.com/Naereen/uLogMe/
+ * MIT Licensed, https://lbesson.mit-license.org/
+*/
+/* @import url('//fonts.googleapis.com/css?family=Ubuntu'); */
 body {
-    font-family: Impact, Charcoal, sans-serif;
+    /* font-family: Impact, Charcoal, sans-serif; */
+    font-family: 'Ubuntu', Tahoma, sans-serif;
     color: #333;
     font-size: 20px;
     margin: 0;
@@ -47,10 +53,14 @@ p {
 #keystats {
     margin-top: 20px;
 }
+#keystats p, #keygraph p, #piechart p {
+    font-weight: bold;
+    font-size: 35px;
+}
 h2 {
     text-align: center;
     margin-bottom: 40px;
-    font-family: 'Lato', sans-serif;
+    /* font-family: 'Lato', sans-serif; */
     font-weight: 300;
     background-color: #FFA;
     margin: 0;

@@ -1,3 +1,7 @@
+/*
+ * ulogme_common.js for https://github.com/Naereen/uLogMe/
+ * MIT Licensed, https://lbesson.mit-license.org/
+*/
 // Common utility functions
 // TODO: Expand this out, make everything more modular and cleaner
 
@@ -37,7 +41,7 @@ var QueryString = function () {
 function get(url) {
   return new Promise(function(resolve, reject) {
     var req = new XMLHttpRequest();
-    req.open('GET', url);
+    req.open("GET", url);
     req.onload = function() {
       if (req.status == 200) {
         resolve(req.response);
@@ -66,7 +70,7 @@ function getJSON_CACHEHACK(url) {
   // it has been updated. Appending a random number is a hacky
   // way of preventing this caching and ensures that the newest
   // version is retrieved
-  var hackurl = url + '?sigh=' + Math.floor(100000*Math.random());
+  var hackurl = url + "?sigh=" + Math.floor(100000*Math.random());
   return get(hackurl).then(JSON.parse).catch(function(err) {
     console.log("getJSON failed for", url, err);
     throw err;
@@ -82,7 +86,7 @@ function computeKeyStats(ew, ek) {
   var j = 0;
   var ewn = ew.length;
   var ekn = ek.length;
-  var cur_window = '';
+  var cur_window = "";
 
   // merge sort, basically
   while(i<ewn && j<ekn) {
@@ -98,13 +102,13 @@ function computeKeyStats(ew, ek) {
       cur_window = ew[i].m;
       i++;
     } else { // process key event
-      if(cur_window !== '') {
+      if(cur_window !== "") {
         var fhere = ek[j].s;
         if(key_stats.hasOwnProperty(cur_window)) {
           key_stats[cur_window].f += fhere;
           key_stats[cur_window].n ++;
         } else {
-          key_stats[cur_window] = {'f':fhere, 'n':1};
+          key_stats[cur_window] = {"f":fhere, "n":1};
         }
       }
       j++;
@@ -125,7 +129,7 @@ function computeHackingStats(ew, ek, hacking_titles) {
   var j = 0;
   var ewn = ew.length;
   var ekn = ek.length;
-  var cur_window = '';
+  var cur_window = "";
   var hacking_title = false;
   var hacking_counter = 0;
   var hacking_reset_counter = 0;
@@ -177,7 +181,7 @@ function computeHackingStats(ew, ek, hacking_titles) {
     } else {
 
       // process key event
-      if(cur_window !== '') {
+      if(cur_window !== "") {
         var fhere = ek[j].s;
         if(hacking_title) {
           // current active title is a hacking title. accumulate streak
@@ -195,7 +199,7 @@ function computeHackingStats(ew, ek, hacking_titles) {
             hacking_reset_counter = Math.max(0, hacking_reset_counter - 1);
             hacking_counter += 1;
             if(hacking_counter > 15) {
-              // we've built up quite a bit of hacking_counter in this
+              // we"ve built up quite a bit of hacking_counter in this
               // session of relatively more than 3 keystrokes / 9 seconds
               // Lets consider ourselves hacking.
               if(!hacking_now) {

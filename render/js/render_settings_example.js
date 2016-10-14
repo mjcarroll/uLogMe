@@ -1,3 +1,7 @@
+/*
+ * render_settings_example.js for https://github.com/Naereen/uLogMe/
+ * MIT Licensed, https://lbesson.mit-license.org/
+*/
 // various settings for the rendering, to be modified by user
 
 // these are all regex patterns and the corresponding mapped title string
@@ -6,31 +10,46 @@
 // may get mapped to just "Google Chrome".
 // these get applied in order they are specified, from top to bottom
 var title_mappings = [
-// Internet
-{pattern : /Google Chrome/, mapto : 'Firefox'}, // lol
-{pattern : /Firefox/, mapto : 'Firefox'},
-{pattern : /Outlook/, mapto : 'Outlook'},
-{pattern : /Skype/, mapto : 'Skype'},
-{pattern : /Facebook/, mapto : 'Facebook'},
-{pattern : /YouTube/, mapto : 'YouTube'},
-{pattern : /GitHub/, mapto : 'GitHub'},
-{pattern : /Bitbucket/, mapto : 'Bitbucket'},
-{pattern : /Slack/, mapto : 'Slack'},
-// Programming
-{pattern : /MATLAB/, mapto : 'Matlab'},
-// {pattern : /Figure/, mapto : 'Matlab'},
-// {pattern : /Inotebook/, mapto : 'INotebook'},
-// {pattern : /.pdf/, mapto : 'Papers'},
-{pattern : /Terminal/, mapto : 'Terminal'},
-{pattern : /Sublime Text/, mapto : 'ST3'},
-{pattern : /\.py.*Sublime Text/, mapto : 'ST3 Python'},
-{pattern : /\.js.*Sublime Text/, mapto : 'ST3 JS'},
-{pattern : /\.html.*Sublime Text/, mapto : 'ST3 HTML'},
-{pattern : /\.tex.*Sublime Text/, mapto : 'ST3 LaTeX'},
-{pattern : /\.md.*Sublime Text/, mapto : 'ST3 Markdown'},
-{pattern : /\.rst.*Sublime Text/, mapto : 'ST3 rST'},
-// Extra
-{pattern : /__LOCKEDSCREEN/, mapto : 'Locked Screen'}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
+    // Social browsing
+    {pattern: /Outlook/,              mapto: "Outlook"},
+    {pattern: /Skype/,                mapto: "Skype"},
+    {pattern: /Facebook/,             mapto: "Facebook"},
+    {pattern: /Slack/,                mapto: "Slack"},
+    // Self-quantified browsing
+    {pattern: /Stats pour/,           mapto: "Self-Quantified"},
+    {pattern: /Munin/,                mapto: "Self-Quantified"},
+    {pattern: /uLogMe - /,            mapto: "Self-Quantified"},
+    {pattern: /WakaTime/,             mapto: "Self-Quantified"},
+    {pattern: /Google Analytics/,     mapto: "Self-Quantified"},
+    // Agenda
+    {pattern: /TODO list/,            mapto: "Agenda"},
+    {pattern: /Google Agenda/,        mapto: "Agenda"},
+    // Hacking browsing
+    {pattern: /GitHub/,               mapto: "GitHub"},
+    {pattern: / · Naereen\//,         mapto: "GitHub"},
+    {pattern: /Bitbucket/,            mapto: "Bitbucket"},
+    // Music
+    {pattern: /YouTube/,              mapto: "YouTube"},
+    {pattern: / par /,                mapto: "GMusicBrowser"},
+    // Internet
+    {pattern: /Google Chrome/,        mapto: "Firefox"}, // lol
+    {pattern: /Firefox/,              mapto: "Firefox"},
+    // Programming
+    {pattern: /MATLAB/,               mapto: "Matlab"},
+    {pattern: /Figure/,               mapto: "Matlab"},
+    {pattern: /Inotebook/,            mapto: "INotebook"},
+    {pattern: /.pdf/,                 mapto: "PDF"},
+    {pattern: /Terminal/,             mapto: "Terminal"},
+    // Sublime Text 3 patterns
+    {pattern: /\.py.*Sublime Text/,   mapto: "ST3 Python"},
+    {pattern: /\.js.*Sublime Text/,   mapto: "ST3 JS"},
+    {pattern: /\.html.*Sublime Text/, mapto: "ST3 HTML"},
+    {pattern: /\.tex.*Sublime Text/,  mapto: "ST3 LaTeX"},
+    {pattern: /\.md.*Sublime Text/,   mapto: "ST3 Markdown"},
+    {pattern: /\.rst.*Sublime Text/,  mapto: "ST3 rST"},
+    {pattern: /Sublime Text/,         mapto: "ST3"},
+    // Extra
+    {pattern: /__LOCKEDSCREEN/,       mapto: "Locked Screen"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
 ];
 
 // be very careful with ordering in the above because titles
@@ -45,7 +64,7 @@ this function will have its own row and its own analysis
 */
 function mapwin(w) {
   var n = title_mappings.length;
-  var mapped_title = 'MISC';
+  var mapped_title = "MISC";
   for(var i=0;i<n;i++) {
     var patmap = title_mappings[i];
     if(patmap.pattern.test(w)) {
@@ -58,10 +77,12 @@ function mapwin(w) {
 // These groups will be rendered together in the "barcode view". For example, I like
 // to group my work stuff and play stuff together.
 var display_groups = [];
-display_groups.push(["Outlook", "Firefox", "Skype", "Facebook", "YouTube", "GitHub", "Bitbucket", "Slack"]); // internet related
+display_groups.push(["Firefox", "GitHub", "Bitbucket"]); // internet related
+display_groups.push(["Outlook", "Skype", "Facebook", "Slack"]); // social related
+display_groups.push(["YouTube", "GMusicBrowser"]); // music related
 display_groups.push(["MISC", "ST3"]);
 display_groups.push(["Matlab", "ST3 Coding", "INotebook", "Terminal", "Papers"]); // work related
-display_groups.push(["ST3 LaTeX"]); // paper writing related
+display_groups.push(["ST3 LaTeX", "PDF"]); // paper writing related
 display_groups.push(["Locked Screen"]); // computer not being used
 
 // list of titles that classify as "hacking", or being productive in general
