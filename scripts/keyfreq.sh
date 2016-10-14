@@ -1,6 +1,7 @@
 #!/bin/bash
-# https://github.com/Naereen/ulogme/
-
+# keyfreq.sh for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 # Logs the key press frequency over 10 second window.
 # Logs are written in logs/keyfreqX.txt every 10 seconds, where X is unix timestamp of 7am of the recording day.
 

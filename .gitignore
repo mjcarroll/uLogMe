@@ -1,3 +1,5 @@
+# .gitignore for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
 render/events_*json
 .env
 logs

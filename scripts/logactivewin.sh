@@ -1,6 +1,7 @@
 #!/bin/bash
-# https://github.com/Naereen/ulogme/
-
+# logactivewin.sh for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 LANG=en_US.utf8
 
 # logs the active window titles over time. Logs are written

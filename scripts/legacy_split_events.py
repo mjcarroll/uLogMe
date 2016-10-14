@@ -1,7 +1,8 @@
 #!/usr/bin/env python2
 # -*- coding: utf8 -*-
-# https://github.com/Naereen/ulogme/
-
+# legacy_split_events.py for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 from __future__ import print_function  # Python 2 compatibility
 
 # convert old type events to new type events, in case you used legacy ulogme code

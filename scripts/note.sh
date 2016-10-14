@@ -1,6 +1,7 @@
 #!/bin/bash
-# https://github.com/Naereen/ulogme/
-
+# note.sh for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 # allows the user to simply record a note, saves it together with unix time in ../logs/notes_...
 
 mkdir -p ../logs

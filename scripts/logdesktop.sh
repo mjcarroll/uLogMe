@@ -1,6 +1,7 @@
 #!/bin/bash
-# https://github.com/Naereen/ulogme/
-
+# logdesktop.sh for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 # periodically takes screenshot and saves them to desktopscr/
 # the filename contains unix time
 

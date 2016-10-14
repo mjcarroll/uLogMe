@@ -1,6 +1,7 @@
 #!/bin/bash
-# https://github.com/Naereen/ulogme/
-
+# ulogme_data.sh for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 # FIXME adapt this to the path where you stored ulogme.git/
 cd ~/.local/share/ulogme/scripts/
 echo "Starting 'ulogme.sh' ..."

@@ -1,5 +1,7 @@
 #!/bin/bash
-# https://github.com/Naereen/ulogme/
+# ulogme_tmux.sh for https://github.com/Naereen/uLogMe/
+# MIT Licensed, https://lbesson.mit-license.org/
+#
 # Experimental script to start a new tab in a tmux session, launching the data collection on the right & and Python web server on the left.
 
 # oldpwd="$(pwd)"
