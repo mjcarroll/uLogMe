@@ -74,7 +74,7 @@ def updateEvents():
         t0 = t
         t1 = t0 + 60 * 60 * 24  # 24 hrs later
         fout = os.path.join("json", "events_%d.json" % (t0, ))
-        print("fout =", fout)
+        # print("fout =", fout)  # DEBUG
         out_list.append({"t0": t0, "t1": t1, "fname": fout})
 
         fwrite = os.path.join(RENDER_ROOT, fout)
@@ -116,12 +116,12 @@ def updateEvents():
             eout = {"window_events": e1, "keyfreq_events": e2, "notes_events": e3, "blog": e4}
             with open(fwrite, "w") as f:
                 f.write(json.dumps(eout))
-            print("wrote to", fwrite)
+            # print("wrote to", fwrite)  # DEBUG
 
     fwrite = os.path.join(RENDER_ROOT, "json", "export_list.json")
     with open(fwrite, "w") as f:
         f.write(json.dumps(out_list).encode("utf8"))
-    print("wrote to", fwrite)
+    # print("wrote to", fwrite)  # DEBUG
 
 
 # invoked as script
