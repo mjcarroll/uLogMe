@@ -2,7 +2,7 @@
 
 > ### How productive were you today? How much code have you written? Where did your time go?
 
-Keep track of your computer activity throughout the day: visualize your active window titles and the number of keystrokes, in beautiful HTML timelines.
+Keep track of your computer activity throughout the day: visualize your active window titles and the number and frequency of keystrokes, in beautiful and responsive HTML timelines.
 
 Current features:
 
@@ -67,15 +67,20 @@ The user interface can switch between a [single day view](render/index.html) and
 
 ----
 
-## Security concerns
-- TODO explain how is it secure, what is stored etc.
+## Security concerns ?
+uLogMe is very secure:
+
+- your data don't leave your computer!
+- only the number of keys hit is logged, not the details of which keys were hit (during time windows of 10 seconds)
+- you can safely delete any data, any time
+- for the window titles, *warning* every title is logged (including private browsing windows, for instance)
 
 ### *How can I clean my data ?*
 - Simply delete the `logs/` folder to completely remove your old data.
 
 ----
 
-## Known issues
+## :bug: Known issues
 - You may see *"address already in use"* if you try to run `python ulogme_serve.py`. Sometimes the system can get confused and takes a while to update what ports are being used (or the port can be actually used by another software). Use the optional argument to specify a different port, for example `$ python ulogme_serve.py 8125` and then go to `http://localhost:8125/` instead, for example.
 - Overview page is blank. Are you sure your browser supports ECMAScript 6 ? You can check it with these tools: [ES6 checker](https://ruanyf.github.io/es-checker/) or [Compat-Table ES6](https://kangax.github.io/compat-table/es6/). Any recent browser should be fine (Chrome and Firefox, at least).
 
