@@ -72,6 +72,11 @@ The user interface can switch between a [single day view](render/index.html) and
 
 ----
 
+## Interactive demo
+![Demo - Interactive GIF](screenshots/demo_live.gif)
+
+----
+
 ## Security concerns ?
 Your private data should be safe with uLogMe:
 
