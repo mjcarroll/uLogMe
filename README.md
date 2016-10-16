@@ -72,13 +72,16 @@ Your private data should be safe with uLogMe:
 
 - *Your data don't leave your computer!* (you can read the code in details to check it).
 - Only the number of keys hit is logged, not the details of *which* keys were hit (during time windows of 10 seconds).
-- You can safely delete any data, any time, the program shouldn't break.
+- You can safely *delete any data*, any time (see below), without risking to break the program.
 - For the window titles, *warning* every title is logged (including private browsing windows, for instance).
 
-Of course, this is a computer program, written by enthusiast programmers, not security experts: there is bugs, and there might be security problems. But none that we know of at least! [Please file an issue if you notice a potential security threats](https://GitHub.com/Naereen/uLogMe/issues/new)
+
+> Of course, this is a computer program, written by enthusiast programmers, not security experts: there is bugs, and there might be security problems. But none that we know of at least!
+> [Please file an issue if you notice a potential security threats](https://GitHub.com/Naereen/uLogMe/issues/new) !
 
 ### *How can I clean my data ?*
 - Simply delete the `logs/` folder to completely remove your old data.
+- You can aslo delete the log file for just one day if you want (e.g., if you are ashamed of a very non-productive day haha!).
 
 ----
 
