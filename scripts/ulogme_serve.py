@@ -15,9 +15,11 @@ import socket
 
 from export_events import updateEvents
 from rewind7am import rewindTime
+from notify import notify
 
 
-# Convenience function
+# Convenience functions
+
 def writenote(note, time_=None):
     """ From https://github.com/karpathy/ulogme/issues/48"""
     cmd = ["../scripts/note.sh"]
@@ -26,6 +28,7 @@ def writenote(note, time_=None):
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     process.communicate(input=note)
     process.wait()
+    notify("uLogMe created a note, with content '{}' and time '{!s}'.".format(note, time_), "note")  # DEBUG
 
 
 # Custom handler
@@ -46,6 +49,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         result = "NOT_UNDERSTOOD"
 
         if self.path == "/refresh":
+            notify("Refreshing the view of uLogMe ...")  # DEBUG
             # recompute jsons. We have to pop out to root from render directory
             # temporarily. It's a little ugly
             refresh_time = form.getvalue("time")
@@ -55,6 +59,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             result = "OK"
 
         if self.path == "/addnote":
+            notify("Adding a note in uLogMe ...", icon="note")  # DEBUG
             # add note at specified time and refresh
             note = form.getvalue("note")
             note_time = form.getvalue("time")
@@ -66,6 +71,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             result = "OK"
 
         if self.path == "/blog":
+            notify("Adding a blog post in uLogMe ...", icon="note")  # DEBUG
             # add note at specified time and refresh
             post = form.getvalue("post")
             if post is None:
@@ -103,6 +109,7 @@ if __name__ == "__main__":
     try:
         httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
         print("Serving ulogme on a HTTP server, see it on 'http://localhost:{}' ...".format(PORT))
+        notify("Serving ulogme on a HTTP server, see it on 'http://localhost:{}' ...".format(PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()
     except socket.error as e:
         if e.errno == 98:
