@@ -10,21 +10,22 @@ import os
 import SocketServer
 import SimpleHTTPServer
 import cgi
+import subprocess
+import socket
 
 from export_events import updateEvents
 from rewind7am import rewindTime
 
-# Port settings
-IP = ""
-if len(sys.argv) > 1:
-    PORT = int(sys.argv[1])
-    assert PORT > 2024, "Error, you should not ask to use a PORT reserved by the system (<= 2024)"
-else:
-    PORT = 8124
 
-# serve render/ folder, not current folder
-rootdir = os.getcwd()
-os.chdir(os.path.join("..", "render"))
+# Convenience function
+def writenote(note, time_=None):
+    """ From https://github.com/karpathy/ulogme/issues/48"""
+    cmd = ["../scripts/note.sh"]
+    if time_ is not None:
+        cmd.append(str(time_))
+    process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    process.communicate(input=note)
+    process.wait()
 
 
 # Custom handler
@@ -58,7 +59,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             note = form.getvalue("note")
             note_time = form.getvalue("time")
             os.chdir(rootdir)  # pop out
-            os.system("echo %s | ../scripts/note.sh %s" % (note, note_time))
+            # os.system("echo %s | ../scripts/note.sh %s" % (note, note_time))  # FIXED security threat!
+            writenote(note, note_time)
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # go back to render
             result = "OK"
@@ -77,6 +79,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             os.chdir(os.path.join("..", "render"))  # go back to render
             result = "OK"
 
+        # This part has to be done manually
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
@@ -84,6 +87,31 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
-    print("Serving ulogme, see it on 'http://localhost:", repr(PORT), "' ...")
-    httpd.serve_forever()
+    IP = "127.0.0.1"  # Instead of "", thanks to https://github.com/karpathy/ulogme/issues/48
+
+    # Port settings
+    if len(sys.argv) > 1:
+        PORT = int(sys.argv[1])
+        assert PORT > 2024, "Error, you should not ask to use a PORT reserved by the system (<= 2024)"
+    else:
+        PORT = 8124
+
+    # serve render/ folder, not current folder
+    rootdir = os.getcwd()
+    os.chdir(os.path.join("..", "render"))
+
+    try:
+        httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
+        print("Serving ulogme on a HTTP server, see it on 'http://localhost:{}' ...".format(PORT))
+        httpd.serve_forever()
+    except socket.error as e:
+        if e.errno == 98:
+            print("\nThe port {} was already used...".format(PORT))
+            print("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '$ ulogme_serve.py {}' ...".format(PORT + 1))
+        else:
+            print("\nError, ulogme_serve.py was interrupted, giving:")
+            print("Exception: e =", e)
+            # print("Exception: dir(e) =", dir(e))  # DEBUG
+    except KeyboardInterrupt:
+        print("\nYou probably asked to interrupt the 'ulogme_serve.py' HTTP server ...")
+        print("You should wait for some time before using the port {} again. (about 1 minute on Ubuntu)".format(PORT))
