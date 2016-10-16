@@ -356,6 +356,15 @@
       var spinner = new Spinner(opts).spin(target);
       NProgress.inc();
     }
+    function renderBlogEntry(blog) {
+        if (blog === "") {
+            $("#blogpre").attr("class", "empty").text("Click to enter the note for this day");
+            $("#blogstash").text("");
+        } else {
+            $("#blogpre").attr("class", "notempty").text(blog);
+            $("#blogstash").text(blog);
+        }
+    }
     function stopSpinner() {
       $("#spinnerdiv").empty();
       NProgress.done();
@@ -394,9 +403,7 @@
         }
 
         // render blog entry
-        blog = "blog" in data ? data["blog"] : "";
-        if(blog === "") { blog = "click to enter blog for this day"; }
-        $("#blogpre").text(blog);
+        renderBlogEntry('blog' in data ? data['blog'] : '');
 
         visualizeEvents(events);
         writeHeader();
@@ -514,12 +521,13 @@
 
       // setup blog text click event
       $("#blogenter").hide();
-      $("#blogpre").click(function(){
+      $("#blogpre").click(function(event){
         var txt = $("#blogpre").text();
         $("#blogpre").hide();
         $("#blogenter").show();
         $("#blogentertxt").val(txt)
         $("#blogentertxt").focus();
+        event.stopPropagation();
       });
 
       // setup the submit blog entry button
@@ -540,6 +548,18 @@
             }
           });
       });
+
+      $(document).click(function(event) {
+        if(!$(event.target).closest('#blogenter').length) {
+              if ($('#blogenter').is(":visible")) {
+                  var txt = $("#blogentertxt").val();
+                  $("#blogpre").text(txt);
+                  $("#blogpre").show();
+                  $("#blogenter").hide();
+              }
+          }
+      });
+
       setInterval(redraw, 1000); // in case of window resize, we can redraw
 
       NProgress.done();
@@ -594,7 +614,7 @@
     </div>
     <div id="wrap">
       <div id="blogwrap">
-        <pre id="blogpre"></pre>
+        <pre id="blogpre" class="empty"></pre>
         <div id="blogenter">
           <textarea id="blogentertxt"></textarea>
           <button id="blogentersubmit">Submit</button>
