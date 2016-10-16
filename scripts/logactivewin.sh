@@ -67,7 +67,7 @@ do
 	#fi
 
 	# log window switch if appropriate
-	if [ X"$perform_write" = Xtrue ]; then
+	if [ X"$perform_write" = Xtrue -a -n "$curtitle"  ]; then
 		# number of seconds elapsed since Jan 1, 1970 0:00 UTC
 		logfile="../logs/window_$(python rewind7am.py).txt"
 		echo "$T $curtitle" >> "$logfile"
