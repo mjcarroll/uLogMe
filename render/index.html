@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>uLogMe - Single-day View</title>
 
     <!-- <link rel="stylesheet" type="text/css" href="css/font_lato.css"> -->
     <link rel="stylesheet" type="text/css" href="css/index_style.css">
+    <link rel="stylesheet" media="screen and (min-width: 280px)" type="text/css" href="css/nprogress.css" />
 
     <script type="text/javascript" src="js/jquery-1.8.3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/spin.min.js" charset="utf-8"></script>
@@ -16,9 +18,9 @@
     <script type="text/javascript" src="js/d3utils.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/underscore.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/ulogme_common.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/nprogress.min.js" charset="utf-8"></script>
 
     <script type="application/javascript">
-
     // GLOBALS
     var color_hash = {}; // mapped titles -> hsl color to draw with
     var t00; // initial time for a day (time first event began)
@@ -345,13 +347,16 @@
     }
 
     function startSpinner() {
+      NProgress.start();
       // create a spinner
       var target = document.getElementById("spinnerdiv");
       opts = {left:"30px", top:"40px", radius: 10, color: "#FFF" };
       var spinner = new Spinner(opts).spin(target);
+      NProgress.inc();
     }
     function stopSpinner() {
       $("#spinnerdiv").empty();
+      NProgress.done();
     }
 
     function fetchAndLoadEvents(daylog) {
@@ -414,6 +419,7 @@
     var cur_event_id = -1;
     var clicktime = 0;
     function start() {
+      NProgress.start();
 
       // create tooltip div
       tooltip = d3.select("body")
@@ -432,6 +438,7 @@
 
         fetchAndLoadEvents(event_list[cur_event_id]); // display latest
       });
+      NProgress.inc();
 
       // setup notes hide key
       $("#notesinfohide").click(function(){ $("#notesinfo").hide(); });
@@ -469,6 +476,7 @@
             }
         });
       });
+      NProgress.inc();
 
       // register enter key in notes as submitting
       $("#notetext").keyup(function(event){
@@ -500,6 +508,7 @@
           $("#blogpre").show();
         }
       });
+      NProgress.inc();
 
       // setup blog text click event
       $("#blogenter").hide();
@@ -530,6 +539,8 @@
           });
       });
       setInterval(redraw, 1000); // in case of window resize, we can redraw
+
+      NProgress.done();
     }
 
     // redraw if dirty (due to window resize event)
@@ -547,10 +558,10 @@
     $(window).resize(function() {
       dirty = true;
     });
-
     </script>
   </head>
   <body onload="start()">
+    <!-- <script type="text/javascript">NProgress.start();</script> -->
     <div id="spinnerdiv" title="Wait for the data to be loaded..."></div>
     <div id="reloadbutton" title="Reload the data (override cache)">&#10226</div>
     <div id="overviewlink"><a href="overview.html" title="Switch to the overview page">Overview</a></div>

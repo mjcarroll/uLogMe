@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>uLogMe - Overview</title>
 
     <!-- <link type="text/css" rel="stylesheet" href="css/font_lato.css"> -->
     <link type="text/css" rel="stylesheet" href="css/overview_style.css">
+    <link rel="stylesheet" media="screen and (min-width: 280px)" type="text/css" href="css/nprogress.css" />
 
     <script type="text/javascript" src="js/jquery-1.8.3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/spin.min.js" charset="utf-8"></script>
@@ -16,6 +18,7 @@
     <script type="text/javascript" src="js/d3utils.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/underscore.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/ulogme_common.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/nprogress.min.js" charset="utf-8"></script>
 
     <script type="application/javascript">
 
@@ -442,20 +445,25 @@
     }
 
     function startSpinner() {
+      NProgress.start();
       // create a spinner object
       var target = document.getElementById("spinnerdiv");
       opts = {left:"30px", top:"40px", radius: 10, color: "#FFF" };
       var spinner = new Spinner(opts).spin(target);
+      NProgress.inc();
     }
     function stopSpinner() {
       $("#spinnerdiv").empty();
+      NProgress.done();
     }
 
     var event_list;
     var events;
     function start() {
+      NProgress.start();
 
       loadAllEvents();
+      NProgress.inc();
 
       $("#reloadbutton").click(function() {
 
@@ -471,11 +479,14 @@
             }
         });
       });
+
+      NProgress.done();
     }
 
     </script>
   </head>
   <body onload="start()">
+    <!-- <script type="text/javascript">NProgress.start();</script> -->
     <div id="spinnerdiv" title="Wait for the data to be loaded..."></div>
     <div id="reloadbutton" title="Reload the data (override cache)">&#10226</div>
     <div id="indexlink"><a href="index.html" title="Switch to the Single-day view page">Single-day View</a></div>
