@@ -68,12 +68,14 @@ The user interface can switch between a [single day view](render/index.html) and
 ----
 
 ## Security concerns ?
-uLogMe is very secure:
+Your private data should be safe with uLogMe:
 
-- your data don't leave your computer!
-- only the number of keys hit is logged, not the details of which keys were hit (during time windows of 10 seconds)
-- you can safely delete any data, any time
-- for the window titles, *warning* every title is logged (including private browsing windows, for instance)
+- *Your data don't leave your computer!* (you can read the code in details to check it).
+- Only the number of keys hit is logged, not the details of *which* keys were hit (during time windows of 10 seconds).
+- You can safely delete any data, any time, the program shouldn't break.
+- For the window titles, *warning* every title is logged (including private browsing windows, for instance).
+
+Of course, this is a computer program, written by enthusiast programmers, not security experts: there is bugs, and there might be security problems. But none that we know of at least! [Please file an issue if you notice a potential security threats](https://GitHub.com/Naereen/uLogMe/issues/new)
 
 ### *How can I clean my data ?*
 - Simply delete the `logs/` folder to completely remove your old data.
@@ -116,7 +118,8 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 
 ## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/uLogMe.svg)](https://github.com/Naereen/uLogMe/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE.txt](LICENSE.txt)).
-© [Lilian Besson](https://GitHub.com/Naereen), 2016.
+
+© 2014-2016 [Andrej Karpathy](https://GitHub.com/karpathy) and [GitHub collaborators](https://GitHub.com/karpathy/ulogme/graphs/contributors/), and © 2016 [Lilian Besson](https://GitHub.com/Naereen).
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/uLogMe/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
