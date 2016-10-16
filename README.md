@@ -65,6 +65,11 @@ The user interface can switch between a [single day view](render/index.html) and
 - You can click the window titles to toggle them on and off from the visualization.
 - Clicking on the vertical bars takes you to the full statistics for that day.
 
+#### Keyboard shortcuts
+- On both pages, <kbd>r</kbd> reloads the data (like clicking the reload ⟲ button).
+- On the single day page, <kbd>left</kbd> or <kbd>p</kbd> goes to the *previous* day, <kbd>right</kbd> or <kbd>r</kbd> goes to the *next* day.
+- Go to overview page with <kbd>o</kbd> and to the single day page (index) with <kbd>s</kbd> or <kbd>i</kbd>.
+
 ----
 
 ## Security concerns ?
