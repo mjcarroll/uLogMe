@@ -1,12 +1,14 @@
 #!/bin/bash
 # ulogme_serve.sh for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
-#
-# FIXME adapt this to the path where you stored ulogme.git/
-cd ~/.local/share/ulogme/scripts/
+
 echo "Starting 'ulogme_serve.sh' ..."
 
-port=${1:-8124}
+# FIXED no need to adapt this to the path where you stored ulogme.git/
+# cd ~/.local/share/ulogme/scripts/  # XXX change according to your installation
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+port="${1:-8124}"
 
 if pidof firefox >/dev/null; then
 	echo -e "Opening 'http://localhost:${port}/' in Firefox ..."
@@ -18,4 +20,4 @@ else
 fi
 
 echo -e "Calling 'python ulogme_serve.py ${port}' ..."
-python ulogme_serve.py "${port}"
+python ./ulogme_serve.py "${port}"
