@@ -14,7 +14,7 @@ mkdir -p ../logs
 
 while true; do
     # Thanks to https://github.com/Naereen/ulogme/pull/5/
-    showkey | tr -d '0-9' &> $helperfile &
+    showkey | tr -d '0-9' &> "$helperfile" &
     # PID=$!
 
     # work in windows of 10 seconds
@@ -22,17 +22,17 @@ while true; do
 
     # XXX Find a safer and better way to kill the process
     # kill $PID
-    kill $(jobs -rp) 2>/dev/null
-    wait $(jobs -rp) 2>/dev/null
+    kill "$(jobs -rp)" 2>/dev/null
+    wait "$(jobs -rp)" 2>/dev/null
 
     # count number of key release events
     num=$(grep -c release "$helperfile")
 
     # append unix time stamp and the number into file
     logfile="../logs/keyfreq_$(python rewind7am.py).txt"
-    echo "$(date +%s) $num"  >> $logfile
+    echo "$(date +%s) $num"  >> "$logfile"
     # only print if $num > 0
-    if [ $num -gt 0 ]; then
+    if [ "$num" -gt 0 ]; then
         echo "logged key frequency: $(date) $num release events detected into $logfile"
     fi
 done

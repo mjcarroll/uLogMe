@@ -17,6 +17,7 @@ maxtime="600"  # if last write happened more than this many seconds ago, write e
 mkdir -p ../logs
 last_write="0"
 lasttitle=""
+
 while true
 do
 	islocked=true
@@ -25,11 +26,15 @@ do
 	if [[ X"$GDMSESSION" == X'xfce' ]]; then
 		# Assume XFCE folks use xscreensaver (the default).
 		screensaverstate=$(xscreensaver-command -time | cut -f2 -d: | cut -f2-3 -d' ')
-		if [[ $screensaverstate =~ "screen non-blanked" ]]; then islocked=false; fi
+		if [[ $screensaverstate =~ "screen non-blanked" ]]; then
+			islocked=false
+		fi
 	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' || X"$GDMSESSION" == X'cinnamon' ]]; then
 		# Assume the GNOME/Ubuntu/cinnamon folks are using gnome-screensaver.
 		screensaverstate=$(gnome-screensaver-command -q 2>&1 /dev/null)
-		if [[ $screensaverstate =~ .*inactive.* ]]; then islocked=false; fi
+		if [[ $screensaverstate =~ .*inactive.* ]]; then
+			islocked=false
+		fi
 	elif [[ X"$XDG_SESSION_DESKTOP" == X'KDE' ]]; then
 		islocked=$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)
 	else
@@ -40,10 +45,10 @@ do
 	if [ X"$islocked" = Xtrue ]; then
 		curtitle="__LOCKEDSCREEN"  # Special tag
 	else
-		id=$(xdotool getactivewindow)
+		id="$(xdotool getactivewindow)"
 		# curtitle=$(wmctrl -lpG | while read -a a; do w=${a[0]}; if (($((16#${w:2}))==id)) ; then echo "${a[@]:8}"; break; fi; done)
 		# Quicker and simpler method!
-		curtitle=$(xdotool getwindowname ${id})
+		curtitle="$(xdotool getwindowname "${id}")"
 	fi
 
 	perform_write=false
@@ -65,13 +70,13 @@ do
 	if [ X"$perform_write" = Xtrue ]; then
 		# number of seconds elapsed since Jan 1, 1970 0:00 UTC
 		logfile="../logs/window_$(python rewind7am.py).txt"
-		echo "$T $curtitle" >> $logfile
+		echo "$T $curtitle" >> "$logfile"
 		echo "logged window title: '$(date)' '$curtitle' into '$logfile'"
-		last_write=$T
+		last_write="$T"
 	fi
 
-	lasttitle="$curtitle" # swap
-	sleep "$waittime" # sleep
+	lasttitle="$curtitle"  # swap
+	sleep "$waittime"  # sleep
 done
 
 
