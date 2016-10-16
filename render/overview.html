@@ -19,6 +19,7 @@
     <script type="text/javascript" src="js/underscore.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/ulogme_common.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/nprogress.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/mousetrap.min.js" charset="utf-8"></script>
 
     <script type="application/javascript">
 
@@ -483,6 +484,15 @@
       NProgress.done();
     }
 
+    // MouseTrap (http://craig.is/killing/mice)
+    Mousetrap.bind(["r"], function() {
+      console.log("Refreshing data ...");
+    });
+    Mousetrap.bind(["i"], function() {
+      console.log("Going to daily-vew page ...");
+      location.href = "index.html";
+    });
+
     </script>
   </head>
   <body onload="start()">
@@ -512,8 +522,9 @@
           <a href="https://github.com/Naereen/uLogMe/">Documentation can be found on the GitHub README.md file.</a>
           <a href="https://lbesson.mit-license.org/"><img src="svg/license.svg" alt="GitHub license"></a>
           <br>
-          Thanks to <a href="https://GitHub.com/karpathy/">@karpathy</a> for the initial project.
-          Hacked and tweaked by <a href="https://GitHub.com/Naereen/">Lilian Besson (Naereen)</a>, © 2016
+          Thanks to <a href="https://GitHub.com/karpathy/">@karpathy</a> and <a href="https://GitHub.com/karpathy/ulogme/graphs/contributors">contributors</a> for the <a href="https://GitHub.com/karpathy/ulogme">initial project</a>.
+          <br>
+          Hacked and tweaked with <span style="color: #f95959;">&hearts;</span> by <a href="https://GitHub.com/Naereen/">Lilian Besson (Naereen)</a>, © 2016.
           <br>
           <a href="https://GitHub.com/Naereen/"><img src="svg/built-with-love.svg" alt="ForTheBadge built-with-love"></a>
       </div>
