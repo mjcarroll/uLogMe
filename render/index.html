@@ -560,10 +560,10 @@
       dirty = true;
     });
 
-    // MouseTrap (http://craig.is/killing/mice)
+    // MouseTrap keyboard shortcuts (cf. http://craig.is/killing/mice)
     Mousetrap.bind(["r"], function() {
       console.log("Refreshing data ...");
-      // FIXME
+      $("#reloadbutton").click();
     });
     Mousetrap.bind(["o"], function() {
       console.log("Going to overview page ...");
@@ -571,11 +571,11 @@
     });
     Mousetrap.bind(["left", "p"], function() {
       console.log("Previous day ...");
-      // FIXME
+      $("#leftarrow").click();
     });
     Mousetrap.bind(["right", "n"], function() {
       console.log("Next day ...");
-      // FIXME
+      $("#rightarrow").click();
     });
 
     </script>

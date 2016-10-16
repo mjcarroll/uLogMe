@@ -484,15 +484,15 @@
       NProgress.done();
     }
 
-    // MouseTrap (http://craig.is/killing/mice)
+    // MouseTrap keyboard shortcuts (cf. http://craig.is/killing/mice)
     Mousetrap.bind(["r"], function() {
       console.log("Refreshing data ...");
+      $("#reloadbutton").click();
     });
     Mousetrap.bind(["i"], function() {
       console.log("Going to daily-vew page ...");
       location.href = "index.html";
     });
-
     </script>
   </head>
   <body onload="start()">
