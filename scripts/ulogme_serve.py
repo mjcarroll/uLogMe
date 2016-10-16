@@ -13,6 +13,7 @@ import cgi
 import subprocess
 import socket
 
+# Local imports
 from export_events import updateEvents
 from rewind7am import rewindTime
 from notify import notify
@@ -93,7 +94,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    IP = "127.0.0.1"  # Instead of "", thanks to https://github.com/karpathy/ulogme/issues/48
+    httpd = None  # Make sure the variable exist, or the finally: case below can mess up
 
     # Port settings
     if len(sys.argv) > 1:
@@ -102,23 +103,38 @@ if __name__ == "__main__":
     else:
         PORT = 8124
 
+    # Address settings
+    if len(sys.argv) > 2:
+        IP = str(sys.argv[2])
+    else:
+        IP = "127.0.0.1"  # IP address to use by default
+        # Instead of "", thanks to https://github.com/karpathy/ulogme/issues/48
+
     # serve render/ folder, not current folder
     rootdir = os.getcwd()
     os.chdir(os.path.join("..", "render"))
 
     try:
         httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
-        print("Serving ulogme on a HTTP server, see it on 'http://localhost:{}' ...".format(PORT))
-        notify("Serving ulogme on a HTTP server, see it on 'http://localhost:{}' ...".format(PORT), icon="terminal")  # DEBUG
+        print("Serving uLogMe on a HTTP server, see it locally on 'http://{}:{}' ...".format(IP, PORT))
+        notify("Serving uLogMe on a HTTP server, see it locally on 'http://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()
     except socket.error as e:
         if e.errno == 98:
-            print("\nThe port {} was already used...".format(PORT))
+            print("The port {} was already used...".format(PORT))
             print("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '$ ulogme_serve.py {}' ...".format(PORT + 1))
         else:
-            print("\nError, ulogme_serve.py was interrupted, giving:")
+            print("Error, ulogme_serve.py was interrupted, giving:")
             print("Exception: e =", e)
             # print("Exception: dir(e) =", dir(e))  # DEBUG
     except KeyboardInterrupt:
         print("\nYou probably asked to interrupt the 'ulogme_serve.py' HTTP server ...")
-        print("You should wait for some time before using the port {} again. (about 1 minute on Ubuntu)".format(PORT))
+        # print("You should wait for some time before using the port {} again. (about 1 minute on Ubuntu)".format(PORT))  # Not anymore!
+    finally:
+        try:
+            if httpd is not None:
+                print("\nClosing the HTTP server (address {}, port {}) ...".format(IP, PORT))
+                httpd.server_close()
+        except Exception as e:
+            print("The HTTP server (address {}, port {}) might not have been closed ...".format(IP, PORT))
+            print("Exception: e =", e)

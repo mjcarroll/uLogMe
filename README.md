@@ -96,7 +96,7 @@ Your private data should be safe with uLogMe:
 ----
 
 ## :bug: Known issues
-- You may see *"address already in use"* if you try to run `python ulogme_serve.py`. Sometimes the system can get confused and takes a while to update what ports are being used (or the port can be actually used by another software). Use the optional argument to specify a different port, for example `$ python ulogme_serve.py 8125` and then go to `http://localhost:8125/` instead, for example.
+- You may see *"The port 8124 was already used"* error if you try to run `python ulogme_serve.py`. This may be because the port is being used by another program. You can use the optional argument to specify a different port, for example `$ python ulogme_serve.py 8125` and then go to `http://localhost:8125/` instead, (for example).
 - Overview page is blank. Are you sure your browser supports ECMAScript 6 ? You can check it with these tools: [ES6 checker](https://ruanyf.github.io/es-checker/) or [Compat-Table ES6](https://kangax.github.io/compat-table/es6/). Any recent browser should be fine (Chrome and Firefox, at least).
 
 ----
@@ -121,7 +121,7 @@ uLogMe has three main parts:
 ----
 
 ## Related projects ?
-- [selfspy](https://github.com/gurgeh/selfspy), Log everything you do on the computer, for statistics, future reference and all-around fun. I also worked a little bit on [selfspy-vis](http://github.com/Naereen/selfspy-vis), some tools to visualize the data collected by [selfspy](https://github.com/gurgeh/selfspy).
+- [selfspy](https://github.com/gurgeh/selfspy), Log everything you do on the computer, for statistics, future reference and all-around fun. I also worked a little bit on [selfspy-vis](https://github.com/Naereen/selfspy-vis), some tools to visualize the data collected by [selfspy](https://github.com/gurgeh/selfspy).
 - My minimalist dashboard, generated every hour with this bash script [GenerateStatsMarkdown.sh](https://bitbucket.org/lbesson/bin/src/master/GenerateStatsMarkdown.sh).
 
 For more projects, [this question on Personal Productivity Stack Exchange](https://productivity.stackexchange.com/questions/13913/automatic-time-tracking-software-for-computer-work-for-windows-linux-mac) might be also worth a look.
