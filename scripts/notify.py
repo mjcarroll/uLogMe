@@ -15,29 +15,35 @@ try:
     def notify(body, summary=PROGRAM_NAME, icon="dialog-information"):
         """ Send a notification."""
         # XXX I could also use Popen with notify-send ? Cf. ansicolortags.notify
-        # Create the notification object
-        notification = Notify.Notification.new(
-            summary,
-            body,   # Optional
-            icon  # "dialog-information"  # "dialog-warn", "dialog-error"
-        )
+        try:
+            # Create the notification object
+            notification = Notify.Notification.new(
+                summary,
+                body,   # Optional
+                icon  # "dialog-information"  # "dialog-warn", "dialog-error"
+            )
 
-        # # The notification will have a button that says "Reply to Message".
-        # # my_callback_func is something we will have to define
-        # my_callback_func = lambda x: None
+            # # The notification will have a button that says "Reply to Message".
+            # # my_callback_func is something we will have to define
+            # my_callback_func = lambda x: None
 
-        # notification.add_action(
-        #     "action_click",
-        #     "Reply to Message",
-        #     my_callback_func,
-        #     None  # Arguments
-        # )
+            # notification.add_action(
+            #     "action_click",
+            #     "Reply to Message",
+            #     my_callback_func,
+            #     None  # Arguments
+            # )
 
-        # Lowest urgency
-        notification.set_urgency(0)
+            # Lowest urgency
+            notification.set_urgency(0)
 
-        # Actually show on screen
-        notification.show()
+            # Actually show on screen
+            notification.show()
+        # Ugly! XXX Catches too general exception
+        except Exception as e:
+            print("\nError, notify.notify failed, with this exception")
+            print(e)
+            # print("Exception: dir(e) =", dir(e))  # DEBUG
 
 
 except ImportError:
