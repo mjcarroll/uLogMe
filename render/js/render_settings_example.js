@@ -54,6 +54,7 @@ var title_mappings = [
     {pattern: /\.rst.*Sublime Text/,  mapto: "ST3 rST"},
     // Extra
     {pattern: /__LOCKEDSCREEN/,       mapto: "Locked Screen"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
+    {pattern : /__SUSPEND/,           mapto: "Computer suspended"}, // __SUSPEND is a special token
 ];
 
 // be very careful with ordering in the above because titles
@@ -81,15 +82,20 @@ function mapwin(w) {
 // These groups will be rendered together in the "barcode view". For example, I like
 // to group my work stuff and play stuff together.
 var display_groups = [];
+
 display_groups.push(["GitHub", "Bitbucket"]); // Hacking browsing
 display_groups.push(["Mail", "Skype", "Facebook", "Slack"]); // Social browsing
+
 display_groups.push(["YouTube", "VLC", "GMusicBrowser"]); // Music
 display_groups.push(["Agenda", "Self-Quantified"]); // Self-quantified browsing and Agenda
+
 display_groups.push(["Firefox", "ST3", "Terminal", "Misc"]); // Various works/geeking
 display_groups.push(["Matlab", "ST3 Coding", "ST3 Python", "Notebook"]); // Work related
 display_groups.push(["ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST"]); // Coding related
 display_groups.push(["ST3 LaTeX", "PDF"]); // Paper writing related
+
 display_groups.push(["Locked Screen"]); // Computer not being used
+display_groups.push(["Computer locked", "Computer idle", "Computer suspended"]); // computer not being used
 
 // list of titles that classify as "hacking", or being productive in general
 // the main goal of the day is to get a lot of focused sessions of hacking

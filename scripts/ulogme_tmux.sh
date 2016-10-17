@@ -15,9 +15,9 @@ else
     cd "$( dirname "${BASH_SOURCE[0]}" )"
 fi;
 
-pwd  # DEBUG
-echo "[Enter]"  # DEBUG
-read  # DEBUG
+# pwd  # DEBUG
+# echo "[Enter]"  # DEBUG
+# read  # DEBUG
 
 # XXX assume runing inside a tmux session
 if [ "X${TMUX}" = "X" ]; then
