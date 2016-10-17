@@ -77,6 +77,15 @@ do
 	#	perform_write=true
 	#fi
 
+	# additional check, do not log private browsing windows (if you have something to hide?)
+	# XXX customize here the regexp capturing the titles you don't want to count
+	if echo "$curtitle" | grep "\(privée\|InPrivate\|Private\|Incognito\)"  &>/dev/null
+	then
+		echo "not logged private window title"
+		# echo "not logged window title: '$(date)' '$curtitle'"  # DEBUG
+		curtitle=""
+	fi;
+
 	# log window switch if appropriate
 	if [ X"$perform_write" = Xtrue -a -n "$curtitle"  ]; then
 		# number of seconds elapsed since Jan 1, 1970 0:00 UTC

@@ -83,7 +83,7 @@ Your private data should be safe with uLogMe:
 - *Your data don't leave your computer!* (you can read the code in details to check it).
 - Only the number of keys hit is logged, not the details of *which* keys were hit (during time windows of 10 seconds).
 - You can safely *delete any data*, any time (see below), without risking to break the program.
-- For the window titles, *warning* every title is logged (including private browsing windows, for instance).
+- For the window titles, *warning* by default every title is logged. You can add more checks in the [logactivewin.sh](scripts/logactivewin.sh) script (`XXX customize here...`). Right now, the title is not logged if it contains one of these words: `privée`, `InPrivate`, `Private`, `Incognito` (it should be enough to remove private browsing windows from Firefox, Chrom{e,ium}, and Internet Explorer).
 
 
 > Of course, this is a computer program, written by enthusiast programmers, not security experts: there is bugs, and there might be security problems. But none that we know of at least!
@@ -104,8 +104,11 @@ Your private data should be safe with uLogMe:
 ## Explanations on the architecture
 - The Ubuntu and OSX code base are a little separate on the data collection side (note: I am NOT keeping the OSX code in [my fork](https://github.com/Naereen/uLogMe/), cf. the [original project](https://github.com/karpathy/ulogme/)).
 - However, they each just record very simple log files in `/logs`.
-- Once the log files are written, [`export_events.py`](scripts/export_events.py) takes the log files, does some simple processing and writes the results into `.json` files in [`/render`](render/).
-- The Javascript/HTML/CSS UI codebase is all common and all lives in [`/render`](render/).
+- Once the log files are written, [`export_events.py`](scripts/export_events.py) takes the log files, does some simple processing and writes the results into JSOn files (`.json`) in [`/render/json`](render/json/).
+- The HTML templates for the UI lives in [`/render`](render/). It uses jQuery.Ajax to read the JSON files, and then [d3js](https://d3js.org/) for the plots and charts.
+- The Javascript scripts (requirements, library and utility functions) lives in [`/render/js`](render/js/). The dependencies are included minimized, everything is © of their original authors.
+- The CSS style sheets for the UI lives in [`/render/css`](render/css/). It's very basic CSS formatting.
+- There is also two SVG files (for some badges) in [`/render/svg`](render/svg/), and a small [Pikachu favicon](render/favicon.ico)! *Why Pikachu?* [ALWAYS PIKACHU!](http://www.lsv.ens-cachan.fr/~picaro/)
 
 ### Ubuntu (or any Debian-like Linux)
 uLogMe has three main parts:
