@@ -51,10 +51,21 @@ do
 		curtitle="$(xdotool getwindowname "${id}")"
 	fi
 
-	perform_write=false
+    # Detect suspend, code from https://github.com/karpathy/ulogme/commit/6a28d34defee65726d55211fe742303737bc757a
+    was_awaken=false
+    # suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
+    suspended_at="$(grep "Freezing user space processes ... *$" /var/log/kern.log | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ')"
+    if [ -n "$suspended_at" ]; then
+        suspended_at=$(date -d "$suspended_at" +%s)
+        if [ "$suspended_at" -ge "$last_write" ]; then
+            # Suspend occured after last event
+            was_awaken=true
+        fi
+    fi
 
+	perform_write=false
 	# if window title changed, perform write
-	if [[ X"$lasttitle" != X"$curtitle" ]]; then
+	if [[ X"$lasttitle" != X"$curtitle" ||  $was_awaken = true ]]; then
 		perform_write=true
 	fi
 
