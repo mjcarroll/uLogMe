@@ -2,6 +2,7 @@
 # logactivewin.sh for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
+LANGUAGE=en
 LANG=en_US.utf8
 
 # logs the active window titles over time. Logs are written
@@ -12,6 +13,16 @@ LANG=en_US.utf8
 
 waittime="2"  # number of seconds between executions of loop
 maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
+
+
+type xprintidle >/dev/null 2>&1 || echo "WARNING: 'xprintidle' not installed, idle time detection will not be available (screen saver / lock screen detection only)"
+
+# Get idle time in seconds. If xprintidle is not installed, returns 0.
+function get_idle_time() {
+    type xprintidle >/dev/null 2>&1 && echo $(( $(timeout -s 9 1 xprintidle) / 1000 )) || echo 0
+    # TODO code it better!
+}
+
 #------------------------------
 
 mkdir -p ../logs
@@ -42,7 +53,7 @@ do
 		islocked=false
 	fi
 
-	if [ X"$islocked" = Xtrue ]; then
+	if [ "$islocked" = true ]; then
 		curtitle="__LOCKEDSCREEN"  # Special tag
 	else
 		id="$(xdotool getactivewindow)"
@@ -58,14 +69,14 @@ do
     if [ -n "$suspended_at" ]; then
         suspended_at="$(date -d "$suspended_at" +%s)"
         if [ "$suspended_at" -ge "$last_write" ]; then
-            # Suspend occured after last event
+            echo "suspend occured after last event, was_awaken = true ..."
             was_awaken=true
         fi
     fi
 
 	perform_write=false
 	# if window title changed, perform write
-	if [[ X"$lasttitle" != X"$curtitle" ||  $was_awaken = true ]]; then
+	if [[ X"$lasttitle" != X"$curtitle" || $was_awaken = true ]]; then
 		perform_write=true
 	fi
 
@@ -87,11 +98,17 @@ do
 	fi;
 
 	# log window switch if appropriate
-	if [ X"$perform_write" = Xtrue -a -n "$curtitle"  ]; then
-		# number of seconds elapsed since Jan 1, 1970 0:00 UTC
-		logfile="../logs/window_$(python rewind7am.py).txt"
-		echo "$T $curtitle" >> "$logfile"
-		echo "logged window title: '$(date)' '$curtitle' into '$logfile'"
+	if [ "$perform_write" = true -a -n "$curtitle"  ]; then
+        # Get rewind time, day starts at 7am and ends at 6:59am next day
+        rewind7am=$(python rewind7am.py)
+        # One logfile daily
+        log_file="../logs/window_${rewind7am}.txt"
+        # If computer was just awaken, log suspend event unless it happened before 7am
+        if [ $was_awaken = true -a $suspended_at -ge $rewind7am ]; then
+            echo "$suspended_at __SUSPEND" >> $log_file
+		fi
+		echo "$T $curtitle" >> "$log_file"
+		echo "logged window title: '$(date)' '$curtitle' into '$log_file'"
 		last_write="$T"
 	fi
 

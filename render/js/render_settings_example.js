@@ -54,7 +54,7 @@ var title_mappings = [
     {pattern: /\.md.*Sublime Text/,   mapto: "ST3 Markdown"},
     {pattern: /\.rst.*Sublime Text/,  mapto: "ST3 rST"},
     // Extra
-    {pattern: /__LOCKEDSCREEN/,       mapto: "Locked screen"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
+    {pattern: /__LOCKEDSCREEN/,       mapto: "Computer locked"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
     {pattern : /__SUSPEND/,           mapto: "Computer suspended"}, // __SUSPEND is a special token
 ];
 
@@ -95,7 +95,7 @@ display_groups.push(["Matlab", "ST3 Coding", "ST3 Python", "Notebook"]); // Work
 display_groups.push(["ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST"]); // Coding related
 display_groups.push(["ST3 LaTeX", "PDF"]); // Paper writing related
 
-display_groups.push(["Locked Screen"]); // Computer not being used
+// display_groups.push(["Locked Screen"]); // Computer not being used
 display_groups.push(["Computer locked", "Computer idle", "Computer suspended"]); // computer not being used
 
 // list of titles that classify as "hacking", or being productive in general
