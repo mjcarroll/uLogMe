@@ -46,6 +46,7 @@ var title_mappings = [
     // Sublime Text 3 patterns
     {pattern: /Sublime Text/,         mapto: "ST3"},
     {pattern: /\.py.*Sublime Text/,   mapto: "ST3 Python"},
+    {pattern: /\.sh.*Sublime Text/,   mapto: "ST3 Bash"},
     {pattern: /\.js.*Sublime Text/,   mapto: "ST3 JS"},
     {pattern: /\.html.*Sublime Text/, mapto: "ST3 HTML"},
     {pattern: /\.css.*Sublime Text/,  mapto: "ST3 HTML"},
@@ -53,7 +54,7 @@ var title_mappings = [
     {pattern: /\.md.*Sublime Text/,   mapto: "ST3 Markdown"},
     {pattern: /\.rst.*Sublime Text/,  mapto: "ST3 rST"},
     // Extra
-    {pattern: /__LOCKEDSCREEN/,       mapto: "Locked Screen"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
+    {pattern: /__LOCKEDSCREEN/,       mapto: "Locked screen"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
     {pattern : /__SUSPEND/,           mapto: "Computer suspended"}, // __SUSPEND is a special token
 ];
 
@@ -91,7 +92,7 @@ display_groups.push(["Agenda", "Self-Quantified"]); // Self-quantified browsing 
 
 display_groups.push(["Firefox", "ST3", "Terminal", "Misc"]); // Various works/geeking
 display_groups.push(["Matlab", "ST3 Coding", "ST3 Python", "Notebook"]); // Work related
-display_groups.push(["ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST"]); // Coding related
+display_groups.push(["ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST"]); // Coding related
 display_groups.push(["ST3 LaTeX", "PDF"]); // Paper writing related
 
 display_groups.push(["Locked Screen"]); // Computer not being used
