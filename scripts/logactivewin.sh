@@ -63,6 +63,7 @@ do
 	fi
 
     # Detect suspend, code from https://github.com/karpathy/ulogme/commit/6a28d34defee65726d55211fe742303737bc757a
+    # FIXME this does not work! I should include his changes
     was_awaken=false
     # suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
     suspended_at="$(grep "Freezing user space processes ... *$" /var/log/kern.log | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ')"
@@ -76,7 +77,7 @@ do
 
 	perform_write=false
 	# if window title changed, perform write
-	if [[ X"$lasttitle" != X"$curtitle" || $was_awaken = true ]]; then
+	if [[ X"$lasttitle" != X"$curtitle" || "$was_awaken" = true ]]; then
 		perform_write=true
 	fi
 
@@ -100,12 +101,12 @@ do
 	# log window switch if appropriate
 	if [ "$perform_write" = true -a -n "$curtitle"  ]; then
         # Get rewind time, day starts at 7am and ends at 6:59am next day
-        rewind7am=$(python rewind7am.py)
+        rewind7am=$(python ./rewind7am.py)
         # One logfile daily
         log_file="../logs/window_${rewind7am}.txt"
         # If computer was just awaken, log suspend event unless it happened before 7am
-        if [ $was_awaken = true -a $suspended_at -ge $rewind7am ]; then
-            echo "$suspended_at __SUSPEND" >> $log_file
+        if [ "$was_awaken" = true -a "${suspended_at:-0}" -ge "$rewind7am" ]; then
+            echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
 		echo "logged window title: '$(date)' '$curtitle' into '$log_file'"
