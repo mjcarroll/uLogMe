@@ -124,13 +124,13 @@ uLogMe has three main parts:
 ----
 
 ## Related projects ?
-- [selfspy](https://github.com/gurgeh/selfspy), Log everything you do on the computer, for statistics, future reference and all-around fun. I also worked a little bit on [selfspy-vis](https://github.com/Naereen/selfspy-vis), some tools to visualize the data collected by [selfspy](https://github.com/gurgeh/selfspy).
-- My minimalist dashboard, generated every hour with this bash script [GenerateStatsMarkdown.sh](https://bitbucket.org/lbesson/bin/src/master/GenerateStatsMarkdown.sh).
+- [`selfspy`](https://github.com/gurgeh/selfspy): log everything you do on the computer, for statistics, future reference and all-around fun. I also worked a little bit on [selfspy-vis](https://github.com/Naereen/selfspy-vis), some tools to visualize the data collected by [`selfspy`](https://github.com/gurgeh/selfspy).
+- My minimalist dashboard, generated every hour (with [a `crontab` file](https://help.ubuntu.com/community/CronHowto)), with this bash script [`GenerateStatsMarkdown.sh`](https://bitbucket.org/lbesson/bin/src/master/GenerateStatsMarkdown.sh).
 
 For more projects, [this question on Personal Productivity Stack Exchange](https://productivity.stackexchange.com/questions/13913/automatic-time-tracking-software-for-computer-work-for-windows-linux-mac) might be also worth a look.
 
 - [WakaTime](https://wakatime.com/), to keep a finer track of your time while editing files on your text editor.
-- [Munin](http://munin-monitoring.org/), can also help to keep track of the uptime (and many more stats) of your (Linux) machine.
+- [Munin](http://munin-monitoring.org/), can also help to keep track of the uptime (and many more stats) of your (Linux) machine. See [these plugins I wrote for my Munin](https://github.com/Naereen/My-Munin-plugins).
 
 ## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/uLogMe.svg)](https://github.com/Naereen/uLogMe/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE.txt](LICENSE.txt)).
