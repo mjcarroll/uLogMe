@@ -30,8 +30,8 @@ def loadEvents(fname):
         for w in ws:
             ix = w.find(" ")  # find first space, that's where stamp ends
             stamp = int(w[:ix])
-            str = w[ix + 1:]
-            events.append({"t": stamp, "s": str})
+            sstr = w[ix + 1:]
+            events.append({"t": stamp, "s": sstr})
     except Exception, e:
         print("%s probably does not exist, setting empty events list." % (fname, ))
         print("error was:")
@@ -61,7 +61,7 @@ def updateEvents():
     ts.sort()
 
     mint = min(ts)
-    maxt = max(ts)
+    # maxt = max(ts)
 
     # march from beginning to end, group events for each day and write json
     ROOT = ""

@@ -36,8 +36,8 @@ def loadEvents(fname):
         for w in ws:
             ix = w.find(" ")  # find first space, that's where stamp ends
             stamp = int(w[:ix])
-            str = w[ix + 1:]
-            events.append({"t": stamp, "s": str})
+            sstr = w[ix + 1:]
+            events.append({"t": stamp, "s": sstr})
             if stamp < mint or mint == -1:
                 mint = stamp
             if stamp > maxt or maxt == -1:

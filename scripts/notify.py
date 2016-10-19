@@ -54,7 +54,7 @@ except ImportError:
     def notify(body, summary=PROGRAM_NAME, icon="dialog-information"):
         """ Send a fake notification."""
         print("Warning, desktop notification seems to not be available ...")
-        print("Notification: '{}', from '{}'.".format(body, summary))
+        print("Notification: '{}', from '{}' with icon '{}'.".format(body, summary, icon))
 
 
 if __name__ == '__main__':
