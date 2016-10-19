@@ -85,7 +85,7 @@ function mapwin(w) {
 var display_groups = [];
 
 display_groups.push(["GitHub", "Bitbucket"]); // Hacking browsing
-display_groups.push(["Mail", "Skype", "Facebook", "Slack"]); // Social browsing
+display_groups.push(["Mails", "Skype", "Facebook", "Slack"]); // Social browsing
 
 display_groups.push(["YouTube", "VLC", "GMusicBrowser"]); // Music
 display_groups.push(["Agenda", "Self-Quantified"]); // Self-quantified browsing and Agenda
