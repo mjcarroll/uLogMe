@@ -6,8 +6,7 @@
     <title>uLogMe - Single-day View</title>
     <meta content="uLogMe Single-day View page - See https://GitHub.com/Naereen/uLogMe/" name="description" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="css/font_lato.css"> -->
-    <link rel="stylesheet" type="text/css" href="css/index_style.css">
+    <link rel="stylesheet" type="text/css" href="css/index_style.css" />
     <link rel="stylesheet" media="screen and (min-width: 280px)" type="text/css" href="css/nprogress.css" />
     <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
 
@@ -88,7 +87,7 @@
         .enter().append("g")
         .attr("class", "h")
         .on("mouseover", function(d){return tooltip.style("visibility", "visible").text(strTimeDelta(d.dt));})
-        .on("mousemove", function(event){ return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"); })  // FIXME event is not defined?!
+        .on("mousemove", function(){ return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px"); })
         .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
       g.append("rect")
@@ -286,7 +285,7 @@
         .enter().append("g")
         .attr("class", "e")
         .on("mouseover", function(d){ return tooltip.style("visibility", "visible").text(d.s); })
-        .on("mousemove", function(event){ return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px"); })  // FIXME event is not defined?!
+        .on("mousemove", function(){ return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px"); })
         .on("mouseout", function(){ return tooltip.style("visibility", "hidden"); })
         .on("click", function(d){
           $("#notesinfo").show();
