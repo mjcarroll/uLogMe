@@ -3,7 +3,8 @@
 # export_events.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
-from __future__ import print_function  # Python 2 compatibility
+from __future__ import print_function   # Python 2 compatibility
+from __future__ import absolute_import  # Python 2 compatibility
 
 # import time
 # import datetime
@@ -32,7 +33,7 @@ def loadEvents(fname):
             stamp = int(w[:ix])
             sstr = w[ix + 1:]
             events.append({"t": stamp, "s": sstr})
-    except Exception, e:
+    except Exception as e:
         print("%s probably does not exist, setting empty events list." % (fname, ))
         print("error was:")
         print(e)

@@ -3,7 +3,8 @@
 # legacy_split_events.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
-from __future__ import print_function  # Python 2 compatibility
+from __future__ import print_function   # Python 2 compatibility
+from __future__ import absolute_import  # Python 2 compatibility
 
 # convert old type events to new type events, in case you used legacy ulogme code
 # where all events were written to one file based on type. In new version these are
@@ -42,7 +43,7 @@ def loadEvents(fname):
                 mint = stamp
             if stamp > maxt or maxt == -1:
                 maxt = stamp
-    except Exception, e:
+    except Exception as e:
         print("could not load %s. Setting empty events list." % (fname, ))
         print("(this is probably OKAY by the way, just letting you know)")
         print(e)

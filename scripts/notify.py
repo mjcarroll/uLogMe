@@ -3,7 +3,8 @@
 # ulogme_serve.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
-from __future__ import print_function  # Python 2 compatibility
+from __future__ import print_function   # Python 2 compatibility
+from __future__ import absolute_import  # Python 2 compatibility
 
 PROGRAM_NAME = "uLogMe server (ulogme_serve.py)"
 
@@ -14,7 +15,6 @@ try:
 
     def notify(body, summary=PROGRAM_NAME, icon="dialog-information"):
         """ Send a notification."""
-        # XXX I could also use Popen with notify-send ? Cf. ansicolortags.notify
         try:
             # Create the notification object
             notification = Notify.Notification.new(
@@ -39,9 +39,10 @@ try:
 
             # Actually show on screen
             notification.show()
+
         # Ugly! XXX Catches too general exception
         except Exception as e:
-            print("\nError, notify.notify failed, with this exception")
+            print("\nnotify.notify(): Error, notify.notify() failed, with this exception")
             print(e)
             # print("Exception: dir(e) =", dir(e))  # DEBUG
 
@@ -51,10 +52,25 @@ except ImportError:
     print("On Ubuntu, if you want notifications to work, install the 'python-gobject' and 'libnotify-bin' packages.")
     print("(For more details, cf. 'http://www.devdungeon.com/content/desktop-notifications-python-libnotify')")
 
+    from subprocess import Popen
+
     def notify(body, summary=PROGRAM_NAME, icon="dialog-information"):
         """ Send a fake notification."""
-        print("Warning, desktop notification seems to not be available ...")
-        print("Notification: '{}', from '{}' with icon '{}'.".format(body, summary, icon))
+        print("notify.notify(): Warning, desktop notification from Python seems to not be available ...")
+        # print("Notification: '{}', from '{}' with icon '{}'.".format(body, summary, icon))
+        try:
+            print("notify.notify(): Trying to use the command line program 'notify-send' ...")
+            if icon:
+                Popen(['notify-send', summary, body, "--icon=%s" % (icon)])
+                print("notify.notify(): A notification have been sent, with summary = %s, body = %s, and icon = %s." % (summary, body, icon))
+            else:
+                Popen(['notify-send', summary, body])
+                print("notify.notify(): A notification have been sent, with summary = %s, and body = %s." % (summary, body))
+            return 0
+        # Ugly! XXX Catches too general exception
+        except Exception as e:
+            print("notify.notify(): notify-send : not-found ! Returned exception is %s." % e)
+            return -1
 
 
 if __name__ == '__main__':
