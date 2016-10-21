@@ -67,8 +67,8 @@ try:
             # Create the notification object
             notification = Notify.Notification.new(
                 summary,
-                body,   # Optional
-                icon
+                body    # Optional
+                # icon  # XXX Should not indicate it here
             )
 
             # Lowest urgency
@@ -134,4 +134,5 @@ except ImportError:
 
 
 if __name__ == '__main__':
-    notify("Test body Test body Test body Test body Test body Test body !", icon="terminal")
+    # notify("Test body Test body Test body Test body Test body Test body ! With icon=terminal ...", icon="terminal")
+    notify("Test body Test body Test body Test body Test body Test body ! With random Pokémon icon ...")
