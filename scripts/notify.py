@@ -8,7 +8,6 @@ from __future__ import absolute_import  # Python 2 compatibility
 
 from webbrowser import open as openTab
 from os.path import exists, join
-import os  # DEBUG
 from glob import glob
 from random import choice
 
@@ -36,15 +35,15 @@ try:
             iconpath = choice(ICON_PATHS)
         else:
             iconpath = ICON_PATH
-        print("iconpath =", iconpath)  # DEBUG
-        print("os.getcwd(): ", os.getcwd())  # DEBUG
+        # print("iconpath =", iconpath)  # DEBUG
+        # # print("os.getcwd(): ", os.getcwd())  # DEBUG
         # Loading the icon...
         if exists(iconpath):
             # Use GdkPixbuf to create the proper image type
             iconpng = GdkPixbuf.Pixbuf.new_from_file(iconpath)
         else:
             iconpng = None
-        print("iconpng =", iconpng)  # DEBUG
+        # print("iconpng =", iconpng)  # DEBUG
         return iconpng
 except ImportError:
     def load_icon(random=True):
