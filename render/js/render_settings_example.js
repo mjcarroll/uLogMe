@@ -105,6 +105,7 @@ display_groups.push(["Computer locked", "Computer idle", "Computer suspended"]);
 // the implementation is currently quite hacky, experimental and contains
 // many magic numbers.
 var hacking_titles = ["Notebook", "Terminal", "Matlab", "ST3 Coding", "ST3 Python", "ST3 JS", "ST3 HTML", "ST3 HTML", "ST3 LaTeX", "ST3 Markdown", "ST3 rST", "ST3"];
+var hacking_title = "Continuous typing";
 var draw_hacking = true; // by default turning this off
 
 // draw notes row?
@@ -114,3 +115,6 @@ var draw_notes = true;
 // looks for notes that mention coffee and shows
 // levels of coffee in body over time
 var draw_coffee = false;
+
+// Reload interval in minutes. Set to 0 to turn off.
+var auto_reload_interval = 5;
