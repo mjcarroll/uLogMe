@@ -68,10 +68,10 @@
       $("#hackingvis").empty();
       if(!draw_hacking) return; // global set in render_settings.js
 
-      var c = "rgb(200,0,0)"; // color
+      var c = "rgb(200, 0, 0)"; // color
 
       var div = d3.select("#hackingvis").append("div");
-      div.append("p").attr("class", "tt").attr("style", "color:"+c).text("Hacking Streak");
+      div.append("p").attr("class", "tt").attr("style", "color:"+c).text(hacking_title);  // hacking_title can be customized in the render_settings.js file
       var txt = strTimeDelta(hacking_stats.total_hacking_time);
       txt += " (total keys = " + hacking_stats.total_hacking_keys + ")";
       div.append("p").attr("class", "td").text(txt);
@@ -153,7 +153,7 @@
     }
 
     function visualizeNotes(es) {
-      // console.log("number of notes:" + es.length);
+      console.log("uLogMe (index.html): number of notes:" + es.length);
       $("#notesvis").empty();
       if(!draw_notes) return; // draw_notes is set in render_settings.js
       if(es.length === 0) return; // nothing to do here...
@@ -172,7 +172,7 @@
         dts.push(d);
       }
 
-      // console.log("drawing " + dts.length + " notes.");
+      console.log("uLogMe (index.html): drawing " + dts.length + " notes.");
       var div = d3.select("#notesvis").append("div");
       div.append("p").attr("class", "tt").attr("style", "color: #964B00").text("Notes");
       var W = $(window).width() - 40;
@@ -259,7 +259,7 @@
       }
       if(ttot < 60) return; // less than a minute of activity? skip
 
-      // console.log("drawing filter " + filter + " with " + dts.length + " events.");
+      console.log("uLogMe (index.html): drawing filter " + filter + " with " + dts.length + " events.");
 
       var div = d3.select("#eventvis").append("div");
 
@@ -452,20 +452,7 @@
       $("#notesinfohide").click(function(){ $("#notesinfo").hide(); });
 
       // setup refresh handler to create a post request to /reload
-      $("#reloadbutton").click(function() {
-
-        startSpinner();
-        $.post("/refresh",
-          {"time" : event_list[cur_event_id].t0},
-          function(data, status){
-            // console.log("Data: " + data + "\nStatus: " + status);
-            stopSpinner();
-            if(data === "OK") {
-              // everything went well, refresh current view
-              fetchAndLoadEvents(event_list[cur_event_id]);
-            }
-        });
-      });
+      $("#reloadbutton").click(reload);
 
       // set up notes add handler
       $("#notesadd").click(function() {
@@ -474,14 +461,14 @@
         $.post("/addnote",
           {"note": $("#notetext").val(), "time": clicktime},
           function(data,status){
-            // console.log("Data: " + data + "\nStatus: " + status);
-            stopSpinner();
+            console.log("uLogMe (index.html): Data: " + data + "\nStatus: " + status);
             if(data === "OK") {
               // everything went well, refresh current view
               $("#notetext").val("") // erase
               $("#notesinfo").hide(); // take away
               fetchAndLoadEvents(event_list[cur_event_id]);
             }
+            stopSpinner();
         });
       });
       NProgress.inc();
@@ -540,7 +527,7 @@
         $.post("/blog",
           {"time" : event_list[cur_event_id].t0, "post": txt},
            function(data,status){
-            // console.log("Data: " + data + "\nStatus: " + status);
+            console.log("uLogMe (index.html): Data: " + data + "\nStatus: " + status);
             stopSpinner();
             if(data === "OK") {
               // everything went well
@@ -560,8 +547,39 @@
       });
 
       setInterval(redraw, 1000); // in case of window resize, we can redraw
+      // Automatic reload, can be configurer in the render_settings.js file
+      // Idea and code from https://github.com/blackdaemon/ulogme/commit/b356854
+      if (auto_reload_interval > 0) {
+        setInterval(auto_reload, auto_reload_interval*60*1000);
+      }
 
       NProgress.done();
+    }
+
+    // setup refresh handler to create a post request to /reload
+    // reload, with or without animation
+    function reload(animate=true) {
+      startSpinner();
+      // Get the current time XXX is it correct?
+      var r_time = 0;
+      if (cur_event_id >= 0 && event_list) {
+          r_time = event_list[cur_event_id].t0;
+      }
+      $.post("/refresh",
+        {"time" : r_time},
+        function(data,status){
+          console.log("uLogMe (index.html): Data: " + data + "\nStatus: " + status);
+          if(data === 'OK') {
+            // everything went well, refresh current view
+            fetchAndLoadEvents(event_list[cur_event_id], animate);
+          }
+          stopSpinner();
+      });
+    }
+
+    // auto-reload every XXX minutes, cf. render_settings.js, without animation
+    function auto_reload() {
+        reload(false);
     }
 
     // redraw if dirty (due to window resize event)
@@ -581,20 +599,34 @@
     });
 
     // MouseTrap keyboard shortcuts (cf. http://craig.is/killing/mice)
+    Mousetrap.bind(["h", "?"], function() {
+      console.log("uLogMe (index.html): Help alert window ...");
+      window.alert(
+        "This 'uLogMe Single-day view' page has the following keyboard shortcuts:"
+        + "\n - h or ? : for this help window,"
+        + "\n - left or p : load the data of the previous day."
+        + "\n - right or n : load the data of the next day."
+        + "\n - r : for refreshing the view by reloading the data (you can also refresh the page),"
+        + "\n - o : goes to the Overview page for uLogMe."
+        + "\n - o : goes to the Overview page for uLogMe."
+        + "\n\nuLogMe is a free and open-source software, see https://github.com/Naereen/uLogMe/ for more details and the latest version."
+        + "\nBuilt with love by Lilian Besson (Naereen) and other contributors on GitHub."
+        );
+    });
     Mousetrap.bind(["r"], function() {
-      console.log("Refreshing data ...");
-      $("#reloadbutton").click();
+      console.log("uLogMe (index.html): Refreshing data ...");
+      reload();
     });
     Mousetrap.bind(["o"], function() {
-      console.log("Going to overview page ...");
+      console.log("uLogMe (index.html): Going to overview page ...");
       location.href = "overview.html";
     });
     Mousetrap.bind(["left", "p"], function() {
-      console.log("Previous day ...");
+      console.log("uLogMe (index.html): Previous day ...");
       $("#leftarrow").click();
     });
     Mousetrap.bind(["right", "n"], function() {
-      console.log("Next day ...");
+      console.log("uLogMe (index.html): Next day ...");
       $("#rightarrow").click();
     });
 

@@ -352,12 +352,12 @@
       // load the master json file and all the other jsons
       getJSON_CACHEHACK("json/export_list.json").then(function(days_list) {
         event_list = days_list; // global variable assign
-        // console.log("fetched export_list OK.")
+        console.log("uLogMe (overview.html): fetched export_list OK.")
         return Promise.all(days_list.map(function(x) { return getJSON_CACHEHACK(x.fname); }));
       }).then(function(days) {
         events = days; // global variable assign
       }).catch(function(err){
-        // console.log("some error happened: " + err);
+        console.log("uLogMe (overview.html): some error happened: " + err);
       }).then(function() {
 
         analyzeEvents(); // all events have been loaded. Analyze!
@@ -466,31 +466,57 @@
       loadAllEvents();
       NProgress.inc();
 
-      $("#reloadbutton").click(function() {
+      $("#reloadbutton").click(reload);
 
-        startSpinner();
-        $.post("/refresh",
-          {"time" : 0},
-          function(data,status){
-            // console.log("Data: " + data + "\nStatus: " + status);
-            stopSpinner();
-            if(data === "OK") {
-              // everything went well, refresh current view
-              loadAllEvents(); // reload all events
-            }
-        });
-      });
+      // XXX setInterval(redraw, 1000); // in case of window resize, we can redraw
+      // Automatic reload, can be configurer in the render_settings.js file
+      // Idea and code from https://github.com/blackdaemon/ulogme/commit/b356854
+      if (auto_reload_interval > 0) {
+        setInterval(auto_reload, auto_reload_interval*60*1000);
+      }
 
       NProgress.done();
     }
 
+    // setup refresh handler to create a post request to /reload
+    // reload, with or without animation
+    function reload(animate=true) {
+      startSpinner();
+      $.post("/refresh",
+        {"time" : 0},
+        function(data,status){
+          console.log("uLogMe (overview.html): Data: " + data + "\nStatus: " + status);
+          if(data === 'OK') {
+            // everything went well, refresh current view
+            loadAllEvents(); // reload all events
+          }
+          stopSpinner();
+      });
+    }
+
+    // auto-reload every XXX minutes, cf. render_settings.js, without animation
+    function auto_reload() {
+        reload(false);
+    }
+
     // MouseTrap keyboard shortcuts (cf. http://craig.is/killing/mice)
+    Mousetrap.bind(["h", "?"], function() {
+      console.log("uLogMe (overview.html): Help alert window ...");
+      window.alert(
+        "This 'uLogMe Overview' page has the following keyboard shortcuts:"
+        + "\n - h or ? : for this help window,"
+        + "\n - r : for refreshing the view by reloading the data (you can also refresh the page),"
+        + "\n - i or s : goes to the Single-day view page for uLogMe."
+        + "\n\nuLogMe is a free and open-source software, see https://github.com/Naereen/uLogMe/ for more details and the latest version."
+        + "\nBuilt with love by Lilian Besson (Naereen) and other contributors on GitHub."
+        );
+    });
     Mousetrap.bind(["r"], function() {
-      console.log("Refreshing data ...");
-      $("#reloadbutton").click();
+      console.log("uLogMe (overview.html): Refreshing data ...");
+      reload();
     });
     Mousetrap.bind(["i", "s"], function() {
-      console.log("Going to daily-vew page ...");
+      console.log("uLogMe (overview.html): Going to daily-vew page ...");
       location.href = "index.html";
     });
     </script>
