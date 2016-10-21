@@ -7,7 +7,10 @@ from __future__ import print_function   # Python 2 compatibility
 from __future__ import absolute_import  # Python 2 compatibility
 
 from webbrowser import open as openTab
-from os.path import exists
+from os.path import exists, join
+import os  # DEBUG
+from glob import glob
+from random import choice
 
 
 def open_the_ulogme_page(notification, label, args=('localhost, 8124')):
@@ -20,21 +23,37 @@ def open_the_ulogme_page(notification, label, args=('localhost, 8124')):
 
 
 PROGRAM_NAME = "uLogMe server (ulogme_serve.py)"
-ICON_PATH    = "pikachu.png"
+ICON_PATH    = join("..", "scripts", "icons", "pikachu.png")
+ICON_PATHS   = glob(join("..", "scripts", "icons", "*.png"))
 
+# Define the icon loaded function
+try:
+    from gi.repository import GdkPixbuf
+
+    def load_icon(random=True):
+        """ Load and open a random icon. """
+        if random:
+            iconpath = choice(ICON_PATHS)
+        else:
+            iconpath = ICON_PATH
+        print("iconpath =", iconpath)  # DEBUG
+        print("os.getcwd(): ", os.getcwd())  # DEBUG
+        # Loading the icon...
+        if exists(iconpath):
+            # Use GdkPixbuf to create the proper image type
+            iconpng = GdkPixbuf.Pixbuf.new_from_file(iconpath)
+        else:
+            iconpng = None
+        print("iconpng =", iconpng)  # DEBUG
+        return iconpng
+except ImportError:
+    def load_icon(random=True):
+        return None
 
 try:
     from gi.repository import Notify
     # One time initialization of libnotify
     Notify.init(PROGRAM_NAME)
-
-    # Loading the icon
-    if exists(ICON_PATH):
-        from gi.repository import GdkPixbuf
-        # Use GdkPixbuf to create the proper image type
-        iconpng = GdkPixbuf.Pixbuf.new_from_file(ICON_PATH)
-    else:
-        iconpng = None
 
     def notify(body, summary=PROGRAM_NAME,
                icon="dialog-information",
@@ -62,6 +81,7 @@ try:
 
             # TODO add a Pikachu icom to the notification
             # Why Pikachu? ALWAYS PIKACHU! http://www.lsv.ens-cachan.fr/~picaro/
+            iconpng = load_icon(random=True)
             if iconpng is not None:
                 # Use the GdkPixbuf image
                 notification.set_icon_from_pixbuf(iconpng)
