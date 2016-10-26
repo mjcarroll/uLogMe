@@ -34,8 +34,8 @@ tmux new-window -n 'uLogMe' "./ulogme_serve.sh ${port} | tee /tmp/ulogme_serve_$
 
 # launch './ulogme_serve.sh' in second one
 # split it half
-# tmux split-window -h ./ulogme_serve.sh
-tmux split-window -h "./ulogme_data.sh | tee /tmp/ulogme_data_$$.log"
+# tmux split-window -d ./ulogme_serve.sh
+tmux split-window -d "./ulogme_data.sh | tee /tmp/ulogme_data_$$.log"
 # tmux rename-window 'uLogMe Server'
 
 # launch './ulogme.sh' in first one
