@@ -70,7 +70,7 @@ this function will have its own row and its own analysis
 */
 function mapwin(w) {
   var n = title_mappings.length;
-  var mapped_title = "MISC";
+  var mapped_title = "Misc";
   for(var i=0;i<n;i++) {
     var patmap = title_mappings[i];
     if(patmap.pattern.test(w)) {
