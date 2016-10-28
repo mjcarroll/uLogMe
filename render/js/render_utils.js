@@ -19,7 +19,7 @@ function strTimeDelta(secs) {
 }
 
 // pretty print date in a nice format, utility function
-function ppDate(date) {
+function ppDay(date) {
   return ["Sunday", "Monday", "Tuesday",
         "Wednesday", "Thursday", "Friday",
         "Saturday"][date.getDay()]
@@ -34,9 +34,12 @@ function ppDate(date) {
         "Jul.", "Aug.", "Sep.",
         "Oct.", "Nov.", "Dec."][date.getMonth()]
         + ", "
-        + date.getFullYear()
-        + " "
-        + date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
+        + date.getFullYear();
+}
+
+// pretty print date in a nice format, utility function
+function ppDate(date) {
+  return ppDay(date)+ " " + ppHour(date);
 }
 
 function ppHour(date) {

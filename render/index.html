@@ -133,120 +133,124 @@
           });
         }
       }
-        // Create the chart
-          var main_chart_options = {
-              credits: {
-                    enabled: false
-              },
-              chart: {
-                  plotBackgroundColor: null,
-                  plotBorderWidth: null,
-                  type: "pie"
-              },
-              title: {
-                  text: "Activity breakdown",
-                  style: {
-                      "padding-bottom": "15px",
-                      fontWeight: "bold",
-                      fontSize: "35px",
-                  }
-              },
-              subtitle: {
-                  text: "Total time: " + strTimeDelta(dtall, false),
-                  style: {
-                      fontWeight: "bold",
-                      fontSize: "35px",
-                  }
-              },
-              yAxis: {
-                  title: {
-                      text: "Total percent market share"
-                  }
-              },
-              plotOptions: {
-                  pie: {
-                      shadow: false,
-                      center: ["50%", "45%"],
-                      allowPointSelect: true,
-                      showInLegend: true,
-                  },
-              },
-              tooltip: {
-                  valueSuffix: "%",
-                  formatter: function () {
-                      return strTimeDelta(this.y, false) + " (" + this.percentage.toFixed(1) + "%)";
-                  }
-              },
-              series: [{
-                  name: "Work balance",
-                  data: groupsData,
-                  size: "45%",
-                  innerSize: "70%",
-                  dataLabels: {
-                      formatter: function () {
-                          return this.y >= 0 ? this.point.name.toUpperCase() + "<br>" + strTimeDelta(this.y, false)
+
+      var date0 = new Date(t00*1000);
+      var titletext = "Activity breakdown, " + ppDay(date0);
+
+      // Create the chart
+        var main_chart_options = {
+            credits: {
+                  enabled: false
+            },
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                type: "pie"
+            },
+            title: {
+                text: titletext,
+                style: {
+                    "padding-bottom": "15px",
+                    fontWeight: "bold",
+                    fontSize: "35px",
+                }
+            },
+            subtitle: {
+                text: "Total time: " + strTimeDelta(dtall, false),
+                style: {
+                    fontWeight: "bold",
+                    fontSize: "35px",
+                }
+            },
+            yAxis: {
+                title: {
+                    text: "Total percent market share"
+                }
+            },
+            plotOptions: {
+                pie: {
+                    shadow: false,
+                    center: ["50%", "45%"],
+                    allowPointSelect: true,
+                    showInLegend: true,
+                },
+            },
+            tooltip: {
+                valueSuffix: "%",
+                formatter: function () {
+                    return strTimeDelta(this.y, false) + " (" + this.percentage.toFixed(1) + "%)";
+                }
+            },
+            series: [{
+                name: "Work balance",
+                data: groupsData,
+                size: "45%",
+                innerSize: "70%",
+                dataLabels: {
+                    formatter: function () {
+                        return this.y >= 0 ? this.point.name.toUpperCase() + "<br>" + strTimeDelta(this.y, false)
+                        + ( this.percentage.toFixed(0) >= 2 ? "<br>(<i>" + this.percentage.toFixed(0) + "%</i>)" : "" )
+                        : null;
+                    },
+                    color: "#000000",
+                    style: {
+                        fontSize: "11pt",
+                    },
+                    distance: -35,
+                    rotation: 0,
+                },
+                allowPointSelect: false,
+                showInLegend: false,
+                animation: animate ? {
+                    duration: 400,
+                } : false,
+            }, {
+                name: "Activities",
+                data: activitiesData,
+                size: "78%",
+                innerSize: "70%",
+                dataLabels: {
+                    formatter: function () {
+                        // display only if larger than 1
+                        return this.y > 1 ? "<b>" + this.point.name + "</b>: " +  strTimeDelta(this.y, false)
                           + ( this.percentage.toFixed(0) >= 2 ? "<br>(<i>" + this.percentage.toFixed(0) + "%</i>)" : "" )
                           : null;
-                      },
-                      color: "#000000",
-                      style: {
-                          fontSize: "11pt",
-                      },
-                      distance: -35,
-                      rotation: 0,
-                  },
-                  allowPointSelect: false,
-                  showInLegend: false,
-                  animation: animate ? {
-                      duration: 400,
-                  } : false,
-              }, {
-                  name: "Activities",
-                  data: activitiesData,
-                  size: "78%",
-                  innerSize: "70%",
-                  dataLabels: {
-                      formatter: function () {
-                          // display only if larger than 1
-                          return this.y > 1 ? "<b>" + this.point.name + "</b>: " +  strTimeDelta(this.y, false)
-                            + ( this.percentage.toFixed(0) >= 2 ? "<br>(<i>" + this.percentage.toFixed(0) + "%</i>)" : "" )
-                            : null;
-                      },
-                      style: {
-                          fontSize: "12pt",
-                      },
-                  },
-                  animation: animate ? {
-                      duration: 600,
-                  } : false,
-              }]
-          };
+                    },
+                    style: {
+                        fontSize: "12pt",
+                    },
+                },
+                animation: animate ? {
+                    duration: 600,
+                } : false,
+            }]
+        };
 
-          var allY, angle1, angle2, angle3;
-          var rotate = function () {
-              var p = main_chart_options.series[0];
-              angle1 = 0;
-              angle2 = 0;
-              angle3 = 0;
-              allY = 0;
-              $.each(p.data, function (i, p) {
-                  allY += p.y;
-              });
+        var allY, angle1, angle2, angle3;
+        var rotate = function () {
+            var p = main_chart_options.series[0];
+            angle1 = 0;
+            angle2 = 0;
+            angle3 = 0;
+            allY = 0;
+            $.each(p.data, function (i, p) {
+                allY += p.y;
+            });
 
-              $.each(p.data, function (i, p) {
-                  angle2 = angle1 + p.y * 360 / (allY);
-                  angle3 = angle2 - p.y * 360 / (2 * allY);
-                  if(angle3 >= 180){
-                  p.dataLabels.rotation = angle3;
-                  } else {
-                  p.dataLabels.rotation = angle3;
-                  }
-                  angle1 = angle2;
-              });
-          };
-            //rotate();
-          $("#highpiechart").highcharts(main_chart_options);
-      }
+            $.each(p.data, function (i, p) {
+                angle2 = angle1 + p.y * 360 / (allY);
+                angle3 = angle2 - p.y * 360 / (2 * allY);
+                if(angle3 >= 180){
+                p.dataLabels.rotation = angle3;
+                } else {
+                p.dataLabels.rotation = angle3;
+                }
+                angle1 = angle2;
+            });
+        };
+          //rotate();
+        $("#highpiechart").highcharts(main_chart_options);
+    }
 
 
     // creates the main barcode time visualization for all mapped window titles
