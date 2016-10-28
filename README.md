@@ -18,6 +18,7 @@ It uses the new fancy [`Promises`](https://developer.mozilla.org/en-US/docs/Web/
 ## Screenshots
 ### "Daily view" page
 ![Demo - Daily view](screenshots/demo_daily1.png)
+
 ### "Overview" page
 ![Demo - Overview](screenshots/demo_overview1.png)
 ![Demo - Overview](screenshots/demo_overview2.png)
@@ -143,6 +144,9 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 
 [![ForTheBadge uses-badges](http://ForTheBadge.com/images/badges/uses-badges.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
+
+[![Contains-Pokémon](https://img.shields.io/badge/Contains-Pokémons-7fb78a.svg)](https://github.com/Naereen/ulogme/tree/master/scripts/icons/)
+
 [![ForTheBadge uses-css](http://ForTheBadge.com/images/badges/uses-css.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-html](http://ForTheBadge.com/images/badges/uses-html.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-js](http://ForTheBadge.com/images/badges/uses-js.svg)](http://ForTheBadge.com)
