@@ -7,8 +7,8 @@
 > Fair use, only for fun for a local application.
 
 # List of different possible icons
-## Bulbausaur  [![contains-Bulbausaur](https://img.shields.io/badge/Contains-Bulbausaur-7fb78a.svg)](http://veekun.com/dex/pokemon/bulbausaur)
-[![Bulbausaur](bulbausaur.png)](http://veekun.com/dex/pokemon/bulbausaur)
+## Bulbasaur  [![contains-Bulbasaur](https://img.shields.io/badge/Contains-Bulbasaur-7fb78a.svg)](http://veekun.com/dex/pokemon/bulbasaur)
+[![Bulbasaur](bulbasaur.png)](http://veekun.com/dex/pokemon/bulbasaur)
 
 ## Charmander  [![contains-Charmander](https://img.shields.io/badge/Contains-Charmander-ebaa80.svg)](http://veekun.com/dex/pokemon/charmander)
 [![Charmander](charmander.png)](http://veekun.com/dex/pokemon/charmander)
