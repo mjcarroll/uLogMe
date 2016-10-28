@@ -145,7 +145,7 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 [![ForTheBadge uses-badges](http://ForTheBadge.com/images/badges/uses-badges.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
 
-[![Contains-Pokémon](https://img.shields.io/badge/Contains-Pokémons-7fb78a.svg)](https://github.com/Naereen/ulogme/tree/master/scripts/icons/)
+[![Contains-Pokémon](https://img.shields.io/badge/Contains-Pokémons-7fb78a.svg)](https://github.com/Naereen/ulogme/tree/master/scripts/icons/) : [![contains-Bulbasaur](https://img.shields.io/badge/Contains-Bulbasaur-7fb78a.svg)](http://veekun.com/dex/pokemon/bulbasaur) [![contains-Charmander](https://img.shields.io/badge/Contains-Charmander-ebaa80.svg)](http://veekun.com/dex/pokemon/charmander) [![contains-Dratini](https://img.shields.io/badge/Contains-Dratini-9cb6da.svg)](http://veekun.com/dex/pokemon/dratini) [![contains-pikachu](https://img.shields.io/badge/Contains-Pikachu-efde20.svg)](http://veekun.com/dex/pokemon/pikachu) [![contains-Snorlax](https://img.shields.io/badge/Contains-Snorlax-e7dcd0.svg)](http://veekun.com/dex/pokemon/snorlax) [![contains-Squirtle](https://img.shields.io/badge/Contains-Squirtle-56a2b7.svg)](http://veekun.com/dex/pokemon/squirtle)
 
 [![ForTheBadge uses-css](http://ForTheBadge.com/images/badges/uses-css.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-html](http://ForTheBadge.com/images/badges/uses-html.svg)](http://ForTheBadge.com)
