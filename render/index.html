@@ -50,7 +50,7 @@
       // create a pie chart with d3
       var chart_data = {};
       chart_data.width = $(window).width();
-      chart_data.height = 500;
+      chart_data.height = 600;
       chart_data.title = "Total Time: " + strTimeDelta(dtall);
       chart_data.data = stats;
       d3utils.drawPieChart(d3.select("#piechart"), chart_data);

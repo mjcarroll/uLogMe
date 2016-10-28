@@ -20,10 +20,15 @@ var d3utils = {};
     var title = getopt(chart_data, "title", "");
 
     // desired width and height of chart
-    var w = getopt(chart_data, "width", 300);
-    var h = getopt(chart_data, "height", 300);
-    var pad = getopt(chart_data, "pad", 50);
-    var textmargin = getopt(chart_data, "textmargin", 20);
+    var w = getopt(chart_data, "width", 700);
+    var h = getopt(chart_data, "height", 800);
+    var pad = getopt(chart_data, "pad", 100);
+    // Random textmargin
+    var textmargin_default = getopt(chart_data, "textmargin", 5);
+    function textmargin() {
+      return textmargin_default + 5 * Math.floor(Math.random() * 20);
+    }
+
     var r = Math.min(w, h) / 2 - pad; // radius of pie chart
 
     var div = d3div.append("div");
@@ -61,7 +66,7 @@ var d3utils = {};
         var x = c[0];
         var y = c[1];
         var h = Math.sqrt(x*x + y*y);
-        return "translate(" + (x/h * (r + textmargin)) +  "," + (y/h * (r + textmargin)) +  ")";
+        return "translate(" + (x/h * (r + textmargin())) +  "," + (y/h * (r + textmargin())) +  ")";
       })
       .attr("dy", ".35em")
 
