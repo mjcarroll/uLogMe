@@ -832,7 +832,6 @@
     </script>
   </head>
   <body onload="start()">
-    <!-- <script type="text/javascript">NProgress.start();</script> -->
     <div id="spinnerdiv" title="Wait for the data to be loaded..."></div>
     <div id="reloadbutton" title="Reload the data (override cache)">&#10226;</div>
     <div id="overviewlink"><a href="overview.html" title="Switch to the overview page">Overview</a></div>
@@ -850,8 +849,11 @@
           <button id="blogentersubmit">Submit</button>
         </div>
       </div>
-      <div id="keystats"></div>
+      <div id="piecharts">
+          <div id="highpiechart"></div>
+      </div>
       <div id="keygraph"></div>
+      <div id="hackingvis"></div>
       <div id="notesinfo">
         <div id="notesinfohide">x</div>
         <div>
@@ -861,11 +863,8 @@
         </div>
       </div>
       <div id="notesvis"></div>
-      <div id="hackingvis"></div>
+      <div id="keystats"></div>
       <div id="eventvis"></div>
-      <div id="piecharts">
-          <div id="highpiechart"></div>
-      </div>
       <div id="piechart"></div>
     </div>
     <footer>
