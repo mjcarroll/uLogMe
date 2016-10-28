@@ -508,6 +508,7 @@
       // setup blog text click event
       $("#blogenter").hide();
       $("#blogpre").click(function(event){
+        console.log("uLogMe (index.html): clicking the blog textarea ...");
         var txt = $("#blogpre").text();
         $("#blogpre").hide();
         $("#blogenter").show();
@@ -628,6 +629,10 @@
     Mousetrap.bind(["right", "n"], function() {
       console.log("uLogMe (index.html): Next day ...");
       $("#rightarrow").click();
+    });
+    Mousetrap.bind(["b"], function() {
+      console.log("uLogMe (index.html): edit the blog post of the day ...");
+      $("#blogpre").click();
     });
 
     </script>
