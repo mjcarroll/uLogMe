@@ -30,12 +30,25 @@ p {
     padding-left: 10px;
     padding-right: 10px;
 }
+#piecharts {
+    position: relative;
+    width: 100%;
+}
 #piechart {
     text-align: center;
     margin-top: 40px;
     padding-top: 20px;
     margin-bottom: 20px;
     border-top: 1px solid #AAA;
+}
+#highpiechart {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid #AAA;
+    width: 0 auto;
+    height: 800px;
 }
 .line {
     fill: none;
