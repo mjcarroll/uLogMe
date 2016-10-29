@@ -6,13 +6,31 @@
 from __future__ import print_function   # Python 2 compatibility
 from __future__ import absolute_import  # Python 2 compatibility
 
-# import time
-# import datetime
 import json
 import os
 import os.path
-# import sys
 import glob
+
+
+# Import a printc function to use ANSI colors in the stdout output
+try:
+    try:
+        from ansicolortags import printc
+    except ImportError:
+        print("Optional dependancy (ansicolortags) is not available, using regular print function.")
+        print("  You can install it with : 'pip install ansicolortags' (or sudo pip)...")
+        from ANSIColors import printc
+except ImportError:
+    print("Optional dependancy (ANSIColors) is not available, using regular print function.")
+    print("  You can install it with : 'pip install ANSIColors-balises' (or sudo pip)...")
+
+    def printc(*a, **kw):
+        """ Fake function printc.
+
+        ansicolortags or ANSIColors are not installed...
+        Install ansicolortags from pypi (with 'pip install ansicolortags')
+        """
+        print(*a, **kw)
 
 
 def loadEvents(fname):
@@ -23,7 +41,6 @@ def loadEvents(fname):
     """
     events = []
 
-    # print("os.getcwd() =", os.getcwd())  # DEBUG
     try:
         with open(fname, "r") as f:
             ws = f.read().decode("utf-8").splitlines()
@@ -34,15 +51,15 @@ def loadEvents(fname):
             sstr = w[ix + 1:]
             events.append({"t": stamp, "s": sstr})
     except Exception as e:
-        print("%s probably does not exist, setting empty events list." % (fname, ))
-        print("error was:")
+        printc("'<black>%s<white>' probably <red>does not exist<white>, setting empty events list ..." % (fname, ))
+        printc("<red>error was:<white>")
         print(e)
         events = []
     return events
 
 
 def mtime(f):
-    """ return time file was last modified, or 0 if it does not exist. """
+    """ Returns time file was last modified, or 0 if it does not exist. """
     if os.path.isfile(f):
         return int(os.path.getmtime(f))
     else:
@@ -50,7 +67,7 @@ def mtime(f):
 
 
 def updateEvents():
-    """ goes down the list of .txt log files and writes all .json files that can be used by the frontend. """
+    """ Goes down the list of .txt log files and writes all .json files that can be used by the frontend. """
     L = []
     L.extend(glob.glob(os.path.join("..", "logs", "keyfreq_*.txt")))
     L.extend(glob.glob(os.path.join("..", "logs", "window_*.txt")))
@@ -62,7 +79,6 @@ def updateEvents():
     ts.sort()
 
     mint = min(ts)
-    # maxt = max(ts)
 
     # march from beginning to end, group events for each day and write json
     ROOT = ""
@@ -75,11 +91,9 @@ def updateEvents():
         t0 = t
         t1 = t0 + 60 * 60 * 24  # 24 hrs later
         fout = os.path.join("json", "events_%d.json" % (t0, ))
-        # print("fout =", fout)  # DEBUG
         out_list.append({"t0": t0, "t1": t1, "fname": fout})
 
         fwrite = os.path.join(RENDER_ROOT, fout)
-        # print("os.getcwd() =", os.getcwd())  # DEBUG
         e1f = os.path.join("..", "logs", "window_%d.txt" % (t0, ))
         e2f = os.path.join("..", "logs", "keyfreq_%d.txt" % (t0, ))
         e3f = os.path.join("..", "logs", "notes_%d.txt" % (t0, ))
@@ -97,7 +111,7 @@ def updateEvents():
             e4mod = mtime(e4f)
             if e1mod > tmod or e2mod > tmod or e3mod > tmod or e4mod > tmod:
                 dowrite = True  # better update!
-                print("a log file has changed, so will update %s" % (fwrite, ))
+                printc("<yellow>A log file has changed<white>, so will update '<black>%s<white>' ..." % (fwrite, ))
         else:
             # output file doesnt exist, so write.
             dowrite = True
@@ -117,12 +131,10 @@ def updateEvents():
             eout = {"window_events": e1, "keyfreq_events": e2, "notes_events": e3, "blog": e4}
             with open(fwrite, "w") as f:
                 f.write(json.dumps(eout))
-            # print("wrote to", fwrite)  # DEBUG
 
     fwrite = os.path.join(RENDER_ROOT, "json", "export_list.json")
     with open(fwrite, "w") as f:
         f.write(json.dumps(out_list).encode("utf8"))
-    # print("wrote to", fwrite)  # DEBUG
 
 
 # invoked as script

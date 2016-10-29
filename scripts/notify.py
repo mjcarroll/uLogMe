@@ -12,13 +12,14 @@ from glob import glob
 from random import choice
 
 
+# XXX Unused callback function for the notifications
 def open_the_ulogme_page(notification, label, args=('localhost, 8124')):
     """ Open the http://{}:{}/ URL in a new tab of your favorite browser. """
     print("notify.notify(): open_the_ulogme_page callback function ...")
     IP, PORT = args
-    ulogeme_url = "http://{}:{}/".format(IP, PORT)
-    print("notify.notify(): Calling 'open(ulogeme_url, new=2, autoraise=True)' ...")
-    return openTab(ulogeme_url, new=2, autoraise=True)
+    ulogme_url = "http://{}:{}/".format(IP, PORT)
+    print("notify.notify(): Calling 'open(ulogme_url, new=2, autoraise=True)' ...")
+    return openTab(ulogme_url, new=2, autoraise=True)
 
 
 PROGRAM_NAME = "uLogMe server (ulogme_serve.py)"
@@ -45,14 +46,15 @@ try:
             iconpng = None
         # print("iconpng =", iconpng)  # DEBUG
         return iconpng
+
 except ImportError:
     def load_icon(random=True):
         return None
 
+
 try:
     from gi.repository import Notify
     # One time initialization of libnotify
-    Notify.init(PROGRAM_NAME)
 
     def notify(body, summary=PROGRAM_NAME,
                icon="dialog-information",
@@ -63,6 +65,8 @@ try:
         - icon can be "dialog-information", "dialog-warn", "dialog-error". By default it is set to the 'pikachu.png' image
         """
         try:
+            Notify.init(PROGRAM_NAME)
+
             # Cf. http://www.devdungeon.com/content/desktop-notifications-python-libnotify
             # Create the notification object
             notification = Notify.Notification.new(

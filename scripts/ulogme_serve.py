@@ -20,6 +20,27 @@ from rewind7am import rewindTime
 from notify import notify
 
 
+# Import a printc function to use ANSI colors in the stdout output
+try:
+    try:
+        from ansicolortags import printc
+    except ImportError:
+        print("Optional dependancy (ansicolortags) is not available, using regular print function.")
+        print("  You can install it with : 'pip install ansicolortags' (or sudo pip)...")
+        from ANSIColors import printc
+except ImportError:
+    print("Optional dependancy (ANSIColors) is not available, using regular print function.")
+    print("  You can install it with : 'pip install ANSIColors-balises' (or sudo pip)...")
+
+    def printc(*a, **kw):
+        """ Fake function printc.
+
+        ansicolortags or ANSIColors are not installed...
+        Install ansicolortags from pypi (with 'pip install ansicolortags')
+        """
+        print(*a, **kw)
+
+
 # Convenience functions
 
 def writenote(note, time_=None):
@@ -30,7 +51,8 @@ def writenote(note, time_=None):
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     process.communicate(input=note)
     process.wait()
-    notify("uLogMe created a note, with content '{}' and time '{!s}'.".format(note, time_), "note")  # DEBUG
+    notify("uLogMe created a note, with content '{}' and time '{!s}'.".format(note, time_), "uLogMe : note")
+    printc("<green>uLogMe created a note<white>, with content '<black>{}<white>' and time '<magenta>{!s}<white>'.".format(note, time_))
 
 
 # Custom handler
@@ -51,8 +73,9 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         result = "NOT_UNDERSTOOD"
 
         if self.path == "/refresh":
-            notify("Refreshing the view of uLogMe ...")  # DEBUG
-            # recompute jsons. We have to pop out to root from render directory
+            printc("<green>Refreshing the view of uLogMe ...<white>")
+            notify("Refreshing the view of uLogMe ...")
+            # Recompute jsons. We have to pop out to root from render directory
             # temporarily. It's a little ugly
             refresh_time = form.getvalue("time")
             os.chdir(rootdir)  # pop out
@@ -61,18 +84,19 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             result = "OK"
 
         if self.path == "/addnote":
-            notify("Adding a note in uLogMe ...", icon="note")  # DEBUG
+            printc("<green>Adding a note in uLogMe ...<white>")
+            notify("Adding a note in uLogMe ...", icon="note")
             # add note at specified time and refresh
             note = form.getvalue("note")
             note_time = form.getvalue("time")
             os.chdir(rootdir)  # pop out
-            # os.system("echo %s | ../scripts/note.sh %s" % (note, note_time))  # FIXED security threat!
             writenote(note, note_time)
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # go back to render
             result = "OK"
 
         if self.path == "/blog":
+            printc("<green>Adding a blog post in uLogMe ...<white>")
             notify("Adding a blog post in uLogMe ...", icon="note")  # DEBUG
             # add note at specified time and refresh
             post = form.getvalue("post")
@@ -117,25 +141,24 @@ if __name__ == "__main__":
 
     try:
         httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
-        print("Serving uLogMe on a HTTP server, see it locally on 'http://{}:{}' ...".format(IP, PORT))
+        printc("<green>Serving uLogMe<white> on a HTTP server, see it locally on '<black>http://{}:{}<white>' ...".format(IP, PORT))
         notify("Serving uLogMe on a HTTP server, see it locally on 'http://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()
     except socket.error as e:
         if e.errno == 98:
-            print("The port {} was already used...".format(PORT))
-            print("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '$ ulogme_serve.py {}' ...".format(PORT + 1))
+            printc("<red>The port {} was already used ...<white>".format(PORT))
+            printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve.py {}<white>' ...".format(PORT + 1))
         else:
-            print("Error, ulogme_serve.py was interrupted, giving:")
-            print("Exception: e =", e)
+            printc("<red>Error, ulogme_serve.py was interrupted, giving:<white>")
+            printc("<red>Exception:<white> e =", e)
             # print("Exception: dir(e) =", dir(e))  # DEBUG
     except KeyboardInterrupt:
-        print("\nYou probably asked to interrupt the 'ulogme_serve.py' HTTP server ...")
-        # print("You should wait for some time before using the port {} again. (about 1 minute on Ubuntu)".format(PORT))  # Not anymore!
+        printc("\n<red>You probably asked to interrupt<white> the '<black>ulogme_serve.py<white>' HTTP server ...")
     finally:
         try:
             if httpd is not None:
-                print("\nClosing the HTTP server (address {}, port {}) ...".format(IP, PORT))
+                printc("\n<yellow>Closing the HTTP server<white> (address '<black>{}<white>', port '<black>{}<white>') ...".format(IP, PORT))
                 httpd.server_close()
         except Exception as e:
-            print("The HTTP server (address {}, port {}) might not have been closed ...".format(IP, PORT))
-            print("Exception: e =", e)
+            printc("<red>The HTTP server<white> (address '<black>{}<white>', port '<black>{}<white>') <red>might not have been closed<white> ...".format(IP, PORT))
+            printc("<red>Exception:<white> e =", e)
