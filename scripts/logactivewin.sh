@@ -2,6 +2,11 @@
 # logactivewin.sh for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
+
+# Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
+[ -f ~/.color.sh ] && . ~/.color.sh
+[ -f color.sh ] && . color.sh
+
 LANGUAGE=en
 LANG=en_US.utf8
 
@@ -15,7 +20,7 @@ waittime="2"  # number of seconds between executions of loop
 maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
 
 
-type xprintidle >/dev/null 2>&1 || echo "WARNING: 'xprintidle' not installed, idle time detection will not be available (screen saver / lock screen detection only)"
+type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${white}, idle time detection will not be available (screen saver / lock screen detection only) ..."
 
 # Get idle time in seconds. If xprintidle is not installed, returns 0.
 function get_idle_time() {
@@ -70,7 +75,7 @@ do
     if [ -n "$suspended_at" ]; then
         suspended_at="$(date -d "$suspended_at" +%s)"
         if [ "$suspended_at" -ge "$last_write" ]; then
-            echo "suspend occured after last event, was_awaken = true ..."
+            echo -e "${red}Suspend occured after last event${white}, '${black}was_awaken${white}' = true ...${white}"
             was_awaken=true
         fi
     fi
@@ -93,8 +98,7 @@ do
 	# XXX customize here the regexp capturing the titles you don't want to count
 	if echo "$curtitle" | grep "\(privée\|InPrivate\|Private\|Incognito\)"  &>/dev/null
 	then
-		echo "not logged private window title"
-		# echo "not logged window title: '$(date)' '$curtitle'"  # DEBUG
+		echo -e "${red}Not logged private window title ...${white}"
 		curtitle=""
 	fi;
 
@@ -109,7 +113,7 @@ do
             echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
-		echo "logged window title: '$(date)' '$curtitle' into '$log_file'"
+		echo -e "Logged ${yellow}window title${white}: ${magenta}$(date)${white} '${green}$curtitle${white}' into '${black}$log_file${white}'"
 		last_write="$T"
 	fi
 

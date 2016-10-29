@@ -4,10 +4,12 @@
 #
 # Experimental script to start a new tab in a tmux session, launching the data collection on the right & and Python web server on the left.
 
-echo "Starting 'ulogme_tmux.sh' ..."
+# Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
+[ -f ~/.color.sh ] && . ~/.color.sh
+[ -f color.sh ] && . color.sh
 
-# FIXED no need to adapt this to the path where you stored ulogme.git/
-# cd ~/.local/share/ulogme/scripts/  # XXX change according to your installation
+echo -e "${yellow}Starting '${black}ulogme_tmux.sh'${white} ..."
+
 if [ -L "${BASH_SOURCE[0]}" ]; then
     # We have a symlink... how to deal with it?
     cd "$( dirname "$(readlink -f "${BASH_SOURCE[0]}")" )"
@@ -15,17 +17,13 @@ else
     cd "$( dirname "${BASH_SOURCE[0]}" )"
 fi;
 
-# pwd  # DEBUG
-# echo "[Enter]"  # DEBUG
-# read  # DEBUG
-
 # XXX assume runing inside a tmux session
 if [ "X${TMUX}" = "X" ]; then
-    echo -e "This script has to be run inside a tmux session."
+    echo -e "${red}This script ${black}${0}${red} has to be run inside a tmux session.${white}"
     exit 1
 fi
 
-port="${1:-8124}"
+port="${1:-8124}"  # Default is port=8124
 
 # Reference https://linux.die.net/man/1/tmux
 # start a new window,
@@ -44,5 +42,5 @@ tmux split-window -d "./ulogme_data.sh | tee /tmp/ulogme_data_$$.log"
 # tmux run-shell ./ulogme.sh
 
 sleep 12
-# return to current tab ?
+# return to current tab at the end
 tmux last-window

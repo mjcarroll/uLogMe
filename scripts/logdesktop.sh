@@ -5,6 +5,10 @@
 # periodically takes screenshot and saves them to desktopscr/
 # the filename contains unix time
 
+# Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
+[ -f ~/.color.sh ] && . ~/.color.sh
+[ -f color.sh ] && . color.sh
+
 # wait time in seconds
 waittime="60"
 # directory to save screenshots to
@@ -28,7 +32,7 @@ do
 		# q is quality. Higher is higher quality
 		scrot -q 50 "$fname"
 	else
-		echo "screen is locked, waiting..."
+		echo -e "${red}Screen is locked, waiting ...${white}"
 	fi
 
 	sleep "$waittime"

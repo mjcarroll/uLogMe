@@ -5,6 +5,10 @@
 # Logs the key press frequency over 10 second window.
 # Logs are written in logs/keyfreqX.txt every 10 seconds, where X is unix timestamp of 7am of the recording day.
 
+# Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
+[ -f ~/.color.sh ] && . ~/.color.sh
+[ -f color.sh ] && . color.sh
+
 LANGUAGE=en
 LANG=en_US.utf8
 
@@ -33,7 +37,7 @@ while true; do
     echo "$(date +%s) $num"  >> "$logfile"
     # only print if $num > 0
     if [ "$num" -gt 0 ]; then
-        echo "logged key frequency: $(date) $num release events detected into $logfile"
+        echo -e "Logged ${yellow}key frequency${white}: ${magenta}$(date)${white} ${green}${num}${white} release events detected into '${black}${logfile}${white}'"
     fi
 done
 

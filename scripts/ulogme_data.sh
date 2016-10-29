@@ -2,12 +2,14 @@
 # ulogme_data.sh for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 
-# FIXED no need to adapt this to the path where you stored ulogme.git/
-# cd ~/.local/share/ulogme/scripts/  # XXX change according to your installation
+# Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
+[ -f ~/.color.sh ] && . ~/.color.sh
+[ -f color.sh ] && . color.sh
+
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# Assume Linux
-echo "Password is needed please, to run 'keyfreq.sh' as sudo"
+echo -e "${red}Password is needed please${white}, to run '${black}keyfreq.sh${white}' with sudo ..."
 sudo echo -n ""
+
 sudo ./keyfreq.sh &
 ./logactivewin.sh
