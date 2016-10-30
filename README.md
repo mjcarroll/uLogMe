@@ -119,6 +119,11 @@ uLogMe has three main parts:
 3. The UI. Majority of the codebase is here, reading the `.json` files in [`/render`](render/) and creating the visualizations. There are several common `.js` files, and crucially the [`index.html`](render/index.html) and [`overview.html`](render/overview.html) files, that are simple HTML template (with a lot of Javascript in the beginning). Feel free to adapt them to your preferences. I expect that most people might be able to contribute here to add features/cleanup/bugfix.
 4. *Bonus:* the [`ulogme_tmux.sh`](scripts/ulogme_tmux.sh) script, if you are using [tmux](https://tmux.github.io/).
 
+An example of the output displayed by the two parts of the "server" side (data recording and HTTP server), in two horizontal panes in [tmux](https://tmux.github.io/):
+![Demo - colored logs](screenshots/demo_colored_logs_in_tmux.png)
+
+Yes, the logs **are colored**, from both shell and python scripts, using [`color.sh`](scripts/color.sh) for bash and [`ansicolortags`](https://github.com/Naereen/ansicolortags.py) for Python.
+
 ### OSX code
 > Not in my fork, refer to [the original project](https://github.com/karpathy/ulogme)
 
