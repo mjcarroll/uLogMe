@@ -16,7 +16,7 @@ import socket
 
 # Local imports
 from export_events import updateEvents
-from rewind7am import rewindTime
+from rewind7am import rewindTime, ppTime
 from notify import notify
 
 
@@ -51,7 +51,7 @@ def writenote(note, time_=None):
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     process.communicate(input=note)
     process.wait()
-    notify("uLogMe created a note, with content '{}' and time '{!s}'.".format(note, time_), "uLogMe : note")
+    notify("<b>uLogMe</b> created a note, with content '<i>{}</i>' and time '<i>{!s}</i>'.".format(note, time_))
     printc("<green>uLogMe created a note<white>, with content '<black>{}<white>' and time '<magenta>{!s}<white>'.".format(note, time_))
 
 
@@ -73,22 +73,22 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         result = "NOT_UNDERSTOOD"
 
         if self.path == "/refresh":
-            printc("<green>Refreshing the view of uLogMe ...<white>")
-            notify("Refreshing the view of uLogMe ...")
             # Recompute jsons. We have to pop out to root from render directory
             # temporarily. It's a little ugly
             refresh_time = form.getvalue("time")
+            printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppTime(int(refresh_time))))
+            notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppTime(int(refresh_time))))
             os.chdir(rootdir)  # pop out
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # pop back to render directory
             result = "OK"
 
         if self.path == "/addnote":
-            printc("<green>Adding a note in uLogMe ...<white>")
-            notify("Adding a note in uLogMe ...", icon="note")
             # add note at specified time and refresh
             note = form.getvalue("note")
             note_time = form.getvalue("time")
+            printc("<green>Adding a note in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(note, note_time))
+            notify("Adding a note in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(note, note_time), icon="note")
             os.chdir(rootdir)  # pop out
             writenote(note, note_time)
             updateEvents()  # defined in export_events.py
@@ -96,13 +96,13 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             result = "OK"
 
         if self.path == "/blog":
-            printc("<green>Adding a blog post in uLogMe ...<white>")
-            notify("Adding a blog post in uLogMe ...", icon="note")  # DEBUG
             # add note at specified time and refresh
             post = form.getvalue("post")
             if post is None:
                 post = ""
             post_time = int(form.getvalue("time"))
+            printc("<green>Adding a blog post in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(post, post_time))
+            notify("Adding a blog post in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(post, post_time), icon="note")  # DEBUG
             os.chdir(rootdir)  # pop out
             trev = rewindTime(post_time)
             with open(os.path.join("..", "logs", "blog_%d.txt" % (post_time, )), "w") as f:
@@ -133,7 +133,7 @@ if __name__ == "__main__":
         IP = str(sys.argv[2])
     else:
         IP = "127.0.0.1"  # IP address to use by default
-        # Instead of "", thanks to https://github.com/karpathy/ulogme/issues/48
+        # Instead of "", more secure, thanks to https://github.com/karpathy/ulogme/issues/48
 
     # serve render/ folder, not current folder
     rootdir = os.getcwd()
@@ -141,8 +141,8 @@ if __name__ == "__main__":
 
     try:
         httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
-        printc("<green>Serving uLogMe<white> on a HTTP server, see it locally on '<black>http://{}:{}<white>' ...".format(IP, PORT))
-        notify("Serving uLogMe on a HTTP server, see it locally on 'http://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
+        printc("<green>Serving uLogMe<white> on a HTTP server, see it locally on '<u><black>http://{}:{}<white><U>' ...".format(IP, PORT))
+        notify("Serving <b>uLogMe</b> on a <i>HTTP</i> server, see it locally on 'http://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()
     except socket.error as e:
         if e.errno == 98:
@@ -150,7 +150,7 @@ if __name__ == "__main__":
             printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve.py {}<white>' ...".format(PORT + 1))
         else:
             printc("<red>Error, ulogme_serve.py was interrupted, giving:<white>")
-            printc("<red>Exception:<white> e =", e)
+            printc("<red>Exception:<white> ", e)
             # print("Exception: dir(e) =", dir(e))  # DEBUG
     except KeyboardInterrupt:
         printc("\n<red>You probably asked to interrupt<white> the '<black>ulogme_serve.py<white>' HTTP server ...")
