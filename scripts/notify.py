@@ -11,6 +11,7 @@ from __future__ import print_function   # Python 2 compatibility
 from __future__ import absolute_import  # Python 2 compatibility
 
 from webbrowser import open as openTab
+from os import getcwd
 from os.path import exists, join
 from glob import glob
 from random import choice
@@ -33,17 +34,24 @@ PROGRAM_NAME = "uLogMe server (ulogme_serve.py)"
 ICON_PATH    = join("..", "scripts", "icons", "pikachu.png")
 ICON_PATHS   = glob(join("..", "scripts", "icons", "*.png"))
 
+
+def choose_icon(random=True):
+    """ Choose a random icon. """
+    if random:
+        iconpath = choice(ICON_PATHS)
+    else:
+        iconpath = ICON_PATH
+    # print("iconpath =", iconpath)  # DEBUG
+    return iconpath
+
+
 # Define the icon loaded function
 try:
     from gi.repository import GdkPixbuf
 
     def load_icon(random=True):
         """ Load and open a random icon. """
-        if random:
-            iconpath = choice(ICON_PATHS)
-        else:
-            iconpath = ICON_PATH
-        # print("iconpath =", iconpath)  # DEBUG
+        iconpath = choose_icon(random=random)
         # Loading the icon...
         if exists(iconpath):
             # Use GdkPixbuf to create the proper image type
@@ -77,7 +85,7 @@ except ImportError:
 
 # Define the first notify function, with gi.repository.Notify
 def notify_gi(body, summary=PROGRAM_NAME,
-              icon=None,
+              icon="random",
               IP="localhost", PORT=8124,  # FIXED use this in ulogme_serve.py
               timeout=5  # In seconds
               ):
@@ -94,7 +102,7 @@ def notify_gi(body, summary=PROGRAM_NAME,
 
         # Cf. http://www.devdungeon.com/content/desktop-notifications-python-libnotify
         # Create the notification object
-        if icon is not None:
+        if icon and icon != "random":
             notification = Notify.Notification.new(
                 summary,  # Title of the notification
                 body,     # Optional content of the notification
@@ -106,13 +114,14 @@ def notify_gi(body, summary=PROGRAM_NAME,
                 body      # Optional content of the notification
             )
 
-            # Add a Pikachu icom to the notification
-            # Why Pikachu? ALWAYS PIKACHU! http://www.lsv.ens-cachan.fr/~picaro/
-            iconpng = load_icon(random=True)
-            if iconpng is not None:
-                # Use the GdkPixbuf image
-                notification.set_icon_from_pixbuf(iconpng)
-                notification.set_image_from_pixbuf(iconpng)
+            if icon == "random":
+                # Add a Pikachu icom to the notification
+                # Why Pikachu? ALWAYS PIKACHU! http://www.lsv.ens-cachan.fr/~picaro/
+                iconpng = load_icon(random=True)
+                if iconpng is not None:
+                    # Use the GdkPixbuf image
+                    notification.set_icon_from_pixbuf(iconpng)
+                    notification.set_image_from_pixbuf(iconpng)
 
         # Lowest urgency (LOW, NORMAL or CRITICAL)
         notification.set_urgency(Notify.Urgency.LOW)
@@ -144,22 +153,23 @@ def notify_gi(body, summary=PROGRAM_NAME,
 
 # Define the second notify function, with a subprocess call to 'notify-send'
 def notify_cli(body, summary=PROGRAM_NAME,
-               icon="dialog-information",
+               icon="random",
                IP="localhost", PORT=8124,  # XXX unused here, notify-send does not accept callback functions
                timeout=5  # In seconds
                ):
     """
     Send a notification, with a subprocess call to 'notify-send'.
     """
-    print("notify.notify(): Warning, desktop notification from Python seems to not be available ...")
     try:
         print("notify.notify(): Trying to use the command line program 'notify-send' ...")
+        if icon == "random":
+            icon = join(getcwd(), choose_icon(random=True))
         if icon:
             Popen(["notify-send", "--expire-time=%s" % (timeout * 1000), "--icon=%s" % (icon), summary, body])
-            print("notify.notify(): A notification have been sent, with summary = %s, body = %s, expire-time = %s and icon = %s." % (summary, body, timeout * 1000, icon))
+            print("notify.notify(): A notification have been sent, with summary = '%s', body = '%s', expire-time='%s' and icon='%s'." % (summary, body, timeout * 1000, icon))
         else:
             Popen(["notify-send", "--expire-time=%s" % (timeout * 1000), summary, body])
-            print("notify.notify(): A notification have been sent, with summary = %s, body = %s and expire-time = %s." % (summary, body, timeout * 1000))
+            print("notify.notify(): A notification have been sent, with summary = '%s', body = '%s' and expire-time='%s'." % (summary, body, timeout * 1000))
         return 0
     # Ugly! XXX Catches too general exception
     except Exception as e:
@@ -169,12 +179,13 @@ def notify_cli(body, summary=PROGRAM_NAME,
 
 # Define the unified notify.notify() function
 def notify(body, summary=PROGRAM_NAME,
-           icon=None,
+           icon="random",
            IP="localhost", PORT=8124,  # FIXED use this in ulogme_serve.py
            timeout=5  # In seconds
            ):
-    print("Notification: '{}', from '{}' with icon '{}'.".format(body, summary, icon))  # DEBUG
+    # print("Notification: '{}', from '{}' with icon '{}'.".format(body, summary, icon))  # DEBUG
     if not has_Notify:
+        print("notify.notify(): Warning, desktop notification from Python seems to not be available ...")
         return notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout)
     else:
         try:
@@ -187,5 +198,10 @@ def notify(body, summary=PROGRAM_NAME,
 
 
 if __name__ == "__main__":
-    notify("Test body Test body Test body Test body Test body Test body ! With icon=terminal ...", icon="terminal")
-    notify("Test body Test body Test body Test body Test body Test body ! With random Pokémon icon ...")
+    # notify_gi("Test body Test body Test body ! From 'notify_gi(...)', with icon=terminal ...", icon="terminal")
+    # notify_gi("Test body Test body Test body ! From 'notify_gi(...)', with random Pokémon icon ...")
+    # notify_cli("Test body Test body Test body ! From 'notify_cli(...)', with icon=terminal ...", icon="terminal")
+    # notify_cli("Test body Test body Test body ! From 'notify_cli(...)', with random Pokémon icon ...")
+    notify("Test body Test body Test body ! From 'notify(...)', with icon=terminal ...", icon="terminal")
+    notify("Test body Test body Test body ! From 'notify(...)', with no icon ...", icon=None)
+    notify("Test body Test body Test body ! From 'notify(...)', with random Pokémon icon ...")
