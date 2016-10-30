@@ -109,7 +109,9 @@ Your private data should be safe with uLogMe:
 - The HTML templates for the UI lives in [`/render`](render/). It uses jQuery.Ajax to read the JSON files, and then [d3js](https://d3js.org/) for the plots and charts.
 - The Javascript scripts (requirements, library and utility functions) lives in [`/render/js`](render/js/). The dependencies are included minimized, everything is © of their original authors.
 - The CSS style sheets for the UI lives in [`/render/css`](render/css/). It's very basic CSS formatting.
-- There is also two SVG files (for some badges) in [`/render/svg`](render/svg/), and a small [Pikachu favicon](render/favicon.ico)! *Why Pikachu?* [ALWAYS PIKACHU!](http://www.lsv.ens-cachan.fr/~picaro/). [Pikachu](scripts/pikachu.png) should also be used for the icon for the [desktop notifications](scripts/notify.py) sent when refreshing... Useless but funny right?!
+- There is also two SVG files (for some badges) in [`/render/svg`](render/svg/), and a small [Pikachu favicon](render/favicon.ico)! *Why Pikachu?* [ALWAYS PIKACHU!](http://www.lsv.ens-cachan.fr/~picaro/). [Pikachu](scripts/pikachu.png) (and other Pokémons) should also be used for the icon for the [desktop notifications](scripts/notify.py) sent when refreshing... Useless but funny right?! Here is a demo:
+
+![Demo - desktop notifications when refreshing](screenshots/demo_random_pokémon_icon.png)
 
 ### Ubuntu (or any Debian-like Linux)
 uLogMe has three main parts:
