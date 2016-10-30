@@ -11,9 +11,17 @@ import datetime
 import time
 
 
+def ppTime(t):
+    """
+    Print the time as a the date of the day, and not a unix time.
+    """
+    d = datetime.datetime.fromtimestamp(t)
+    return d.strftime("%A %d %B %Y")
+
+
 def rewindTime(t):
     """
-    very simply utility function that takes unix time (as int)
+    Simple utility function that takes unix time (as int)
     and returns unix time at 7am of the day that the corresponding ulogme
     event belongs to. ulogme day breaks occur at 7am, so e.g. 3am late
     night session will count towards previous day activity
