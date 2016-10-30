@@ -11,12 +11,20 @@ import datetime
 import time
 
 
-def ppTime(t):
+def ppDay(t):
     """
     Print the time as a the date of the day, and not a unix time.
     """
     d = datetime.datetime.fromtimestamp(t)
     return d.strftime("%A %d %B %Y")
+
+
+def ppTime(t):
+    """
+    Print the time as a the date and hour, and not a unix time.
+    """
+    d = datetime.datetime.fromtimestamp(t)
+    return d.strftime("%A %d %B %Y, %r")
 
 
 def rewindTime(t):

@@ -16,7 +16,7 @@ import socket
 
 # Local imports
 from export_events import updateEvents
-from rewind7am import rewindTime, ppTime
+from rewind7am import rewindTime, ppDay, ppTime
 from notify import notify
 
 
@@ -76,8 +76,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             # Recompute jsons. We have to pop out to root from render directory
             # temporarily. It's a little ugly
             refresh_time = form.getvalue("time")
-            printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppTime(int(refresh_time))))
-            notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppTime(int(refresh_time))))
+            printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(int(refresh_time))))
+            notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(int(refresh_time))))
             os.chdir(rootdir)  # pop out
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # pop back to render directory
@@ -87,8 +87,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             # add note at specified time and refresh
             note = form.getvalue("note")
             note_time = form.getvalue("time")
-            printc("<green>Adding a note in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(note, note_time))
-            notify("Adding a note in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(note, note_time), icon="note")
+            printc("<green>Adding a note in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(note, ppTime(int(note_time))))
+            notify("Adding a note in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(note, ppTime(int(note_time))), icon="note")
             os.chdir(rootdir)  # pop out
             writenote(note, note_time)
             updateEvents()  # defined in export_events.py
@@ -101,8 +101,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             if post is None:
                 post = ""
             post_time = int(form.getvalue("time"))
-            printc("<green>Adding a blog post in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(post, post_time))
-            notify("Adding a blog post in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(post, post_time), icon="note")  # DEBUG
+            printc("<green>Adding a blog post in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(post, ppDay(int(post_time))))
+            notify("Adding a blog post in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(post, ppDay(int(post_time))), icon="note")  # DEBUG
             os.chdir(rootdir)  # pop out
             trev = rewindTime(post_time)
             with open(os.path.join("..", "logs", "blog_%d.txt" % (post_time, )), "w") as f:
