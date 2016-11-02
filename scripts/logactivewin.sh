@@ -86,7 +86,10 @@ do
         suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
     fi
     if [ -n "$suspended_at" ]; then
+        # echo -e "${red}suspended_at = ${suspended_at}${white} ..."  # DEBUG
         suspended_at="$(date -d "$suspended_at" +%s)"
+        # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
+        suspended_at=$((suspended_at + 30))
         if [ "$suspended_at" -ge "$last_write" ]; then
             echo -e "${red}Suspend occured after last event${white}, '${black}was_awaken${white}' = true ...${white}"
             was_awaken=true
@@ -95,7 +98,7 @@ do
 
 	perform_write=false
 	# if window title changed, perform write
-	if [[ X"$lasttitle" != X"$curtitle" || "$was_awaken" = true ]]; then
+	if [[ X"$lasttitle" != X"$curtitle" || $was_awaken = true ]]; then
 		perform_write=true
 	fi
 
@@ -122,7 +125,7 @@ do
         # One logfile daily
         log_file="../logs/window_${rewind7am}.txt"
         # If computer was just awaken, log suspend event unless it happened before 7am
-        if [ "$was_awaken" = true -a "${suspended_at:-0}" -ge "$rewind7am" ]; then
+        if [ $was_awaken = true -a "${suspended_at:-0}" -ge "$rewind7am" ]; then
             echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
