@@ -70,8 +70,8 @@ while true; do
     log_file="../logs/keyfreq_$(python rewind7am.py).txt"
     # Only print and log if $num > 0
     if [ "$num" -gt 0 ]; then
+        echo -e "Logged ${yellow}key frequency${white}: at ${magenta}$(date)${white}, ${green}$(printf "%5i " ${num})${white} key release events, written to into '${black}${log_file}${white}'"
         echo "$(date +%s) $num"  >> "$log_file"
-        echo -e "Logged ${yellow}key frequency${white}: ${magenta}$(date)${white} ${green}${num}${white} release events detected into '${black}${log_file}${white}'"
     fi
 
 
