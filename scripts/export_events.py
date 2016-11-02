@@ -68,13 +68,16 @@ def mtime(f):
 
 def updateEvents():
     """ Goes down the list of .txt log files and writes all .json files that can be used by the frontend. """
-    L = []
-    L.extend(glob.glob(os.path.join("..", "logs", "keyfreq_*.txt")))
-    L.extend(glob.glob(os.path.join("..", "logs", "window_*.txt")))
-    L.extend(glob.glob(os.path.join("..", "logs", "notes_*.txt")))
+    logFiles = []
+    logFiles.extend(glob.glob(os.path.join("..", "logs", "keyfreq_*.txt")))
+    logFiles.extend(glob.glob(os.path.join("..", "logs", "window_*.txt")))
+    logFiles.extend(glob.glob(os.path.join("..", "logs", "notes_*.txt")))
+    logFiles = [f for f in logFiles if not os.path.islink(f)]
+    # XXX faster with?
+    # logFiles = filter(lambda f: not(os.islink(f)), logFiles)
 
     # extract all times. all log files of form {type}_{stamp}.txt
-    ts = [int(x[x.find("_") + 1: x.find(".txt")]) for x in L]
+    ts = [int(x[x.find("_") + 1: x.find(".txt")]) for x in logFiles]
     ts = list(set(ts))
     ts.sort()
 
