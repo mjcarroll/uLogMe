@@ -6,7 +6,6 @@
 # the filename contains unix time
 
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
-[ -f ~/.color.sh ] && . ~/.color.sh
 [ -f color.sh ] && . color.sh
 
 # wait time in seconds

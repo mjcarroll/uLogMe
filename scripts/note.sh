@@ -5,7 +5,6 @@
 # allows the user to simply record a note, saves it together with unix time in ../logs/notes_...
 
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
-[ -f ~/.color.sh ] && . ~/.color.sh
 [ -f color.sh ] && . color.sh
 
 mkdir -p ../logs

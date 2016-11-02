@@ -33,7 +33,7 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 **To start recording**
 
 1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/uLogMe.git`
-2. If you're on Ubuntu, make sure you have the dependencies: `$ sudo apt-get install xdotool wmctrl xprintidle`. On Fedora, you may also need `$ sudo yum install gnome-screensaver`.
+2. If you're on Ubuntu, make sure you have the dependencies: the `xdotool` `xinput` `wmctrl` `xprintidle` packets are *required* (to install them: `$ sudo apt-get install xdotool xinput wmctrl xprintidle`). On other Linux distribution, install them also, and you may also need gnome-screensaver (`$ sudo PACKETMANAGER install gnome-screensaver` where `PACKETMANAGER=pacman` on ArchLinux, `PACKETMANAGER=yum` on Fedora, etc).
 3. `cd` inside and run `$ ./ulogme.sh` (note: this will ask you for sudo authentication which is required for `showkey` command). This will launch two scripts. [One](scripts/keyfreq.sh) records the frequency of keystrokes and the [other](scripts/logactivewin.sh) records active window titles. Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the unix time stamp followed by data, one per line (plain text file).
 
 

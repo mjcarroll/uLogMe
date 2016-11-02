@@ -2,7 +2,8 @@
 ## About:
 #  This script define many useful colors code as Bash variables
 #  Use this script with other GNU Bash scripts, simply by importing him with
-#  $ . ~/.color.sh
+#  $ . ~/.color.sh  # if it is stored in your $HOME as .color.sh
+#  $ . color.sh     # if it is stored in the current directory as color.sh (default)
 #
 ## Web
 #  Both are on https://bitbucket.org/lbesson/bin/

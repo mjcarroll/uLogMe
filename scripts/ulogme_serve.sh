@@ -3,7 +3,6 @@
 # MIT Licensed, https://lbesson.mit-license.org/
 
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
-[ -f ~/.color.sh ] && . ~/.color.sh
 [ -f color.sh ] && . color.sh
 
 echo -e "${yellow}Starting '${black}ulogme_serve.sh${white}' ..."
