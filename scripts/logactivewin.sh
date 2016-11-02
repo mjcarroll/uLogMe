@@ -126,7 +126,7 @@ do
             echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
-		echo -e "Logged ${yellow}window title${white}: at ${magenta}$(date)${white}, \ttitle '${green}$curtitle${white}', written to '${black}$log_file${white}'"
+		echo -e "Logged ${yellow}window title${white}: \tat ${magenta}$(date)${white}, \ttitle '${green}$curtitle${white}', written to '${black}$log_file${white}'"
 		last_write="$T"
 	fi
 
