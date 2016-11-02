@@ -803,11 +803,12 @@
       console.log("uLogMe (index.html): Help alert window ...");
       window.alert(
         "This « uLogMe Single-day view » page has the following keyboard shortcuts:"
-        + "\n - h or ? : for this help window,"
+        + "\n - h or ? : for this help window."
         + "\n - left or p : load the data of the previous day."
         + "\n - right or n : load the data of the next day."
         + "\n - r : for refreshing the view by reloading the data (you can also refresh the page),"
         + "\n - o : goes to the Overview page for uLogMe."
+        + "\n - i or s : goes to the more recent day of the Single-day view page for uLogMe."
         + "\n - b : edit the blog post of today."
         + "\n\nuLogMe is a free and open-source software, see https://github.com/Naereen/uLogMe/ for more details and the latest version."
         + "\nBuilt with ♥ by Lilian Besson (Naereen), and other contributors on GitHub."
@@ -820,6 +821,10 @@
     Mousetrap.bind(["o"], function() {
       console.log("uLogMe (index.html): Going to overview page ...");
       location.href = "overview.html";
+    });
+    Mousetrap.bind(["i", "s"], function() {
+      console.log("uLogMe (overview.html): Going to daily-vew page ...");
+      location.href = "index.html";
     });
     Mousetrap.bind(["left", "p"], function() {
       console.log("uLogMe (index.html): Previous day ...");

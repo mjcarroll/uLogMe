@@ -102,14 +102,11 @@ display_groups.push(["Computer locked", "Computer idle", "Computer suspended"]);
 // Activity groups to group related work. This will be shown as inner piechart ring.
 // All related activities will be shown in outer piechart ring.
 var activity_groups = [];
-// activity_groups.push({name:"Work", titles: ["GitHub", "Bitbucket", "Matlab", "ST3 Coding", "ST3 Python", "Notebook", "ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST", "ST3 LaTeX", "PDF", "ST3", "Terminal", "Agenda"]});
-// activity_groups.push({name:"Other", titles: ["Mails", "Skype", "Facebook", "Slack", "YouTube", "VLC", "GMusicBrowser", "Self-Quantified", "Firefox", "Misc"]});
-// activity_groups.push({name:"Idle", titles: ["Computer locked", "Computer idle", "Computer suspended"]});
 activity_groups.push({name:"Fun", titles: ["YouTube", "VLC", "GMusicBrowser"]});
 activity_groups.push({name:"Coding", titles: ["GitHub", "Bitbucket", "Matlab", "ST3 Coding", "ST3 Python", "Notebook", "ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST", "ST3 LaTeX", "ST3", "Terminal"]});
 activity_groups.push({name:"Social", titles: ["Mails", "Skype", "Facebook", "Slack", , "Misc"]});
 activity_groups.push({name:"Browsing", titles: ["Self-Quantified", "Firefox", "Agenda", "PDF"]});
-activity_groups.push({name:"Idle", titles: ["Computer locked", "Computer idle", "Computer suspended"]});
+activity_groups.push({name:"Away", titles: ["Computer locked", "Computer idle", "Computer suspended"]});
 
 
 // list of titles that classify as "hacking", or being productive in general
