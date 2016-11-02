@@ -6,11 +6,12 @@
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
 [ -f color.sh ] && . color.sh
 
-LANGUAGE=en
-LANG=en_US.utf8
+# Constants
+readonly LANGUAGE=en
+readonly LANG=en_US.utf8
 
 # logs the active window titles over time. Logs are written
-# in ../logs/windowX.txt, where X is unix timestamp of 7am of the
+# in ../logs/window_X.txt, where X is unix timestamp of 7am of the
 # recording day. The logs are written if a window change event occurs
 # (with 2 second frequency check time), or every 10 minutes if
 # no changes occur.
@@ -27,12 +28,20 @@ function get_idle_time() {
     # TODO code it better!
 }
 
-#------------------------------
 
 mkdir -p ../logs
 last_write="0"
 lasttitle=""
 
+
+# First message to inform that the script was started correctly
+echo -e "${green}$0 has well been started.${white}"
+echo -e "  - It will ${red}constantly${white} record the title of the active window of your graphical environment."
+echo -e "  - It will work in time window of ${red}$waittime${white} seconds."
+echo
+
+
+# Start the main loop
 while true
 do
 	islocked=true
@@ -69,8 +78,13 @@ do
     # Detect suspend, code from https://github.com/karpathy/ulogme/commit/6a28d34defee65726d55211fe742303737bc757a
     # FIXME this does not work! I should include his changes
     was_awaken=false
-    # suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
+
+    # First technic
     suspended_at="$(grep "Freezing user space processes ... *$" /var/log/kern.log | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ')"
+    if [ -z "$suspended_at" ]; then
+        # Second technic
+        suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
+    fi
     if [ -n "$suspended_at" ]; then
         suspended_at="$(date -d "$suspended_at" +%s)"
         if [ "$suspended_at" -ge "$last_write" ]; then
@@ -112,7 +126,7 @@ do
             echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
-		echo -e "Logged ${yellow}window title${white}: ${magenta}$(date)${white} '${green}$curtitle${white}' into '${black}$log_file${white}'"
+		echo -e "Logged ${yellow}window title${white}: at ${magenta}$(date)${white}, \ttitle '${green}$curtitle${white}', written to '${black}$log_file${white}'"
 		last_write="$T"
 	fi
 
