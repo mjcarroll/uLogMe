@@ -267,12 +267,13 @@
       $("#hackingvis").empty();
       if(!draw_hacking) return; // global set in render_settings.js
 
-      var c = "rgb(200, 0, 0)"; // color
+      var c = "rgb(190,0,0)"; // red color
 
       var div = d3.select("#hackingvis").append("div");
       // hacking_title can be customized in the render_settings.js file
       div.append("p").attr("class", "tt").attr("style", "color:"+c).text(hacking_title)
          .append("a").attr("class", "headerlink").attr("href", "#hackingvis").attr("title", "Anchor for this « Continuous typing » chart").text("¶");
+
       var txt = strTimeDelta(hacking_stats.total_hacking_time);
       txt += " (total keys = " + hacking_stats.total_hacking_keys + ")";
       div.append("p").attr("class", "td").text(txt);
@@ -288,7 +289,7 @@
         .enter().append("g")
         .attr("class", "h")
         .on("mouseover", function(d){return tooltip.style("visibility", "visible").text(strTimeDelta(d.dt));})
-        .on("mousemove", function(){ return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px"); })
+        .on("mousemove", function(){ return tooltip.style("top", (d3.event.pageY-30)+"px").style("left",(d3.event.pageX+10)+"px"); })
         .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
       g.append("rect")
