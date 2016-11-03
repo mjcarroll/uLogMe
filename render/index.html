@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/index_style.css" />
     <link rel="stylesheet" media="screen and (min-width: 280px)" type="text/css" href="css/nprogress.css" />
+    <link rel="stylesheet" type="text/css" href="css/headerlink.css" />
     <!-- <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" /> -->
     <link rel="icon" href="favicon.png" type="image/png" />
 
@@ -269,7 +270,9 @@
       var c = "rgb(200, 0, 0)"; // color
 
       var div = d3.select("#hackingvis").append("div");
-      div.append("p").attr("class", "tt").attr("style", "color:"+c).text(hacking_title);  // hacking_title can be customized in the render_settings.js file
+      // hacking_title can be customized in the render_settings.js file
+      div.append("p").attr("class", "tt").attr("style", "color:"+c).text(hacking_title)
+         .append("a").attr("class", "headerlink").attr("href", "#hackingvis").attr("title", "Anchor for this « Continuous typing » chart").text("¶");
       var txt = strTimeDelta(hacking_stats.total_hacking_time);
       txt += " (total keys = " + hacking_stats.total_hacking_keys + ")";
       div.append("p").attr("class", "td").text(txt);
@@ -320,10 +323,12 @@
       chart_data.width = 700;
       chart_data.barheight = 30;
       chart_data.textpad = 300;
-      chart_data.textmargin = 10;
+      chart_data.textmargin = 20;
       chart_data.title = "Total number of key strokes";
       chart_data.data = stats;
       d3utils.drawHorizontalBarChart(d3.select("#keystats"), chart_data);
+      d3.select("#keystats p")
+         .append("a").attr("class", "headerlink").attr("href", "#keystats").attr("title", "Anchor for this #keystats").text("¶");
     }
 
     // simple plot of key frequencies over time
@@ -347,7 +352,8 @@
         .attr("class", "line")
         .attr("d", line);
 
-      div.append("p").attr("class", "al").text("Keystroke frequency");
+      div.append("p").attr("class", "al").text("Keystroke frequency")
+         .append("a").attr("class", "headerlink").attr("href", "#keygraph").attr("title", "Anchor for this #keygraph").text("¶");
     }
 
     function visualizeNotes(es) {
@@ -372,7 +378,8 @@
 
       console.log("uLogMe (index.html): drawing " + dts.length + " notes.");
       var div = d3.select("#notesvis").append("div");
-      div.append("p").attr("class", "tt").attr("style", "color: #964B00").text("Notes");
+      div.append("p").attr("class", "tt").attr("style", "color: #964B00").text("Notes")
+         .append("a").attr("class", "headerlink").attr("href", "#notesvis").attr("title", "Anchor for this #notesvis").text("¶");
       var W = $(window).width() - 40;
       var svg = div.append("svg")
       .attr("width", W)
@@ -467,7 +474,10 @@
 
         var filter_div = filters_div.append("div").attr("class", "fdiv");
         var c = filter_colors[q];
-        filter_div.append("p").attr("class", "tt").attr("style", "color:"+c).text(filter[q]);
+        // FIXME cleanify the text filter[q] to make a valid enchor
+        var anchortext = filter[q].replace(" ", "-")
+        filter_div.append("p").attr("class", "tt").attr("style", "color:"+c).text(filter[q])
+         .append("a").attr("class", "headerlink").attr("id", anchortext).attr("href", "#" + anchortext).attr("title", "Anchor for this « " + anchortext + " » activity chart").text("¶");
         var txt = strTimeDelta(ttoti[q]);
         filter_div.append("p").attr("class", "td").text(txt);
       }
@@ -511,9 +521,9 @@
           .attr("transform", "translate(" + [(t-t00)/sx, 70] + ")")
           .attr("font-family", "'Lato', sans-serif")
           .attr("font-size", 14)
-          .attr("fill", "#CCC")
-          .text(new Date(t * 1000).getHours());
-        t += 3600;
+          .attr("fill", "#AAA")
+          .text(new Date(t * 1000).getHours() + "h");
+        t += 3600;  // Next hour!
       }
     }
 
@@ -860,11 +870,18 @@
         </div>
       </div>
       <div id="piecharts">
+          <h3>Activity breakdown: <a class="headerlink" href="#highpiechart" title="Anchor for this « Activity breakdown » pie chart">¶</a></h3>
           <div id="highpiechart"></div>
       </div>
-      <div id="keygraph"></div>
-      <div id="hackingvis"></div>
-      <div id="keystats"></div>
+      <div id="keygraph">
+          <h3>Keystroke frequency: <a class="headerlink" href="#keygraph" title="Anchor for this « Keystroke frequency » chart">¶</a></h3>
+      </div>
+      <div id="hackingvis">
+          <h3>Continuous typing: <a class="headerlink" href="#hackingvis" title="Anchor for this « Continuous typing » chart">¶</a></h3>
+      </div>
+      <div id="keystats">
+          <h3>Total number of key strokes: <a class="headerlink" href="#keystats" title="Anchor for this « Total number of key strokes » chart">¶</a></h3>
+      </div>
       <div id="notesinfo">
         <div id="notesinfohide">x</div>
         <div>
@@ -873,13 +890,18 @@
           <div id="notesadd">Add</div>
         </div>
       </div>
-      <div id="notesvis"></div>
-      <div id="eventvis"></div>
+      <div id="notesvis">
+          <h3>Notes: <a class="headerlink" href="#notesvis" title="Anchor for the « Notes »">¶</a></h3>
+      </div>
+      <div id="eventvis">
+          <h3>Detail of every activity: <a class="headerlink" href="#eventvis" title="Anchor for the « Detail of every activity »">¶</a></h3>
+      </div>
       <!-- <div id="piechart"></div> -->
     </div>
     <footer>
       <br><br><br>
       <div class="linkstogithub">
+          <h3 id="about">About <a class="headerlink" href="#about" title="Anchor for the about section">¶</a></h3>
           <a href="https://github.com/Naereen/uLogMe/">Documentation can be found on the GitHub README.md file.</a>
           <a href="https://lbesson.mit-license.org/"><img src="svg/license.svg" alt="GitHub license"></a>
           <br>
