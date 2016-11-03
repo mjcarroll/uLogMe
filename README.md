@@ -34,22 +34,22 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 
 1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/uLogMe.git`
 2. If you're on Ubuntu, make sure you have the dependencies: the `xdotool` `xinput` `wmctrl` `xprintidle` packets are *required* (to install them: `$ sudo apt-get install xdotool xinput wmctrl xprintidle`). On other Linux distribution, install them also, and you may also need gnome-screensaver (`$ sudo PACKETMANAGER install gnome-screensaver` where `PACKETMANAGER=pacman` on ArchLinux, `PACKETMANAGER=yum` on Fedora, etc).
-3. `cd` inside and run `$ ./ulogme.sh` (note: this will ask you for sudo authentication which is required for `showkey` command). This will launch two scripts. [One](scripts/keyfreq.sh) records the frequency of keystrokes and the [other](scripts/logactivewin.sh) records active window titles. Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the unix time stamp followed by data, one per line (plain text file).
+3. `cd` inside and run `$ ./ulogme.sh`. This will launch two scripts. The first one, [`keyfreq.sh`](scripts/keyfreq.sh), records the frequency of keystrokes, and the other one ,[`logactivewin`](scripts/logactivewin.sh), records active window titles. Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the [Unix time stamp](https://en.wikipedia.org/wiki/Unix_time) followed by data, one per line (plain text file). We tried to be smart and only logging the useful data.
 
 
 **The user interface**
 
 1. **Important**. As *a one-time setup*, copy over [the example settings file](render/js/render_settings_example.js) to your own copy: `$ cp render/js/render_settings_example.js render/js/render_settings.js` to create your own `render_settings.js` settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Chrome", or "GitHub - Mozilla Firefox" into just "GitHub". Follow [the provided example](render/js/render_settings_example.js) and read the comments for all settings in the file.
-2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](http://localhost:8124) (for example `http://localhost:8124`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
-3. If your data is not loading, try to explicitly run `$ python export_events.py` and then hit refresh. This should only be an issue the very first time you run uLogMe.
+2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](http://localhost:8124) (by default, it is `http://localhost:8124`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
+3. If your data is not loading, try to explicitly run `$ python export_events.py` and then hit refresh. This could only be an issue the very first time you run uLogMe.
 
 
-**If you are using [tmux](https://tmux.github.io/)**
+Bonus: **If you are using [tmux](https://tmux.github.io/)**
 
 1. The script `ulogme_tmux.sh` can be used to create a new tab in your current [tmux](https://tmux.github.io/) session, name it "uLogMe", split it in half vertically, and then it starts the user interface script in the left column, and the data recording in the right column. Very convenient!
 
 
-**What is [tmux](https://tmux.github.io/)?**
+Hum... **What is [tmux](https://tmux.github.io/)?**
 
 1. The best terminal multiplexer. Just go [discover more by yourself](https://tmux.github.io/) (by @tmux).
 
@@ -61,6 +61,7 @@ The user interface can switch between a [single day view](render/index.html) and
 #### Single day page
 - You can enter a reminder "blog" on top if you'd like to summarize the day for yourself or enter other memos.
 - Click on any bar in the *barcode view* to enter a custom (short) note snippet for the time when the selected activity began. I use this to mark meetings, track my coffee/food intake, sleep time, or my total time spent running/swimming/gym or to leave notes for certain patterns of activity, etc. These could all later be correlated with various measures of productivity, in future.
+- Note: [every chart title has a permanent anchor linked to it](https://raw.githubusercontent.com/Naereen/uLogMe/master/screenshots/anchors_on_every_chart_titles.png).
 
 #### Overview page
 - You can click the window titles to toggle them on and off from the visualization.
@@ -69,7 +70,7 @@ The user interface can switch between a [single day view](render/index.html) and
 #### Keyboard shortcuts
 - On both pages, <kbd>r</kbd> reloads the data (like clicking the reload ⟲ button).
 - On the single day page, <kbd>left</kbd> or <kbd>p</kbd> goes to the *previous* day, <kbd>right</kbd> or <kbd>r</kbd> goes to the *next* day.
-- Go to overview page with <kbd>o</kbd> and to the single day page (index) with <kbd>s</kbd> or <kbd>i</kbd>.
+- Go to overview page with <kbd>o</kbd> and to the single day page (to the more recent day) with <kbd>s</kbd> or <kbd>i</kbd>.
 
 ----
 
