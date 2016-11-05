@@ -31,7 +31,7 @@ var title_mappings = [
     {pattern: /Google Agenda/,        mapto: "Agenda"},
     // Hacking browsing
     {pattern: /GitHub/,               mapto: "GitHub"},
-    {pattern: / · Naereen\//,         mapto: "GitHub"},
+    {pattern: / · Naereen/,           mapto: "GitHub"},
     {pattern: /Bitbucket/,            mapto: "Bitbucket"},
     // Music
     {pattern: /YouTube/,              mapto: "YouTube"},
@@ -117,7 +117,7 @@ activity_groups.push({name:"Away", titles: ["Computer locked", "Computer idle", 
 // many magic numbers.
 var hacking_titles = ["Notebook", "Terminal", "Matlab", "ST3 Coding", "ST3 Python", "ST3 JS", "ST3 HTML", "ST3 HTML", "ST3 LaTeX", "ST3 Markdown", "ST3 rST", "ST3"];
 var hacking_title = "Continuous typing";
-var draw_hacking = true; // by default turning this off
+var draw_hacking = true; // by default turning this on
 
 // draw notes row?
 var draw_notes = true;
@@ -125,7 +125,7 @@ var draw_notes = true;
 // experimental coffee levels indicator :)
 // looks for notes that mention coffee and shows
 // levels of coffee in body over time
-var draw_coffee = false;
+var draw_coffee = true;
 
 // Reload interval in minutes. Set to 0 to turn off.
-var auto_reload_interval = 30;
+var auto_reload_interval = 15;

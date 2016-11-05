@@ -33,6 +33,11 @@
     var etypes = [];
     var hacking_stats = {};
 
+    function setTitle (msg) {
+      window.document.title = "uLogMe - " + msg;
+      console.log( "setTitle(): setting title to '" + "uLogMe - Single-day View - " + msg + "' ..." );
+    }
+
     // renders pie chart showing distribution of time spent into #piechart
     function createPieChart(es, etypes) {
 
@@ -138,6 +143,8 @@
 
       var date0 = new Date(t00*1000);
       var titletext = "Activity breakdown, " + ppDay(date0);
+      // Experimentally change the page title
+      setTitle(ppDay(date0));
 
       // Create the chart
         var main_chart_options = {
