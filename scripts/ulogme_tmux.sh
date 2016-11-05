@@ -22,7 +22,9 @@ if [ "X${TMUX}" = "X" ]; then
     exit 1
 fi
 
-port="${1:-8124}"  # Default is port=8124
+port="${1:-8443}"  # Default is port=8124
+IP="${2:-localhost}"
+protocol="${3:-https}"
 
 # Reference tmux man page (eg. https://linux.die.net/man/1/tmux)
 # start a new window,
@@ -32,7 +34,7 @@ tmux new-window -n 'uLogMe' "./ulogme_data.sh | tee /tmp/ulogme_data_$$.log"
 
 # split it half
 # launch './ulogme_serve.sh' in first one
-tmux split-window -d "./ulogme_serve.sh ${port} | tee /tmp/ulogme_serve_$$.log"
+tmux split-window -d "./ulogme_serve.sh ${port} ${IP} ${protocol} | tee /tmp/ulogme_serve_$$.log"
 # tmux rename-window 'uLogMe Server'
 
 sleep 12
