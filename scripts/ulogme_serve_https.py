@@ -7,7 +7,7 @@
 ulogme_serve_https.py - simple HTTP server supporting SSL.
 
 - Replace fpem with the location of your .pem server file ('server.pem' by default).
-- The default port is 5443.
+- The default port is 8443.
 
 Usage: python ulogme_serve_https.py
 
@@ -17,12 +17,17 @@ From https://www.piware.de/2011/01/creating-an-https-server-in-python/ and https
 from __future__ import print_function   # Python 2 compatibility
 from __future__ import absolute_import  # Python 2 compatibility
 
+import sys
 import os
 import os.path
-import webbrowser
 import ssl
+import socket
 from subprocess import check_output
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import HTTPServer
+
+# Local imports
+from ulogme_serve import printc, CustomHandler
+from notify import notify
 
 
 # Utility functions
@@ -43,38 +48,62 @@ def generate_certificate(fpem="server.pem"):
     print(check_output(' '.join(args), shell=True))
 
 
-def open_tab(url="https://localhost:5443/"):
-    print("Opening the page '{}' in your favorite web browser ...".format(url))
-    return webbrowser.open(url)
-
-
-def test():
-    """ Simple test. """
-    # Parameters
-    server_address = ("localhost", 5443)  # (address, port)
-    # FIXME back to 443 ?
-    print("Asking to use the address {s[0]} and the port {s[1]} ...".format(s=server_address))
-    fpem = "server.pem"
-    if not os.path.isfile(fpem):
-        generate_certificate(fpem)
-    print("Using the SSL certificate from the information in the file {} ...".format(fpem))
-
-    # Starting...
-    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
-    httpd.socket = ssl.wrap_socket(httpd.socket, certfile=fpem, server_side=True)
-    sa = httpd.socket.getsockname()
-    print("Serving HTTPS on {} and port {} ...".format(sa[0], sa[1]))
-    # Open the page...
-    # open_tab("http://{}:{}/".format(sa[0], sa[1]))
-    open_tab("https://{}:{}/".format(sa[0], sa[1]))
-    # Start...
-    try:
-        httpd.serve_forever()
-    finally:
-        if httpd is not None:
-            print("\nClosing the HTTPS server (address '{}', port '{}') ...".format(sa[0], sa[1]))
-            httpd.server_close()
-
-
 if __name__ == "__main__":
-    test()
+    httpd = None  # Make sure the variable exist, or the finally: case below can mess up
+
+    # Port setting
+    if len(sys.argv) > 1:
+        PORT = int(sys.argv[1])
+        assert PORT > 2024 or PORT == 443, "Error, you should not ask to use a PORT reserved by the system (<= 2024)"
+    else:
+        PORT = 443
+        # PORT = 8443
+
+    # Address setting
+    if len(sys.argv) > 2:
+        IP = str(sys.argv[2])
+    else:
+        # IP = "ulogme"  # IP address to use by default
+        IP = "localhost"  # IP address to use by default
+        # Instead of "", more secure, thanks to https://github.com/karpathy/ulogme/issues/48
+
+    # Certificate setting
+    if len(sys.argv) > 3:
+        fpem = str(sys.argv[3])
+    else:
+        fpem = "server.pem"
+
+    if not os.path.isfile(fpem):
+        printc("<red>The SSL certificate<white> file <black>{}<white> is not present, trying to generate it with a 'openssl' command ...".format(fpem))
+        generate_certificate(fpem)
+    printc("<green>Using the SSL certificate<white> from the information in the file <black>{}<white> ...".format(fpem))
+
+    # Serve render/ folder, not current folder
+    os.chdir(os.path.join("..", "render"))
+
+    try:
+        httpd = HTTPServer((IP, PORT), CustomHandler)
+        httpd.socket = ssl.wrap_socket(httpd.socket, certfile=fpem, server_side=True)
+        sa = httpd.socket.getsockname()
+        IP, PORT = sa[0], sa[1]
+        printc("<green>Serving uLogMe<white> on a HTTPS server, see it locally on '<u><black>https://{}:{}<white><U>' ...".format(IP, PORT))
+        notify("Serving <b>uLogMe</b> on a <i>HTTPS</i> server, see it locally on 'https://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
+        httpd.serve_forever()
+    except socket.error as e:
+        if e.errno == 98:
+            printc("<red>The port {} was already used ...<white>".format(PORT))
+            printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve_https.py {}<white>' ...".format(PORT + 1))
+        else:
+            printc("<red>Error, ulogme_serve.py was interrupted, giving:<white>")
+            printc("<red>Exception:<white> ", e)
+            # print("Exception: dir(e) =", dir(e))  # DEBUG
+    except KeyboardInterrupt:
+        printc("\n<red>You probably asked to interrupt<white> the '<black>ulogme_serve.py<white>' HTTPS server ...")
+    finally:
+        try:
+            if httpd is not None:
+                printc("\n<yellow>Closing the HTTPS server<white> (address '<black>{}<white>', port '<black>{}<white>') ...".format(IP, PORT))
+                httpd.server_close()
+        except Exception as e:
+            printc("<red>The HTTPS server<white> (address '<black>{}<white>', port '<black>{}<white>') <red>might not have been closed<white> ...".format(IP, PORT))
+            printc("<red>Exception:<white> e =", e)
