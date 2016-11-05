@@ -8,3 +8,4 @@ logs
 old
 .DS_Store
 .python_pid
+*.pem
