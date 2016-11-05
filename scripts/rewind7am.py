@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf8 -*-
 # rewind7am.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/

@@ -17,6 +17,6 @@ else
     T="$1"  # argument was provided, use it!
 fi
 
-logfile="../logs/notes_$(python ./rewind7am.py "$T").txt"
+logfile="../logs/notes_$(python3 ./rewind7am.py "$T").txt"
 echo "$T $n" >> "$logfile"
 echo -e "Logged ${yellow}note${white}: ${magenta}$T${white} ${green}$n${white} into '${black}$logfile${white}'"

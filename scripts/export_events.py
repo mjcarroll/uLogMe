@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf8 -*-
 # export_events.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
@@ -42,8 +42,20 @@ def loadEvents(fname):
     events = []
 
     try:
-        with open(fname, "r") as f:
-            ws = f.read().decode("utf-8").splitlines()
+        try:  # We have a bytes, as in Python2
+            with open(fname, "r") as f:
+                # print("f =", f)  # DEBUG
+                ws = f.read().decode("utf-8").splitlines()
+                # print("Reading a bytes ...")  # DEBUG
+        except AttributeError:  # We have a string, as in Python3
+            with open(fname, "r") as f:
+                # print("f =", f)  # DEBUG
+                ws = f.read().splitlines()
+                # print("Reading a string ...")  # DEBUG
+        # print("type(ws) =", type(ws))  # DEBUG
+        # print("type(ws[0]) =", type(ws[0]))  # DEBUG
+        # print("len(ws) =", len(ws))  # DEBUG
+        # print("ws =", ws)  # DEBUG
         events = []
         for w in ws:
             ix = w.find(" ")  # find first space, that's where stamp ends
@@ -51,7 +63,7 @@ def loadEvents(fname):
             sstr = w[ix + 1:]
             events.append({"t": stamp, "s": sstr})
     except Exception as e:
-        printc("'<black>%s<white>' probably <red>does not exist<white>, setting empty events list ..." % (fname, ))
+        printc("The file '<black>%s<white>' probably <red>does not exist<white>, setting empty events list ..." % (fname, ))
         printc("<red>error was:<white>")
         print(e)
         events = []
@@ -86,8 +98,9 @@ def updateEvents():
     # march from beginning to end, group events for each day and write json
     ROOT = ""
     RENDER_ROOT = os.path.join(ROOT, "..", "render")
-    # FIXME should be done in a more Pythonic way
-    os.system("mkdir -p " + RENDER_ROOT)  # XXX make sure output directory exists
+    # DONE in a more Pythonic way
+    if not os.path.isdir(RENDER_ROOT):
+        os.makedirs(RENDER_ROOT)
     t = mint
     out_list = []
     for t in ts:
@@ -132,12 +145,19 @@ def updateEvents():
                 e4 = open(e4f, "r").read()
 
             eout = {"window_events": e1, "keyfreq_events": e2, "notes_events": e3, "blog": e4}
+            # print("eout =", eout)  # DEBUG
             with open(fwrite, "w") as f:
-                f.write(json.dumps(eout))
+                try:
+                    f.write(json.dumps(eout).encode("utf8"))
+                except TypeError:
+                    f.write(json.dumps(eout))
 
     fwrite = os.path.join(RENDER_ROOT, "json", "export_list.json")
     with open(fwrite, "w") as f:
-        f.write(json.dumps(out_list).encode("utf8"))
+        try:  # We have a bytes, as in Python2
+            f.write(json.dumps(out_list).encode("utf8"))
+        except TypeError:  # We have a string, as in Python3
+            f.write(json.dumps(out_list))
 
 
 # invoked as script

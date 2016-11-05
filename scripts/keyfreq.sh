@@ -67,7 +67,7 @@ while true; do
     num=$(cat $filesToGrep | wc -l)
 
     # Append unix time stamp and the number into file
-    log_file="../logs/keyfreq_$(python rewind7am.py).txt"
+    log_file="../logs/keyfreq_$(python3 rewind7am.py).txt"
     # Only print and log if $num > 0
     if [ "$num" -gt 0 ]; then
         echo -e "Logged ${yellow}key frequency${white}: \tat ${magenta}$(date)${white}, ${green}$(printf "%5i " ${num})${white} key release events, written to '${black}${log_file}${white}'"

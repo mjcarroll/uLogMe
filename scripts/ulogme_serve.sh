@@ -23,5 +23,5 @@ else
 	echo -e "('${black}http://localhost:${port}/${white}' is only opened in a new tab if your Firefox is already running)."
 fi
 
-echo -e "${green}Calling${white} '${blackwhite}python ulogme_serve.py ${port}${white}' ..."
-python ./ulogme_serve.py "${port}"
+echo -e "${green}Calling${white} '${blackwhite}python3 ulogme_serve.py ${port}${white}' ..."
+python3 ./ulogme_serve.py "${port}"

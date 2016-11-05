@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf8 -*-
 # ulogme_serve.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
@@ -8,17 +8,11 @@ from __future__ import absolute_import  # Python 2 compatibility
 
 import sys
 import os
-import SocketServer
-import SimpleHTTPServer
-import cgi
 import subprocess
+import cgi
 import socket
-
-# Local imports
-from export_events import updateEvents
-from rewind7am import rewindTime, ppDay, ppTime
-from notify import notify
-
+import socketserver
+import http.server
 
 # Import a printc function to use ANSI colors in the stdout output
 try:
@@ -41,6 +35,12 @@ except ImportError:
         print(*a, **kw)
 
 
+# Local imports
+from export_events import updateEvents
+from rewind7am import rewindTime, ppDay, ppTime
+from notify import notify
+
+
 # Convenience functions
 
 def writenote(note, time_=None):
@@ -56,10 +56,10 @@ def writenote(note, time_=None):
 
 
 # Custom handler
-class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         # default behavior
-        SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+        http.server.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
         form = cgi.FieldStorage(
@@ -115,7 +115,10 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(result)
+        try:  # We have a bytes, as in Python2
+            self.wfile.write(result)
+        except TypeError:  # We have a string, as in Python3
+            self.wfile.write(bytes(result, "utf8"))
 
 
 if __name__ == "__main__":
@@ -132,7 +135,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         IP = str(sys.argv[2])
     else:
-        IP = "127.0.0.1"  # IP address to use by default
+        IP = "localhost"  # IP address to use by default
         # Instead of "", more secure, thanks to https://github.com/karpathy/ulogme/issues/48
 
     # serve render/ folder, not current folder
@@ -140,7 +143,7 @@ if __name__ == "__main__":
     os.chdir(os.path.join("..", "render"))
 
     try:
-        httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
+        httpd = socketserver.ThreadingTCPServer((IP, PORT), CustomHandler)
         printc("<green>Serving uLogMe<white> on a HTTP server, see it locally on '<u><black>http://{}:{}<white><U>' ...".format(IP, PORT))
         notify("Serving <b>uLogMe</b> on a <i>HTTP</i> server, see it locally on 'http://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()

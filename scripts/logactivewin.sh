@@ -121,7 +121,7 @@ do
 	# log window switch if appropriate
 	if [ "$perform_write" = true -a -n "$curtitle"  ]; then
         # Get rewind time, day starts at 7am and ends at 6:59am next day
-        rewind7am=$(python ./rewind7am.py)
+        rewind7am=$(python3 ./rewind7am.py)
         # One logfile daily
         log_file="../logs/window_${rewind7am}.txt"
         # If computer was just awaken, log suspend event unless it happened before 7am
