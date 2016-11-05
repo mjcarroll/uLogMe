@@ -57,6 +57,10 @@ def writenote(note, time_=None):
 
 # Custom handler
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args):
+        self.rootdir = os.getcwd()
+        super(CustomHandler, self).__init__(*args)
+
     def do_GET(self):
         # default behavior
         http.server.SimpleHTTPRequestHandler.do_GET(self)
@@ -78,7 +82,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             refresh_time = form.getvalue("time")
             printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(int(refresh_time))))
             notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(int(refresh_time))))
-            os.chdir(rootdir)  # pop out
+            os.chdir(self.rootdir)  # pop out
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # pop back to render directory
             result = "OK"
@@ -89,7 +93,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             note_time = form.getvalue("time")
             printc("<green>Adding a note in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(note, ppTime(int(note_time))))
             notify("Adding a note in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(note, ppTime(int(note_time))), icon="note")
-            os.chdir(rootdir)  # pop out
+            os.chdir(self.rootdir)  # pop out
             writenote(note, note_time)
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # go back to render
@@ -103,7 +107,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             post_time = int(form.getvalue("time"))
             printc("<green>Adding a blog post in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(post, ppDay(int(post_time))))
             notify("Adding a blog post in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(post, ppDay(int(post_time))), icon="note")  # DEBUG
-            os.chdir(rootdir)  # pop out
+            os.chdir(self.rootdir)  # pop out
             trev = rewindTime(post_time)
             with open(os.path.join("..", "logs", "blog_%d.txt" % (post_time, )), "w") as f:
                 f.write(post)
@@ -138,8 +142,8 @@ if __name__ == "__main__":
         IP = "localhost"  # IP address to use by default
         # Instead of "", more secure, thanks to https://github.com/karpathy/ulogme/issues/48
 
-    # serve render/ folder, not current folder
-    rootdir = os.getcwd()
+    # Serve render/ folder, not current folder
+    # rootdir = os.getcwd()  # XXX Not used anymore
     os.chdir(os.path.join("..", "render"))
 
     try:
