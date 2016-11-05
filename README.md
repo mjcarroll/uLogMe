@@ -86,7 +86,7 @@ Your private data should be safe with uLogMe:
 - Only the number of keys hit is logged, not the details of *which* keys were hit (during time windows of 10 seconds).
 - You can safely *delete any data*, any time (see below), without risking to break the program.
 - For the window titles, *warning* by default every title is logged. You can add more checks in the [logactivewin.sh](scripts/logactivewin.sh) script (`XXX customize here...`). Right now, the title is not logged if it contains one of these words: `privée`, `InPrivate`, `Private`, `Incognito` (it should be enough to remove private browsing windows from Firefox, Chrom{e,ium}, and Internet Explorer).
-- And from [now on](https://github.com/Naereen/uLogMe/issues/10), the web UI is served by default over a local (untrusted) HTTPS server.
+- And from [now on](https://github.com/Naereen/uLogMe/issues/10#issuecomment-258616402), the web UI is served by default over a local (untrusted) HTTPS server.
 
 
 > Of course, this is a computer program, written by enthusiast programmers, not security experts: there is bugs, and there might be security problems. But none that we know of at least!
