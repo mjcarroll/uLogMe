@@ -40,7 +40,7 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 **The user interface**
 
 1. **Important**. As *a one-time setup*, copy over [the example settings file](render/js/render_settings_example.js) to your own copy: `$ cp render/js/render_settings_example.js render/js/render_settings.js` to create your own `render_settings.js` settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Chrome", or "GitHub - Mozilla Firefox" into just "GitHub". Follow [the provided example](render/js/render_settings_example.js) and read the comments for all settings in the file.
-2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](http://localhost:8124) (by default, it is `http://localhost:8124`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
+2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](https://localhost:8443) (by default, it is `https://localhost:8443`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
 3. If your data is not loading, try to explicitly run `$ python export_events.py` and then hit refresh. This could only be an issue the very first time you run uLogMe.
 
 
@@ -86,6 +86,7 @@ Your private data should be safe with uLogMe:
 - Only the number of keys hit is logged, not the details of *which* keys were hit (during time windows of 10 seconds).
 - You can safely *delete any data*, any time (see below), without risking to break the program.
 - For the window titles, *warning* by default every title is logged. You can add more checks in the [logactivewin.sh](scripts/logactivewin.sh) script (`XXX customize here...`). Right now, the title is not logged if it contains one of these words: `privée`, `InPrivate`, `Private`, `Incognito` (it should be enough to remove private browsing windows from Firefox, Chrom{e,ium}, and Internet Explorer).
+- And from [now on](https://github.com/Naereen/uLogMe/issues/10), the web UI is served by default over a local (untrusted) HTTPS server.
 
 
 > Of course, this is a computer program, written by enthusiast programmers, not security experts: there is bugs, and there might be security problems. But none that we know of at least!
@@ -98,7 +99,7 @@ Your private data should be safe with uLogMe:
 ----
 
 ## :bug: Known issues
-- You may see *"The port 8124 was already used"* error if you try to run `python ulogme_serve.py`. This may be because the port is being used by another program. You can use the optional argument to specify a different port, for example `$ python ulogme_serve.py 8125` and then go to `http://localhost:8125/` instead, (for example).
+- You may see *"The port 8443 was already used"* error if you try to run `python ulogme_serve.py`. This may be because the port is being used by another program. You can use the optional argument to specify a different port, for example `$ python ulogme_serve.py 8444` and then go to `https://localhost:8444/` instead, (for example).
 - Overview page is blank. Are you sure your browser supports ECMAScript 6 ? You can check it with these tools: [ES6 checker](https://ruanyf.github.io/es-checker/) or [Compat-Table ES6](https://kangax.github.io/compat-table/es6/). Any recent browser should be fine (Chrome and Firefox, at least).
 
 ----
