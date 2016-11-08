@@ -31,16 +31,19 @@ from notify import notify
 
 
 # Utility functions
+default_fpem = "server.pem"
+default_fpem_path = os.path.join("..", "render", default_fpem)
 
-def generate_certificate(fpem="server.pem"):
+
+def generate_certificate(fpem=default_fpem_path):
     print("Generating the SSL certificate to {} in the current directory ({}) ...".format(fpem, os.getcwd()))
     args = [
         "openssl",
         "req",
         "-newkey rsa:4096",
         "-x509",
-        "-keyout server.pem",
-        "-out server.pem",
+        "-keyout {}".format(fpem),
+        "-out {}".format(fpem),
         "-days 365",  # Only valid one year!
         "-nodes"
     ]
@@ -71,7 +74,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 3:
         fpem = str(sys.argv[3])
     else:
-        fpem = "server.pem"
+        fpem = default_fpem_path
 
     if not os.path.isfile(fpem):
         printc("<red>The SSL certificate<white> file <black>{}<white> is not present, trying to generate it with a 'openssl' command ...".format(fpem))
