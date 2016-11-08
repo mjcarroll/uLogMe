@@ -128,4 +128,4 @@ var draw_notes = true;
 var draw_coffee = true;
 
 // Reload interval in minutes. Set to 0 to turn off.
-var auto_reload_interval = 15;
+var auto_reload_interval = 30;
