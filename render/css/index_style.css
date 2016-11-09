@@ -2,10 +2,8 @@
  * index_style.css for https://github.com/Naereen/uLogMe/
  * MIT Licensed, https://lbesson.mit-license.org/
 */
-/* @import url('//fonts.googleapis.com/css?family=Ubuntu'); */
 body {
-    /* font-family: Impact, Charcoal, sans-serif; */
-    font-family: 'Ubuntu', Tahoma, sans-serif;
+    font-family: Ubuntu, Tahoma, sans-serif;
     color: #333;
     font-size: 20px;
     margin: 0;
@@ -13,7 +11,7 @@ body {
 }
 g {
     font-size: 14px;
-    font-family: 'arial';
+    font-family: arial;
 }
 p {
     margin: 0;
@@ -41,6 +39,10 @@ p {
     margin-bottom: 20px;
     border-top: 1px solid #AAA;
 }
+    #piechart text {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 20px;
+    }
 #highpiechart {
     text-align: center;
     /* margin-top: 10px; */
@@ -66,20 +68,15 @@ p {
 #keystats {
     margin-top: 20px;
 }
-#keystats p, #keygraph p, #piechart p {
-    font-weight: bold;
-    font-size: 35px;
-}
-h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    /* font-family: 'Lato', sans-serif; */
-    font-weight: 300;
-    background-color: #FFA;
-    margin: 0;
-    padding: 20px;
-    box-shadow: 0px 0px 3px 0px #AAA;
-}
+    #keystats p, #keygraph p, #piechart p {
+        font-weight: bold;
+        font-size: 35px;
+    }
+    #keystats text {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 20px;
+        fill: #333;
+    }
 h1 {
     text-align: center;
     color: #FFF;
@@ -93,6 +90,16 @@ h1 {
         text-decoration: none;
         color: white;
     }
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    /* font-family: 'Lato', sans-serif; */
+    font-weight: 300;
+    background-color: #FFA;
+    margin: 0;
+    padding: 20px;
+    box-shadow: 0px 0px 3px 0px #AAA;
+}
 #leftarrow {
     float: left;
 }
@@ -108,9 +115,9 @@ h1 {
     color: #662;
     cursor: pointer;
     /* make arrows unselectable, since they are text technically */
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-       -moz-user-select: none;     /* Firefox all */
-        -ms-user-select: none;      /* IE 10+ */
+    -webkit-user-select: none; /* Chrome all / Safari all */
+       -moz-user-select: none; /* Firefox all */
+        -ms-user-select: none; /* IE 10+ */
          -o-user-select: none; /* not yet supported well */
             user-select: none;
 }
@@ -128,9 +135,9 @@ h1 {
     font-size: 40px;
     cursor: pointer;
     /* make unselectable, since they are text technically */
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-       -moz-user-select: none;     /* Firefox all */
-        -ms-user-select: none;      /* IE 10+ */
+    -webkit-user-select: none; /* Chrome all / Safari all */
+       -moz-user-select: none; /* Firefox all */
+        -ms-user-select: none; /* IE 10+ */
          -o-user-select: none; /* not yet supported well */
             user-select: none;
     color: #AA5;
@@ -176,11 +183,11 @@ input[type="text"] {
     top: 25px;
     right: 100px;
     font-weight: normal;
-    font-family: 'Lato', sans-serif;
+    font-family: Lato, sans-serif;
 }
-#overviewlink a {
-    color: #FFF;
-}
+    #overviewlink a {
+        color: #FFF;
+    }
 .fdiv {
     display: inline-block;
     margin-right: 50px;
@@ -192,6 +199,12 @@ pre {
     border-radius: 3px;
     font-size: 16px;
 }
+    pre.empty {
+        color: #888;
+    }
+    pre.notempty {
+        color: #000;
+    }
 #blogenter textarea {
     background-color: #F9F9F9;
     border: 1px solid #CCC;
@@ -212,28 +225,13 @@ pre {
     width: 200px;
     height: 40px;
 }
-pre.empty {
-   color: #888;
-}
-pre.notempty {
-    color: #000;
-}
-#piechart text {
-    font-family: Impact, Charcoal, sans-serif;
-    font-size: 20px;
-}
-#keystats text {
-    font-family: Impact, Charcoal, sans-serif;
-    font-size: 20px;
-    fill: #333;
-}
-.linkstogithub, .linkstogithub a {
+.linksfooter, .linksfooter a {
     color: black;
     text-decoration: none;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
-.linkstogithub a:hover {
-    text-decoration: underline;
-}
+    .linksfooter a:hover {
+        text-decoration: underline;
+    }

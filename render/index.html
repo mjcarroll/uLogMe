@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="css/index_style.css" />
     <link rel="stylesheet" media="screen and (min-width: 280px)" type="text/css" href="css/nprogress.css" />
     <link rel="stylesheet" type="text/css" href="css/headerlink.css" />
-    <!-- <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" /> -->
     <link rel="icon" href="favicon.png" type="image/png" />
 
     <script type="text/javascript" src="js/jquery-1.8.3.min.js" charset="utf-8"></script>
@@ -23,8 +22,7 @@
     <script type="text/javascript" src="js/highcharts.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/nprogress.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/mousetrap.min.js" charset="utf-8"></script>
-
-    <script type="application/javascript">
+    <script type="text/javascript">
     // GLOBALS
     var color_hash = {}; // mapped titles -> hsl color to draw with
     var t00; // initial time for a day (time first event began)
@@ -860,6 +858,7 @@
     </script>
   </head>
   <body onload="start()">
+    <div id="reloadspinner" class="spinner"></div>
     <div id="spinnerdiv" title="Wait for the data to be loaded..."></div>
     <div id="reloadbutton" title="Reload the data (override cache)">&#10226;</div>
     <div id="overviewlink"><a href="overview.html" title="Switch to the overview page">Overview</a></div>
@@ -891,7 +890,7 @@
           <h3>Total number of key strokes: <a class="headerlink" href="#keystats" title="Anchor for this « Total number of key strokes » chart">¶</a></h3>
       </div>
       <div id="notesinfo">
-        <div id="notesinfohide">x</div>
+        <div id="notesinfohide">×</div>
         <div>
           <div id="notesmsg"></div>
           <input type="text" id="notetext">
@@ -908,9 +907,9 @@
     </div>
     <footer>
       <br><br><br>
-      <div class="linkstogithub">
+      <div class="linksfooter">
           <h3 id="about">About <a class="headerlink" href="#about" title="Anchor for the about section">¶</a></h3>
-          <a href="https://github.com/Naereen/uLogMe/">Documentation can be found on the GitHub README.md file.</a>
+          <a href="https://github.com/Naereen/uLogMe/">Full documentation can be found on GitHub.</a>
           <a href="https://lbesson.mit-license.org/"><img src="svg/license.svg" alt="GitHub license"></a>
           <br>
           Thanks to <a href="https://GitHub.com/karpathy/">@karpathy</a> and <a href="https://GitHub.com/karpathy/ulogme/graphs/contributors">contributors</a> for the <a href="https://GitHub.com/karpathy/ulogme">initial project</a>.
