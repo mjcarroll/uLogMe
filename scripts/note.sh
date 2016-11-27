@@ -3,11 +3,12 @@
 # MIT Licensed, https://lbesson.mit-license.org/
 #
 # allows the user to simply record a note, saves it together with unix time in ../logs/notes_...
-
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
 [ -f color.sh ] && . color.sh
 
-mkdir -p ../logs
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+mkdir -p ../logs/
 
 read -p "Enter note: " n
 
