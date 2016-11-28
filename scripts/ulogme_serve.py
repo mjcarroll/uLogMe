@@ -49,6 +49,9 @@ def writenote(note, time_=None):
     if time_ is not None:
         cmd.append(str(time_))
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    if not isinstance(note, bytes):
+        note = note.encode('utf-8')
+        # FIXED TypeError: 'str' does not support the buffer interface
     process.communicate(input=note)
     process.wait()
     notify("<b>uLogMe</b> created a note, with content '<i>{}</i>' and time '<i>{!s}</i>'.".format(note, time_))
