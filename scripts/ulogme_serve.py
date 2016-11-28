@@ -81,7 +81,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             # temporarily. It's a little ugly
             refresh_time = form.getvalue("time")
             printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(int(refresh_time))))
-            notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(int(refresh_time))))
+            # FIXME add a command line option to enable/disable the refresh notifications
+            # notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(int(refresh_time))))
             os.chdir(self.rootdir)  # pop out
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # pop back to render directory
