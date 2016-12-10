@@ -29,12 +29,12 @@ protocol="${3:-https}"
 # Reference tmux man page (eg. https://linux.die.net/man/1/tmux)
 # start a new window,
 # name it ulogme
-tmux new-window -n 'uLogMe' "./ulogme_data.sh | tee /tmp/ulogme_data_$$.log"
+tmux new-window -a -n 'uLogMe' "tmux split-window -d \"./ulogme_serve.sh ${port} ${IP} ${protocol} | tee /tmp/ulogme_serve_$$.log\" ; ./ulogme_data.sh | tee /tmp/ulogme_data_$$.log"
 # launch './ulogme_data.sh' in first one
 
 # split it half
 # launch './ulogme_serve.sh' in first one
-tmux split-window -d "./ulogme_serve.sh ${port} ${IP} ${protocol} | tee /tmp/ulogme_serve_$$.log"
+# tmux split-window -d "./ulogme_serve.sh ${port} ${IP} ${protocol} | tee /tmp/ulogme_serve_$$.log"
 # tmux rename-window 'uLogMe Server'
 
 sleep 12
