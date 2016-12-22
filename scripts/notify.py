@@ -47,6 +47,8 @@ def choose_icon(random=True):
 
 # Define the icon loaded function
 try:
+    from gi import require_version
+    require_version('GdkPixbuf', '2.0')
     from gi.repository import GdkPixbuf
 
     def load_icon(random=True):
@@ -73,6 +75,8 @@ except ImportError:
 # Trying to import gi.repository.Notify
 has_Notify = False
 try:
+    from gi import require_version
+    require_version('Notify', '0.7')
     from gi.repository import Notify
     # One time initialization of libnotify
     Notify.init(PROGRAM_NAME)
