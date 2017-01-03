@@ -18,7 +18,7 @@ url=${protocol}://${IP}:${port}/
 
 
 if pidof firefox >/dev/null; then
-	echo -e "${yellow}Opening${white} '${black}${url}${white}'' in your favorite browser ..."
+	echo -e "${yellow}Opening${white} '${black}${url}${white}' in your favorite browser ..."
 	firefox -new-tab "${url}" &
     # xdg-open "${url}" &  # Generic on Linux
 	# open "${url}" &      # Generic on Mac

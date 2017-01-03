@@ -49,6 +49,9 @@ def writenote(note, time_=None):
     if time_ is not None:
         cmd.append(str(time_))
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+    if not isinstance(note, bytes):
+        note = note.encode('utf-8')
+        # FIXED TypeError: 'str' does not support the buffer interface
     process.communicate(input=note)
     process.wait()
     notify("<b>uLogMe</b> created a note, with content '<i>{}</i>' and time '<i>{!s}</i>'.".format(note, time_))
@@ -77,8 +80,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         result = "NOT_UNDERSTOOD"
 
         if self.path == "/refresh":
-            # Recompute jsons. We have to pop out to root from render directory
-            # temporarily. It's a little ugly
+            # Recompute jsons.
+            # We have to pop out to root from render directory temporarily. It's a little ugly
             refresh_time = int(form.getvalue("time"))
             if refresh_time > 0:
                 printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(refresh_time)))
@@ -86,6 +89,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             else:
                 printc("<green>Refreshing the view of uLogMe<white>, for the overview page ...")
                 notify("Refreshing the view of <b>uLogMe</b>, for the overview page ...")
+            # FIXME add a command line option to enable/disable the refresh notifications
             os.chdir(self.rootdir)  # pop out
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # pop back to render directory
