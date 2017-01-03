@@ -79,9 +79,13 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         if self.path == "/refresh":
             # Recompute jsons. We have to pop out to root from render directory
             # temporarily. It's a little ugly
-            refresh_time = form.getvalue("time")
-            printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(int(refresh_time))))
-            notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(int(refresh_time))))
+            refresh_time = int(form.getvalue("time"))
+            if refresh_time > 0:
+                printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(refresh_time)))
+                notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(refresh_time)))
+            else:
+                printc("<green>Refreshing the view of uLogMe<white>, for the overview page ...")
+                notify("Refreshing the view of <b>uLogMe</b>, for the overview page ...")
             os.chdir(self.rootdir)  # pop out
             updateEvents()  # defined in export_events.py
             os.chdir(os.path.join("..", "render"))  # pop back to render directory

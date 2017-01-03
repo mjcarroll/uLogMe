@@ -32,7 +32,7 @@ last_log_file=""
 echo -e "${green}$0 has well been started.${white}"
 nb_virtual_kb=$(xinput | grep 'slave  keyboard' | grep -o 'id=[0-9]*' | cut -d= -f2 | wc -l)
 nb_real_kb=$(xinput | grep 'keyboard.*slave.*keyboard' | grep -v 'Virtual' | wc -l)
-echo -e "  - It will ${red}constantly${white} record the keyboard(s) of your laptop (currently there seems to be ${black}${nb_virtual_kb}${white} virtual keyboard(s) and ${black}${nb_real_kb}${white} real keyboard(s)."
+echo -e "  - It will ${red}constantly${white} record the keyboard(s) of your laptop (currently there seems to be ${black}${nb_virtual_kb}${white} virtual keyboard(s) and ${black}${nb_real_kb}${white} real keyboard(s))."
 echo -e "  - It will work in time window of ${red}$POLLING_INTERVAL${white} seconds."
 [ $COMPRESS_LOG_FILE = true ] && echo -e "  - It will regularly compress the log files."
 echo
