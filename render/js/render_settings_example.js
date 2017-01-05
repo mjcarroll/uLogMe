@@ -39,7 +39,7 @@ var title_mappings = [
     {pattern: / par /,                mapto: "GMusicBrowser"},
     // Programming
     {pattern: /MATLAB/,               mapto: "Matlab"},
-    {pattern: /Figure/,               mapto: "Matlab"},
+    {pattern: /Figure/,               mapto: "Figure"},
     {pattern: /notebook/,             mapto: "Notebook"},
     {pattern: /.pdf/,                 mapto: "PDF"},
     {pattern: /Terminal/,             mapto: "Terminal"},
@@ -91,7 +91,7 @@ display_groups.push(["YouTube", "VLC", "GMusicBrowser"]); // Music
 display_groups.push(["Agenda", "Self-Quantified"]); // Self-quantified browsing and Agenda
 
 display_groups.push(["Firefox", "ST3", "Terminal", "Misc"]); // Various works/geeking
-display_groups.push(["Matlab", "ST3 Coding", "ST3 Python", "Notebook"]); // Work related
+display_groups.push(["Matlab", "Figure", "ST3 Coding", "ST3 Python", "Notebook"]); // Work related
 display_groups.push(["ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST"]); // Coding related
 display_groups.push(["ST3 LaTeX", "PDF"]); // Paper writing related
 
@@ -103,7 +103,7 @@ display_groups.push(["Computer locked", "Computer idle", "Computer suspended"]);
 // All related activities will be shown in outer piechart ring.
 var activity_groups = [];
 activity_groups.push({name:"Fun", titles: ["YouTube", "VLC", "GMusicBrowser"]});
-activity_groups.push({name:"Coding", titles: ["GitHub", "Bitbucket", "Matlab", "ST3 Coding", "ST3 Python", "Notebook", "ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST", "ST3 LaTeX", "ST3", "Terminal"]});
+activity_groups.push({name:"Coding", titles: ["GitHub", "Bitbucket", "Matlab", "Figure", "ST3 Coding", "ST3 Python", "Notebook", "ST3 Bash", "ST3 JS", "ST3 HTML", "ST3 Markdown", "ST3 rST", "ST3 LaTeX", "ST3", "Terminal"]});
 activity_groups.push({name:"Social", titles: ["Mails", "Skype", "Facebook", "Slack", , "Misc"]});
 activity_groups.push({name:"Browsing", titles: ["Self-Quantified", "Firefox", "Agenda", "PDF"]});
 activity_groups.push({name:"Away", titles: ["Computer locked", "Computer idle", "Computer suspended"]});
