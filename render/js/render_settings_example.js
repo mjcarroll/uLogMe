@@ -19,6 +19,7 @@ var title_mappings = [
     {pattern: /Thunderbird/,          mapto: "Mails"},
     {pattern: /Skype/,                mapto: "Skype"},
     {pattern: /Facebook/,             mapto: "Facebook"},
+    {pattern: /Messenger/,            mapto: "Facebook"},
     {pattern: /Slack/,                mapto: "Slack"},
     // Self-quantified browsing
     {pattern: /Stats pour/,           mapto: "Self-Quantified"},
