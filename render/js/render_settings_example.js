@@ -53,8 +53,13 @@ var title_mappings = [
     {pattern: /\.tex.*Sublime Text/,  mapto: "ST3 LaTeX"},
     {pattern: /\.md.*Sublime Text/,   mapto: "ST3 Markdown"},
     {pattern: /\.rst.*Sublime Text/,  mapto: "ST3 rST"},
+    // PyCharm patterns
+    {pattern: /PyCharm/,              mapto: "PyCharm"},
+    {pattern: /\.py.*PyCharm/,        mapto: "PyCharm Python"},
+    {pattern: /\.md.*PyCharm/,        mapto: "PyCharm Markdown"},
+    {pattern: /\.rst.*PyCharm/,       mapto: "PyCharm rST"},
     // Extra
-    {pattern: /__LOCKEDSCREEN/,       mapto: "Computer locked"}, // __LOCKEDSCREEN is a special token FIXME on Linux does it work?
+    {pattern: /__LOCKEDSCREEN/,       mapto: "Computer locked"}, // __LOCKEDSCREEN is a special token
     {pattern : /__SUSPEND/,           mapto: "Computer suspended"}, // __SUSPEND is a special token
 ];
 
@@ -128,4 +133,4 @@ var draw_notes = true;
 var draw_coffee = true;
 
 // Reload interval in minutes. Set to 0 to turn off.
-var auto_reload_interval = 30;
+var auto_reload_interval = 0;
