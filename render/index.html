@@ -305,6 +305,13 @@
         .attr("fill", function(d) { return c; });
     }
 
+    // just print number of window switches
+    function visualizeWinSwitches(nb_events) {
+      console.log("nb_events =", nb_events);
+      $("#nbevents_data").empty();
+      $("#nbevents_data").text(nb_events);
+    }
+
     // number of keys pressed in every window type visualization
     function visualizeKeyStats(key_stats, etypes) {
       $("#keystats").empty();
@@ -594,8 +601,9 @@
 
         // save these as globals for later access
         events = data["window_events"];
-        key_events = data["keyfreq_events"]
-        notes_events = data["notes_events"]
+        // nb_events = data["nb_window_events"]
+        key_events = data["keyfreq_events"];
+        notes_events = data["notes_events"];
 
         // map all window titles through the (customizable) mapwin function
         _.each(events, function(e) { e.m = mapwin(e.s); });
@@ -625,6 +633,7 @@
         computeKeyStats(events, key_events);
         hacking_stats = computeHackingStats(events, key_events, hacking_titles);
         visualizeHackingTimes(hacking_stats);
+        visualizeWinSwitches(events.length);
         key_stats = computeKeyStats(events, key_events);
         visualizeKeyStats(key_stats, etypes);
         visualizeKeyFreq(key_events);
@@ -633,6 +642,7 @@
     }
 
     var events;
+    // var nb_events;
     var key_events;
     var notes_events;
     var blog;
@@ -885,6 +895,12 @@
       </div>
       <div id="hackingvis">
           <h3>Continuous typing: <a class="headerlink" href="#hackingvis" title="Anchor for this « Continuous typing » chart">¶</a></h3>
+      </div>
+      <div id="nbevents">
+          <h3>Total number of window switches <a class="headerlink" href="#nbevents" title="Anchor for this « Total number of window switches » value">¶</a></h3>
+          <p>
+            <span id="nbevents_data">0</span> window switches (Alt+Tab).
+          </p>
       </div>
       <div id="keystats">
           <h3>Total number of key strokes: <a class="headerlink" href="#keystats" title="Anchor for this « Total number of key strokes » chart">¶</a></h3>
