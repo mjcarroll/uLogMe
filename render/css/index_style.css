@@ -68,7 +68,7 @@ p {
 #keystats {
     margin-top: 20px;
 }
-    #keystats p, #keygraph p, #piechart p {
+    #keystats p, #keygraph p, #piechart p, #nbevents h3 {
         font-weight: bold;
         font-size: 35px;
     }
@@ -77,6 +77,9 @@ p {
         font-size: 20px;
         fill: #333;
     }
+#nbevents_data {
+    font-weight: bold;
+}
 h1 {
     text-align: center;
     color: #FFF;

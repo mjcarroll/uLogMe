@@ -144,7 +144,12 @@ def updateEvents():
             if os.path.isfile(e4f):
                 e4 = open(e4f, "r").read()
 
-            eout = {"window_events": e1, "keyfreq_events": e2, "notes_events": e3, "blog": e4}
+            eout = {
+                "window_events": e1,
+                "keyfreq_events": e2,
+                "notes_events": e3,
+                "blog": e4
+            }
             # print("eout =", eout)  # DEBUG
             with open(fwrite, "w") as f:
                 try:
