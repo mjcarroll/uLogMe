@@ -1,0 +1,8 @@
+title: uLogMe - on GitHub.com/Naereen
+description: Automatically collect and visualize usage statistics on Ubuntu, key frequencies and window titles
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
