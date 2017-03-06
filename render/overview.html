@@ -68,8 +68,8 @@
 
         var yy = (height + margin.top - yoff);
         svg.append("text")
-          .attr("transform", "translate(1," + (yy-3) + ")")
-          .text(yn + "hr");
+          .attr("transform", "translate(0," + (yy-3) + ")")
+          .text(yn + (yn < 10 ? " " : "") + "h");
 
         svg.append("line")
           .attr("x1", 0)
@@ -533,8 +533,8 @@
       <div id="content"></div>
       <h2 id="perwindowsummary">Per-window summaries <a class="headerlink" href="#perwindowsummary" title="Anchor for the « Per-window summaries » chart">¶</a></h2>
       <div id="summaries">
-        <div id="keysummary"></div>
         <div id="timesummary"></div>
+        <div id="keysummary"></div>
       </div>
       <h2 id="keystatseachday">Key frequencies during each day <a class="headerlink" href="#keystatseachday" title="Anchor for the « Key frequencies during each day » chart">¶</a></h2>
       <div id="keystats"></div>
@@ -550,7 +550,7 @@
           <br>
           Thanks to <a href="https://GitHub.com/karpathy/">@karpathy</a> and <a href="https://GitHub.com/karpathy/ulogme/graphs/contributors">contributors</a> for the <a href="https://GitHub.com/karpathy/ulogme">initial project</a>.
           <br>
-          Hacked and tweaked with <span style="color: #f95959;">&hearts;</span> by <a href="https://GitHub.com/Naereen/">Lilian Besson (Naereen)</a>, © 2016.
+          Hacked and tweaked with <span style="color: #f95959;">&hearts;</span> by <a href="https://GitHub.com/Naereen/">Lilian Besson (Naereen)</a>, © 2016-2017.
           <br>
           <a href="https://GitHub.com/Naereen/"><img src="svg/built-with-love.svg" alt="ForTheBadge built-with-love"></a>
       </div>
