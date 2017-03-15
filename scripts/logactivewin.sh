@@ -87,12 +87,17 @@ do
     fi
     if [ -n "$suspended_at" ]; then
         # echo -e "${red}suspended_at = ${suspended_at}${white} ..."  # DEBUG
-        suspended_at="$(date -d "$suspended_at" +%s)"
-        # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
-        suspended_at=$((suspended_at + 30))
-        if [ "$suspended_at" -ge "$last_write" ]; then
-            echo -e "${red}Suspend occured after last event${white}, '${black}was_awaken${white}' = true ...${white}"
-            was_awaken=true
+        if date -d "$suspended_at" +%s 2>/dev/null; then
+            suspended_at="$(date -d "$suspended_at" +%s)"
+            # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
+            suspended_at=$((suspended_at + 30))
+            if [ "$suspended_at" -ge "$last_write" ]; then
+                echo -e "${red}Suspend occured after last event${white}, '${black}was_awaken${white}' = true ...${white}"
+                was_awaken=true
+            fi
+        else
+            suspended_at="0"
+            was_awaken=false
         fi
     fi
 
