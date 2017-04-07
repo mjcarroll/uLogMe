@@ -87,7 +87,7 @@ do
     fi
     if [ -n "$suspended_at" ]; then
         # echo -e "${red}suspended_at = ${suspended_at}${white} ..."  # DEBUG
-        if date -d "$suspended_at" +%s 2>/dev/null; then
+        if date -d "$suspended_at" +%s &>/dev/null; then
             suspended_at="$(date -d "$suspended_at" +%s)"
             # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
             suspended_at=$((suspended_at + 30))
