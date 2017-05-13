@@ -41,7 +41,9 @@ var title_mappings = [
     // Programming
     {pattern: /MATLAB/,               mapto: "Matlab"},
     {pattern: /Figure/,               mapto: "Figure"},
+    {pattern: /Notebook/,             mapto: "Notebook"},
     {pattern: /notebook/,             mapto: "Notebook"},
+    {pattern: /YouTube/,              mapto: "Notebook"},
     {pattern: /.pdf/,                 mapto: "PDF"},
     {pattern: /Terminal/,             mapto: "Terminal"},
     // Sublime Text 3 patterns
