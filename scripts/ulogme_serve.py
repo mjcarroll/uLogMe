@@ -11,8 +11,14 @@ import os
 import subprocess
 import cgi
 import socket
-import socketserver
-import http.server
+try:
+    import socketserver
+except ImportError:                      # https://stackoverflow.com/questions/13329761/no-module-named-serversocket
+    import SocketServer as socketserver  # Python 2 compatibility
+try:
+    import http.server as http_server
+except ImportError:
+    import SimpleHTTPServer as http_server  # Python 2 compatibility
 
 # Import a printc function to use ANSI colors in the stdout output
 try:
@@ -59,14 +65,14 @@ def writenote(note, time_=None):
 
 
 # Custom handler
-class CustomHandler(http.server.SimpleHTTPRequestHandler):
+class CustomHandler(http_server.SimpleHTTPRequestHandler):
     def __init__(self, *args):
         self.rootdir = os.getcwd()
         super(CustomHandler, self).__init__(*args)
 
     def do_GET(self):
         # default behavior
-        http.server.SimpleHTTPRequestHandler.do_GET(self)
+        http_server.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
         form = cgi.FieldStorage(
