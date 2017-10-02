@@ -30,12 +30,36 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 
 ## Getting started
 
-**To start recording**
+**To install uLogMe**
 
 1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/uLogMe.git`
 2. If you're on Ubuntu, make sure you have the dependencies: the `xdotool` `xinput` `wmctrl` `xprintidle` packets are *required* (to install them: `$ sudo apt-get install xdotool xinput wmctrl xprintidle`). On other Linux distribution, install them also, and you may also need gnome-screensaver (`$ sudo PACKETMANAGER install gnome-screensaver` where `PACKETMANAGER=pacman` on ArchLinux, `PACKETMANAGER=yum` on Fedora, etc).
-3. `cd` inside and run `$ ./ulogme.sh`. This will launch two scripts. The first one, [`keyfreq.sh`](scripts/keyfreq.sh), records the frequency of keystrokes, and the other one ,[`logactivewin`](scripts/logactivewin.sh), records active window titles. Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the [Unix time stamp](https://en.wikipedia.org/wiki/Unix_time) followed by data, one per line (plain text file). We tried to be smart and only logging the useful data.
 
+```bash
+# maybe do that, or wherever you want
+cd ~/.local/
+
+# ONLY the first time do that to install the project
+git clone https://github.com/Naereen/uLogMe.git
+
+# and ONLY ONCE run this to install the dependencies
+sudo apt install xdotool xinput wmctrl xprintidle
+# or use 'pacman' on ArchLinux or 'yum' on Fedora or 'brew' or a similar tool on Mac OS X
+```
+
+**To start recording**
+
+1. `cd uLogMe/scripts` inside the directory and run `$ ./ulogme_data.sh`. This will launch two scripts.
+   - The first one, [`keyfreq.sh`](scripts/keyfreq.sh), records the frequency of keystrokes,
+   - and the other one,[`logactivewin`](scripts/logactivewin.sh), records active window titles.
+   - Both write their logs into log files in the `logs/` directory. Every log file is very simple: just the [Unix time stamp](https://en.wikipedia.org/wiki/Unix_time) followed by data, one per line (plain text file).
+   - We tried to be smart and only logging the useful data.
+
+```bash
+cd ~/.local/uLogMe/  # or wherever you installed uLogme
+cd scripts/
+./ulogme_data.sh   # starts collecting data !
+```
 
 **The user interface**
 
@@ -43,6 +67,18 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](https://localhost:8443) (by default, it is `https://localhost:8443`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
 3. If your data is not loading, try to explicitly run `$ python export_events.py` and then hit refresh. This could only be an issue the very first time you run uLogMe.
 
+```bash
+cd uLogMe/  # or wherever you installed uLogMe
+# only once, create your own setting file
+cp render/js/render_settings_example.js render/js/render_settings.js
+# then launch the visualization server
+cd scripts/
+python ulogme_serve.py
+# Open the page with Firefox, or use 'open' or 'xdg-open' or 'chromium-browser' or any recent browser
+firefox https://localhost:8443/
+# if needed
+python exports_events.py
+```
 
 Bonus: **If you are using [tmux](https://tmux.github.io/)**
 
@@ -145,7 +181,7 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 ## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/uLogMe.svg)](https://github.com/Naereen/uLogMe/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
 
-© 2014-2016 [Andrej Karpathy](https://GitHub.com/karpathy) and [GitHub collaborators](https://GitHub.com/karpathy/ulogme/graphs/contributors/), and © 2016 [Lilian Besson](https://GitHub.com/Naereen).
+© 2014-2016 [Andrej Karpathy](https://GitHub.com/karpathy) and [GitHub collaborators](https://GitHub.com/karpathy/ulogme/graphs/contributors/), and © 2016-2017 [Lilian Besson](https://GitHub.com/Naereen).
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/uLogMe/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
