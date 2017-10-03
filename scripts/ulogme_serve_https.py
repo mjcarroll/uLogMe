@@ -77,9 +77,9 @@ if __name__ == "__main__":
         fpem = default_fpem_path
 
     if not os.path.isfile(fpem):
-        printc("<red>The SSL certificate<white> file <black>{}<white> is not present, trying to generate it with a 'openssl' command ...".format(fpem))
+        printc("<red>The SSL certificate<reset> file <black>{}<reset> is not present, trying to generate it with a 'openssl' command ...".format(fpem))
         generate_certificate(fpem)
-    printc("<green>Using the SSL certificate<white> from the information in the file <black>{}<white> ...".format(fpem))
+    printc("<green>Using the SSL certificate<reset> from the information in the file <black>{}<reset> ...".format(fpem))
 
     # Serve render/ folder, not current folder
     os.chdir(os.path.join("..", "render"))
@@ -89,24 +89,24 @@ if __name__ == "__main__":
         httpd.socket = ssl.wrap_socket(httpd.socket, certfile=fpem, server_side=True)
         sa = httpd.socket.getsockname()
         IP, PORT = sa[0], sa[1]
-        printc("<green>Serving uLogMe<white> on a HTTPS server, see it locally on '<u><black>https://{}:{}<white><U>' ...".format(IP, PORT))
+        printc("<green>Serving uLogMe<reset> on a HTTPS server, see it locally on '<u><black>https://{}:{}<reset><U>' ...".format(IP, PORT))
         notify("Serving <b>uLogMe</b> on a <i>HTTPS</i> server, see it locally on 'https://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()
     except socket.error as e:
         if e.errno == 98:
-            printc("<red>The port {} was already used ...<white>".format(PORT))
-            printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve_https.py {}<white>' ...".format(PORT + 1))
+            printc("<red>The port {} was already used ...<reset>".format(PORT))
+            printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve_https.py {}<reset>' ...".format(PORT + 1))
         else:
-            printc("<red>Error, ulogme_serve.py was interrupted, giving:<white>")
-            printc("<red>Exception:<white> ", e)
+            printc("<red>Error, ulogme_serve.py was interrupted, giving:<reset>")
+            printc("<red>Exception:<reset> ", e)
             # print("Exception: dir(e) =", dir(e))  # DEBUG
     except KeyboardInterrupt:
-        printc("\n<red>You probably asked to interrupt<white> the '<black>ulogme_serve.py<white>' HTTPS server ...")
+        printc("\n<red>You probably asked to interrupt<reset> the '<black>ulogme_serve.py<reset>' HTTPS server ...")
     finally:
         try:
             if httpd is not None:
-                printc("\n<yellow>Closing the HTTPS server<white> (address '<black>{}<white>', port '<black>{}<white>') ...".format(IP, PORT))
+                printc("\n<yellow>Closing the HTTPS server<reset> (address '<black>{}<reset>', port '<black>{}<reset>') ...".format(IP, PORT))
                 httpd.server_close()
         except Exception as e:
-            printc("<red>The HTTPS server<white> (address '<black>{}<white>', port '<black>{}<white>') <red>might not have been closed<white> ...".format(IP, PORT))
-            printc("<red>Exception:<white> e =", e)
+            printc("<red>The HTTPS server<reset> (address '<black>{}<reset>', port '<black>{}<reset>') <red>might not have been closed<reset> ...".format(IP, PORT))
+            printc("<red>Exception:<reset> e =", e)

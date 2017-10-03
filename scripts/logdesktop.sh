@@ -31,7 +31,7 @@ do
 		# q is quality. Higher is higher quality
 		scrot -q 50 "$fname"
 	else
-		echo -e "${red}Screen is locked, waiting ...${white}"
+		echo -e "${red}Screen is locked, waiting ...${reset}"
 	fi
 
 	sleep "$waittime"

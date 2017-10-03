@@ -29,11 +29,11 @@ last_log_file=""
 
 
 # First message to inform that the script was started correctly
-echo -e "${green}$0 has been started successfully.${white}"
+echo -e "${green}$0 has been started successfully.${reset}"
 nb_virtual_kb=$(xinput | grep 'slave  keyboard' | grep -o 'id=[0-9]*' | cut -d= -f2 | wc -l)
 nb_real_kb=$(xinput | grep 'keyboard.*slave.*keyboard' | grep -v 'Virtual' | wc -l)
-echo -e "  - It will ${red}constantly${white} record the keyboard(s) of your laptop (currently there seems to be ${black}${nb_virtual_kb}${white} virtual keyboard(s) and ${black}${nb_real_kb}${white} real keyboard(s))."
-echo -e "  - It will work in time window of ${red}$POLLING_INTERVAL${white} seconds."
+echo -e "  - It will ${red}constantly${reset} record the keyboard(s) of your laptop (currently there seems to be ${black}${nb_virtual_kb}${reset} virtual keyboard(s) and ${black}${nb_real_kb}${reset} real keyboard(s))."
+echo -e "  - It will work in time window of ${red}$POLLING_INTERVAL${reset} seconds."
 [ $COMPRESS_LOG_FILE = true ] && echo -e "  - It will regularly compress the log files."
 echo
 
@@ -70,7 +70,7 @@ while true; do
     log_file="../logs/keyfreq_$(python3 rewind7am.py).txt"
     # Only print and log if $num > 0
     if [ "$num" -gt 0 ]; then
-        echo -e "Logged ${yellow}key frequency${white}: \tat ${magenta}$(date)${white}, ${green}$(printf "%5i " ${num})${white} key release events, written to '${black}${log_file}${white}'"
+        echo -e "Logged ${yellow}key frequency${reset}: \tat ${magenta}$(date)${reset}, ${green}$(printf "%5i " ${num})${reset} key release events, written to '${black}${log_file}${reset}'"
         echo "$(date +%s) $num"  >> "$log_file"
     fi
 
@@ -81,7 +81,7 @@ while true; do
             grep -s -v " 0$" -A 1 -B 1 "$last_log_file" \
                 | sort -u \
                 | grep -s -v "^\-\-$" > "${last_log_file}.compressed"
-            echo "${blue}Compressing keyfreq log file${white}: ${yellow}$(ls -hsx ${last_log_file}*)${white}"
+            echo "${blue}Compressing keyfreq log file${reset}: ${yellow}$(ls -hsx ${last_log_file}*)${reset}"
             mv -f -- "${last_log_file}.compressed" "$last_log_file"
         fi
         # Create symlink to most recent log file everytime it changes its name,

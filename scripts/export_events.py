@@ -63,8 +63,8 @@ def loadEvents(fname):
             sstr = w[ix + 1:]
             events.append({"t": stamp, "s": sstr})
     except Exception as e:
-        printc("The file '<black>%s<white>' probably <red>does not exist<white>, setting empty events list ..." % (fname, ))
-        printc("<red>error was:<white>")
+        printc("The file '<black>%s<reset>' probably <red>does not exist<reset>, setting empty events list ..." % (fname, ))
+        printc("<red>error was:<reset>")
         print(e)
         events = []
     return events
@@ -127,7 +127,7 @@ def updateEvents():
             e4mod = mtime(e4f)
             if e1mod > tmod or e2mod > tmod or e3mod > tmod or e4mod > tmod:
                 dowrite = True  # better update!
-                printc("<yellow>A log file has changed<white>, so will update '<black>%s<white>' ..." % (fwrite, ))
+                printc("<yellow>A log file has changed<reset>, so will update '<black>%s<reset>' ..." % (fwrite, ))
         else:
             # output file doesnt exist, so write.
             dowrite = True

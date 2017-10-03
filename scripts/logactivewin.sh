@@ -20,7 +20,7 @@ waittime="2"  # number of seconds between executions of loop
 maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
 
 
-type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${white}, idle time detection will not be available (screen saver / lock screen detection only) ..."
+type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${reset}, idle time detection will not be available (screen saver / lock screen detection only) ..."
 
 # Get idle time in seconds. If xprintidle is not installed, returns 0.
 function get_idle_time() {
@@ -35,9 +35,9 @@ lasttitle=""
 
 
 # First message to inform that the script was started correctly
-echo -e "${green}$0 has been started successfully.${white}"
-echo -e "  - It will ${red}constantly${white} record the title of the active window of your graphical environment."
-echo -e "  - It will work in time window of ${red}$waittime${white} seconds."
+echo -e "${green}$0 has been started successfully.${reset}"
+echo -e "  - It will ${red}constantly${reset} record the title of the active window of your graphical environment."
+echo -e "  - It will work in time window of ${red}$waittime${reset} seconds."
 echo
 
 
@@ -86,13 +86,13 @@ do
         suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
     fi
     if [ -n "$suspended_at" ]; then
-        # echo -e "${red}suspended_at = ${suspended_at}${white} ..."  # DEBUG
+        # echo -e "${red}suspended_at = ${suspended_at}${reset} ..."  # DEBUG
         if date -d "$suspended_at" +%s &>/dev/null; then
             suspended_at="$(date -d "$suspended_at" +%s)"
             # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
             suspended_at=$((suspended_at + 30))
             if [ "$suspended_at" -ge "$last_write" ]; then
-                echo -e "${red}Suspend occured after last event${white}, '${black}was_awaken${white}' = true ...${white}"
+                echo -e "${red}Suspend occured after last event${reset}, '${black}was_awaken${reset}' = true ...${reset}"
                 was_awaken=true
             fi
         else
@@ -119,7 +119,7 @@ do
 	# XXX customize here the regexp capturing the titles you don't want to count
 	if echo "$curtitle" | grep "\(privée\|InPrivate\|Private\|Incognito\)"  &>/dev/null
 	then
-		echo -e "${red}Not logged private window title ...${white}"
+		echo -e "${red}Not logged private window title ...${reset}"
 		curtitle=""
 	fi;
 
@@ -134,7 +134,7 @@ do
             echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
-		echo -e "Logged ${yellow}window title${white}: \tat ${magenta}$(date)${white}, \ttitle '${green}$curtitle${white}', written to '${black}$log_file${white}'"
+		echo -e "Logged ${yellow}window title${reset}: \tat ${magenta}$(date)${reset}, \ttitle '${green}$curtitle${reset}', written to '${black}$log_file${reset}'"
 		last_write="$T"
 	fi
 

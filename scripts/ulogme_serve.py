@@ -61,7 +61,7 @@ def writenote(note, time_=None):
     process.communicate(input=note)
     process.wait()
     notify("<b>uLogMe</b> created a note, with content '<i>{}</i>' and time '<i>{!s}</i>'.".format(note, time_))
-    printc("<green>uLogMe created a note<white>, with content '<black>{}<white>' and time '<magenta>{!s}<white>'.".format(note, time_))
+    printc("<green>uLogMe created a note<reset>, with content '<black>{}<reset>' and time '<magenta>{!s}<reset>'.".format(note, time_))
 
 
 # Custom handler
@@ -90,10 +90,10 @@ class CustomHandler(http_server.SimpleHTTPRequestHandler):
             # We have to pop out to root from render directory temporarily. It's a little ugly
             refresh_time = int(form.getvalue("time"))
             if refresh_time > 0:
-                printc("<green>Refreshing the view of uLogMe<white>, for the day '<magenta>{}<white>' ...".format(ppDay(refresh_time)))
+                printc("<green>Refreshing the view of uLogMe<reset>, for the day '<magenta>{}<reset>' ...".format(ppDay(refresh_time)))
                 notify("Refreshing the view of <b>uLogMe</b>, for the day '<i>{}</i>' ...".format(ppDay(refresh_time)))
             else:
-                printc("<green>Refreshing the view of uLogMe<white>, for the overview page ...")
+                printc("<green>Refreshing the view of uLogMe<reset>, for the overview page ...")
                 notify("Refreshing the view of <b>uLogMe</b>, for the overview page ...")
             # FIXME add a command line option to enable/disable the refresh notifications
             os.chdir(self.rootdir)  # pop out
@@ -105,7 +105,7 @@ class CustomHandler(http_server.SimpleHTTPRequestHandler):
             # add note at specified time and refresh
             note = form.getvalue("note")
             note_time = form.getvalue("time")
-            printc("<green>Adding a note in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(note, ppTime(int(note_time))))
+            printc("<green>Adding a note in uLogMe<reset>, with content '<blue>{}<reset>' and time '<magenta>{!s}<reset>' ...".format(note, ppTime(int(note_time))))
             notify("Adding a note in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(note, ppTime(int(note_time))), icon="note")
             os.chdir(self.rootdir)  # pop out
             writenote(note, note_time)
@@ -119,7 +119,7 @@ class CustomHandler(http_server.SimpleHTTPRequestHandler):
             if post is None:
                 post = ""
             post_time = int(form.getvalue("time"))
-            printc("<green>Adding a blog post in uLogMe<white>, with content '<blue>{}<white>' and time '<magenta>{!s}<white>' ...".format(post, ppDay(int(post_time))))
+            printc("<green>Adding a blog post in uLogMe<reset>, with content '<blue>{}<reset>' and time '<magenta>{!s}<reset>' ...".format(post, ppDay(int(post_time))))
             notify("Adding a blog post in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(post, ppDay(int(post_time))), icon="note")  # DEBUG
             os.chdir(self.rootdir)  # pop out
             trev = rewindTime(post_time)
@@ -162,24 +162,24 @@ if __name__ == "__main__":
 
     try:
         httpd = socketserver.ThreadingTCPServer((IP, PORT), CustomHandler)
-        printc("<green>Serving uLogMe<white> on a HTTP server, see it locally on '<u><black>http://{}:{}<white><U>' ...".format(IP, PORT))
+        printc("<green>Serving uLogMe<reset> on a HTTP server, see it locally on '<u><black>http://{}:{}<reset><U>' ...".format(IP, PORT))
         notify("Serving <b>uLogMe</b> on a <i>HTTP</i> server, see it locally on 'http://{}:{}' ...".format(IP, PORT), icon="terminal")  # DEBUG
         httpd.serve_forever()
     except socket.error as e:
         if e.errno == 98:
-            printc("<red>The port {} was already used ...<white>".format(PORT))
-            printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve.py {}<white>' ...".format(PORT + 1))
+            printc("<red>The port {} was already used ...<reset>".format(PORT))
+            printc("Try again in some time (about 1 minute on Ubuntu), or launch the script again with another port: '<black>$ ulogme_serve.py {}<reset>' ...".format(PORT + 1))
         else:
-            printc("<red>Error, ulogme_serve.py was interrupted, giving:<white>")
-            printc("<red>Exception:<white> ", e)
+            printc("<red>Error, ulogme_serve.py was interrupted, giving:<reset>")
+            printc("<red>Exception:<reset> ", e)
             # print("Exception: dir(e) =", dir(e))  # DEBUG
     except KeyboardInterrupt:
-        printc("\n<red>You probably asked to interrupt<white> the '<black>ulogme_serve.py<white>' HTTP server ...")
+        printc("\n<red>You probably asked to interrupt<reset> the '<black>ulogme_serve.py<reset>' HTTP server ...")
     finally:
         try:
             if httpd is not None:
-                printc("\n<yellow>Closing the HTTP server<white> (address '<black>{}<white>', port '<black>{}<white>') ...".format(IP, PORT))
+                printc("\n<yellow>Closing the HTTP server<reset> (address '<black>{}<reset>', port '<black>{}<reset>') ...".format(IP, PORT))
                 httpd.server_close()
         except Exception as e:
-            printc("<red>The HTTP server<white> (address '<black>{}<white>', port '<black>{}<white>') <red>might not have been closed<white> ...".format(IP, PORT))
-            printc("<red>Exception:<white> e =", e)
+            printc("<red>The HTTP server<reset> (address '<black>{}<reset>', port '<black>{}<reset>') <red>might not have been closed<reset> ...".format(IP, PORT))
+            printc("<red>Exception:<reset> e =", e)

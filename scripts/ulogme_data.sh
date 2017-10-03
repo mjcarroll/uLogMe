@@ -8,7 +8,7 @@ echo "WARNING If you don't see colors correctly, remove the 'color.sh' file in '
 
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-# echo -e "${red}Password is needed please${white}, to run '${black}keyfreq.sh${white}' with sudo ..."
+# echo -e "${red}Password is needed please${reset}, to run '${black}keyfreq.sh${reset}' with sudo ..."
 # sudo echo -n ""
 
 # sudo ./keyfreq.sh &

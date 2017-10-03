@@ -20,4 +20,4 @@ fi
 
 logfile="../logs/notes_$(python3 ./rewind7am.py "$T").txt"
 echo "$T $n" >> "$logfile"
-echo -e "Logged ${yellow}note${white}: ${magenta}$T${white} ${green}$n${white} into '${black}$logfile${white}'"
+echo -e "Logged ${yellow}note${reset}: ${magenta}$T${reset} ${green}$n${reset} into '${black}$logfile${reset}'"

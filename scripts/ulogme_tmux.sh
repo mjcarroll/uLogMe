@@ -8,7 +8,7 @@
 echo "WARNING If you don't see colors correctly, remove the 'color.sh' file in 'uLogMe/scripts' to remove the colors, or modify it to suit your need (if you have a light background for instance)."  # See https://github.com/Naereen/uLogMe/issues/17
 [ -f color.sh ] && . color.sh
 
-echo -e "${yellow}Starting '${black}ulogme_tmux.sh'${white} ..."
+echo -e "${yellow}Starting '${black}ulogme_tmux.sh'${reset} ..."
 
 if [ -L "${BASH_SOURCE[0]}" ]; then
     # We have a symlink... how to deal with it?
@@ -19,7 +19,7 @@ fi;
 
 # XXX assume runing inside a tmux session
 if [ "X${TMUX}" = "X" ]; then
-    echo -e "${red}This script ${black}${0}${red} has to be run inside a tmux session.${white}"
+    echo -e "${red}This script ${black}${0}${red} has to be run inside a tmux session.${reset}"
     exit 1
 fi
 
