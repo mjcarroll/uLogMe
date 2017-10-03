@@ -29,7 +29,7 @@ last_log_file=""
 
 
 # First message to inform that the script was started correctly
-echo -e "${green}$0 has well been started.${white}"
+echo -e "${green}$0 has been started successfully.${white}"
 nb_virtual_kb=$(xinput | grep 'slave  keyboard' | grep -o 'id=[0-9]*' | cut -d= -f2 | wc -l)
 nb_real_kb=$(xinput | grep 'keyboard.*slave.*keyboard' | grep -v 'Virtual' | wc -l)
 echo -e "  - It will ${red}constantly${white} record the keyboard(s) of your laptop (currently there seems to be ${black}${nb_virtual_kb}${white} virtual keyboard(s) and ${black}${nb_real_kb}${white} real keyboard(s))."
