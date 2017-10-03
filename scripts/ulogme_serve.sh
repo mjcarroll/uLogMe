@@ -12,24 +12,24 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Options
 port="${1:-8443}"  # Default is port=8124
 IP="${2:-localhost}"
-protocol="${3:-https}"
+protocol="${3:-http}"
 
-url=${protocol}://${IP}:${port}/
+url="${protocol}://${IP}:${port}/"
 
-
+# WARNING this is very specific to firefox!
 if pidof firefox >/dev/null; then
 	echo -e "${yellow}Opening${white} '${black}${url}${white}' in your favorite browser ..."
 	firefox -new-tab "${url}" &
-    # xdg-open "${url}" &  # Generic on Linux
+	# xdg-open "${url}" &  # Generic on Linux
 	# open "${url}" &      # Generic on Mac
-    # XXX this should be a better and cross-platform way to do it
-    # python -m webbrowser -t "${url}"
+	# XXX this should be a better and cross-platform way to do it
+	# python -m webbrowser -t "${url}"
 else
 	echo -e "${red}Firefox is not running${white}, by default the uLogMe page will not be opened ...${white}"
 	echo -e "('${black}${url}${white}' is only opened in a new tab if your Firefox is already running)."
 fi
 
-
+# Then run the HTTPS or HTTP server
 if [ X"$protocol" = X"https" ]; then
     echo -e "${green}Calling${white} '${black}python3 ulogme_serve_https.py ${port} ${IP}${white}' ..."
     python3 ./ulogme_serve_https.py "${port}" "${IP}"
