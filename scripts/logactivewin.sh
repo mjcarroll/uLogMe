@@ -35,7 +35,7 @@ lasttitle=""
 
 
 # First message to inform that the script was started correctly
-echo -e "${green}$0 has well been started.${white}"
+echo -e "${green}$0 has been started successfully.${white}"
 echo -e "  - It will ${red}constantly${white} record the title of the active window of your graphical environment."
 echo -e "  - It will work in time window of ${red}$waittime${white} seconds."
 echo
