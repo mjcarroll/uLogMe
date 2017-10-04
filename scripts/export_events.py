@@ -3,8 +3,7 @@
 # export_events.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
-from __future__ import print_function   # Python 2 compatibility
-from __future__ import absolute_import  # Python 2 compatibility
+from __future__ import print_function  # Python 2 compatibility
 
 import json
 import os
@@ -151,18 +150,28 @@ def updateEvents():
                 "blog": e4
             }
             # print("eout =", eout)  # DEBUG
-            with open(fwrite, "w") as f:
-                try:
-                    f.write(json.dumps(eout).encode("utf8"))
-                except TypeError:
-                    f.write(json.dumps(eout))
+            if os.path.exists(fwrite):  # Just check, cf https://github.com/Naereen/uLogMe/issues/16
+                with open(fwrite, "w") as f:
+                    try:
+                        f.write(json.dumps(eout).encode("utf8"))
+                    except TypeError:
+                        f.write(json.dumps(eout))
 
-    fwrite = os.path.join(RENDER_ROOT, "json", "export_list.json")
-    with open(fwrite, "w") as f:
-        try:  # We have a bytes, as in Python2
-            f.write(json.dumps(out_list).encode("utf8"))
-        except TypeError:  # We have a string, as in Python3
-            f.write(json.dumps(out_list))
+    render_json_path = os.path.join(RENDER_ROOT, "json")
+    if not os.path.isdir(render_json_path):
+        if os.path.exists(render_json_path):
+            raise ValueError("Error: the file '{}' already exists but it is not a directory, impossible to create it! Remove it or rename it manually please...")
+        else:
+            print("The path '{}' did not exists but it is needed to export the list of events to a JSON file...\nCreating it...")
+            os.mkdir(render_json_path)
+    assert os.path.exists(render_json_path), "Error: the path '{}' do not exist but it should. Try again (or fill an issue, https://github.com/Naereen/uLogMe/issues/new)."  # DEBUG
+    fwrite = os.path.join(render_json_path, "export_list.json")
+    if os.path.exists(fwrite):  # Just check, cf https://github.com/Naereen/uLogMe/issues/16
+        with open(fwrite, "w") as f:
+            try:  # We have a bytes, as in Python2
+                f.write(json.dumps(out_list).encode("utf8"))
+            except TypeError:  # We have a string, as in Python3
+                f.write(json.dumps(out_list))
 
 
 # invoked as script
