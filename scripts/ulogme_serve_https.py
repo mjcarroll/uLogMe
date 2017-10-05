@@ -22,8 +22,14 @@ import os
 import os.path
 import ssl
 import socket
-from subprocess import check_output
-from http.server import HTTPServer
+try:
+    import socketserver
+except ImportError:                      # https://stackoverflow.com/questions/13329761/no-module-named-serversocket
+    import SocketServer as socketserver  # Python 2 compatibility
+try:
+    import http.server as http_server
+except ImportError:
+    import SimpleHTTPServer as http_server  # Python 2 compatibility
 
 # Local imports
 from ulogme_serve import printc, CustomHandler
@@ -85,7 +91,7 @@ if __name__ == "__main__":
     os.chdir(os.path.join("..", "render"))
 
     try:
-        httpd = HTTPServer((IP, PORT), CustomHandler)
+        httpd = http_server.HTTPServer((IP, PORT), CustomHandler)
         httpd.socket = ssl.wrap_socket(httpd.socket, certfile=fpem, server_side=True)
         sa = httpd.socket.getsockname()
         IP, PORT = sa[0], sa[1]
