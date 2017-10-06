@@ -13,7 +13,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 # Options
 port="${1:-8443}"  # Default is port=8124
 IP="${2:-localhost}"
-protocol="${3:-http}"
+protocol="${3:-https}"
 
 url="${protocol}://${IP}:${port}/"
 

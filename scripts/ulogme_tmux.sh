@@ -25,7 +25,7 @@ fi
 
 port="${1:-8443}"  # Default is port=8124
 IP="${2:-localhost}"
-protocol="${3:-http}"
+protocol="${3:-https}"
 
 # Reference tmux man page (eg. https://linux.die.net/man/1/tmux)
 # start a new window,
