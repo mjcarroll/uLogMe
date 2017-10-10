@@ -43,18 +43,10 @@ def loadEvents(fname):
     try:
         try:  # We have a bytes, as in Python2
             with open(fname, "r") as f:
-                # print("f =", f)  # DEBUG
                 ws = f.read().decode("utf-8").splitlines()
-                # print("Reading a bytes ...")  # DEBUG
         except AttributeError:  # We have a string, as in Python3
             with open(fname, "r") as f:
-                # print("f =", f)  # DEBUG
                 ws = f.read().splitlines()
-                # print("Reading a string ...")  # DEBUG
-        # print("type(ws) =", type(ws))  # DEBUG
-        # print("type(ws[0]) =", type(ws[0]))  # DEBUG
-        # print("len(ws) =", len(ws))  # DEBUG
-        # print("ws =", ws)  # DEBUG
         events = []
         for w in ws:
             ix = w.find(" ")  # find first space, that's where stamp ends
@@ -84,8 +76,6 @@ def updateEvents():
     logFiles.extend(glob.glob(os.path.join("..", "logs", "window_*.txt")))
     logFiles.extend(glob.glob(os.path.join("..", "logs", "notes_*.txt")))
     logFiles = [f for f in logFiles if not os.path.islink(f)]
-    # XXX faster with?
-    # logFiles = filter(lambda f: not(os.islink(f)), logFiles)
 
     # extract all times. all log files of form {type}_{stamp}.txt
     ts = [int(x[x.find("_") + 1: x.find(".txt")]) for x in logFiles]
@@ -128,7 +118,7 @@ def updateEvents():
                 dowrite = True  # better update!
                 printc("<yellow>A log file has changed<reset>, so will update '<black>%s<reset>' ..." % (fwrite, ))
         else:
-            # output file doesnt exist, so write.
+            # output file does not exist, so write.
             dowrite = True
 
         if dowrite:
@@ -150,12 +140,11 @@ def updateEvents():
                 "blog": e4
             }
             # print("eout =", eout)  # DEBUG
-            if os.path.exists(fwrite):  # Just check, cf https://github.com/Naereen/uLogMe/issues/16
-                with open(fwrite, "w") as f:
-                    try:
-                        f.write(json.dumps(eout).encode("utf8"))
-                    except TypeError:
-                        f.write(json.dumps(eout))
+            with open(fwrite, "w") as f:
+                try:
+                    f.write(json.dumps(eout).encode("utf8"))
+                except TypeError:
+                    f.write(json.dumps(eout))
 
     render_json_path = os.path.join(RENDER_ROOT, "json")
     if not os.path.isdir(render_json_path):
@@ -166,12 +155,11 @@ def updateEvents():
             os.mkdir(render_json_path)
     assert os.path.exists(render_json_path), "Error: the path '{}' do not exist but it should. Try again (or fill an issue, https://github.com/Naereen/uLogMe/issues/new)."  # DEBUG
     fwrite = os.path.join(render_json_path, "export_list.json")
-    if os.path.exists(fwrite):  # Just check, cf https://github.com/Naereen/uLogMe/issues/16
-        with open(fwrite, "w") as f:
-            try:  # We have a bytes, as in Python2
-                f.write(json.dumps(out_list).encode("utf8"))
-            except TypeError:  # We have a string, as in Python3
-                f.write(json.dumps(out_list))
+    with open(fwrite, "w") as f:
+        try:  # We have a bytes, as in Python2
+            f.write(json.dumps(out_list).encode("utf8"))
+        except TypeError:  # We have a string, as in Python3
+            f.write(json.dumps(out_list))
 
 
 # invoked as script
