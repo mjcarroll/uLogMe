@@ -22,6 +22,7 @@
     <script type="text/javascript" src="js/highcharts.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/nprogress.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/mousetrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/all-easter-eggs.js" charset="utf-8"></script>
     <script type="text/javascript">
     // GLOBALS
     var color_hash = {}; // mapped titles -> hsl color to draw with
@@ -695,6 +696,7 @@
             }
             stopSpinner();
         });
+        aRandomEasterEgg();
       });
       NProgress.inc();
 
@@ -740,6 +742,7 @@
         $("#blogentertxt").val(txt)
         $("#blogentertxt").focus();
         event.stopPropagation();
+        aRandomEasterEgg();
       });
 
       // setup the submit blog entry button
@@ -759,6 +762,7 @@
               // everything went well
             }
           });
+        aRandomEasterEgg();
       });
 
       $(document).click(function(event) {
@@ -801,6 +805,7 @@
           }
           stopSpinner();
       });
+      aRandomEasterEgg();
     }
 
     // auto-reload every XXX minutes, cf. render_settings.js, without animation
@@ -839,30 +844,37 @@
         + "\n\nuLogMe is a free and open-source software, see https://github.com/Naereen/uLogMe/ for more details and the latest version."
         + "\nBuilt with ♥ by Lilian Besson (Naereen), and other contributors on GitHub."
         );
+        aRandomEasterEgg();
     });
     Mousetrap.bind(["r"], function() {
       console.log("uLogMe (index.html): Refreshing data ...");
       reload();
+      aRandomEasterEgg();
     });
     Mousetrap.bind(["o"], function() {
       console.log("uLogMe (index.html): Going to overview page ...");
       location.href = "overview.html";
+      aRandomEasterEgg();
     });
     Mousetrap.bind(["i", "s"], function() {
       console.log("uLogMe (overview.html): Going to daily-vew page ...");
       location.href = "index.html";
+      aRandomEasterEgg();
     });
     Mousetrap.bind(["left", "p"], function() {
       console.log("uLogMe (index.html): Previous day ...");
       $("#leftarrow").click();
+      aRandomEasterEgg();
     });
     Mousetrap.bind(["right", "n"], function() {
       console.log("uLogMe (index.html): Next day ...");
       $("#rightarrow").click();
+      aRandomEasterEgg();
     });
     Mousetrap.bind(["b"], function() {
       console.log("uLogMe (index.html): edit the blog post of the day ...");
       $("#blogpre").click();
+      aRandomEasterEgg();
     });
 
     </script>

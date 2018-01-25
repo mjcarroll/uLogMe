@@ -21,6 +21,7 @@
     <script type="text/javascript" src="js/ulogme_common.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/nprogress.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/mousetrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/all-easter-eggs.js" charset="utf-8"></script>
     <script type="text/javascript">
     key_stats_all = [] // global
 
@@ -509,14 +510,17 @@
         + "\n\nuLogMe is a free and open-source software, see https://github.com/Naereen/uLogMe/ for more details and the latest version."
         + "\nBuilt with ♥ by Lilian Besson (Naereen) and other contributors on GitHub."
         );
+        aRandomEasterEgg();
     });
     Mousetrap.bind(["r"], function() {
       console.log("uLogMe (overview.html): Refreshing data ...");
       reload();
+      aRandomEasterEgg();
     });
     Mousetrap.bind(["i", "s"], function() {
       console.log("uLogMe (overview.html): Going to daily-vew page ...");
       location.href = "index.html";
+      aRandomEasterEgg();
     });
     </script>
   </head>
