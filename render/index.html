@@ -565,8 +565,15 @@
 
     function writeHeader() {
       var date0 = new Date(t00*1000);
+      // I want to display in the title the same timestamp as the one used for the file
+      if (date0.getHours() >= 7) {
+        var date0_7am = new Date(date0.getFullYear(), date0.getMonth(), date0.getDate(), 7, 0, 0);
+      } else {
+        var date0_7am = new Date(date0.getFullYear(), date0.getMonth(), date0.getDate() - 1, 7, 0, 0);
+      }
+      var t00_7am = date0_7am.getTime() / 1000;
       var date1 = new Date(ft*1000);
-      $("#header").html("<h2>" + ppDate(date0) + " - " + ppHour(date1) + "</h2>");
+      $("#header").html("<h2 title='" + date0 + " (Timestamp: " + (t00_7am) + ")' >" + ppDate(date0) + " - " + ppHour(date1) + "</h2>");
     }
 
     function startSpinner() {
