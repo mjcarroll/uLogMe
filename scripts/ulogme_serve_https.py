@@ -22,6 +22,7 @@ import os
 import os.path
 import ssl
 import socket
+from subprocess import check_output
 try:
     import socketserver
 except ImportError:                      # https://stackoverflow.com/questions/13329761/no-module-named-serversocket
@@ -50,7 +51,7 @@ def generate_certificate(fpem=default_fpem_path):
         "-x509",
         "-keyout {}".format(fpem),
         "-out {}".format(fpem),
-        "-days 365",  # Only valid one year!
+        "-days 3650",  # Only valid 10 years!
         "-nodes"
     ]
     print("Executing '{}' ...".format(' '.join(args)))
