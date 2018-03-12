@@ -41,14 +41,25 @@ def loadEvents(fname):
     events = []
 
     try:
+        ws = []
         try:  # We have a bytes, as in Python2
             with open(fname, "r") as f:
-                ws = f.read().decode("utf-8").splitlines()
+                # ws = f.read().decode("utf-8").splitlines()
+                line = "first fake line"
+                while line != "":
+                    try:
+                        line = f.readline().decode("utf-8")[:-1]
+                    except UnicodeDecodeError:
+                        line = ""
+                    if len(line) == 0:
+                        break
+                    ws.append(line)
         except AttributeError:  # We have a string, as in Python3
             with open(fname, "r") as f:
                 ws = f.read().splitlines()
         events = []
         for w in ws:
+            # print("w =", w)  # DEBUG
             ix = w.find(" ")  # find first space, that's where stamp ends
             stamp = int(w[:ix])
             sstr = w[ix + 1:]
