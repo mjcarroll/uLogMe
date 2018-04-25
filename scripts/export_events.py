@@ -61,9 +61,12 @@ def loadEvents(fname):
         for w in ws:
             # print("w =", w)  # DEBUG
             ix = w.find(" ")  # find first space, that's where stamp ends
-            stamp = int(w[:ix])
-            sstr = w[ix + 1:]
-            events.append({"t": stamp, "s": sstr})
+            try:
+                stamp = int(w[:ix])
+                sstr = w[ix + 1:]
+                events.append({"t": stamp, "s": sstr})
+            except ValueError:
+                printc("<red>One line of the log file {} couldn't be read correctly<reset>: '{}' is probably not a valid integer. Skipping this line!".format(fname, w[:ix]))
     except Exception as e:
         printc("The file '<black>%s<reset>' probably <red>does not exist<reset>, setting empty events list ..." % (fname, ))
         printc("<red>error was:<reset>")
