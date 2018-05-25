@@ -33,7 +33,7 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 **To install uLogMe**
 
 1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/uLogMe.git`
-2. If you're on Ubuntu, make sure you have the dependencies: the `xdotool` `xinput` `wmctrl` `xprintidle` packets are *required* (to install them: `$ sudo apt-get install xdotool xinput wmctrl xprintidle`). On other Linux distribution, install them also, and you may also need gnome-screensaver (`$ sudo PACKETMANAGER install gnome-screensaver` where `PACKETMANAGER=pacman` on ArchLinux, `PACKETMANAGER=yum` on Fedora, etc).
+2. If you're on Ubuntu, make sure you have the dependencies: the `xdotool` `xinput` `wmctrl` `xprintidle` packages are *required* (to install them: `$ sudo apt-get install xdotool xinput wmctrl xprintidle`). On other Linux distribution, install them also, and you may also need gnome-screensaver (`$ sudo PACKAGEMANAGER install gnome-screensaver` where `PACKAGEMANAGER=pacman` on ArchLinux, `PACKAGEMANAGER=yum` on Fedora, etc).
 
 ```bash
 # maybe do that, or wherever you want
