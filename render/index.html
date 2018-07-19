@@ -24,7 +24,8 @@
     <script type="text/javascript" src="js/mousetrap.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/all-easter-eggs.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/FileSaver.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/canvas-to-blob.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/canvasToBlob.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/saveSVGUtils.js" charset="utf-8"></script>
     <script type="text/javascript">
     // GLOBALS
     var color_hash = {}; // mapped titles -> hsl color to draw with
@@ -258,10 +259,20 @@
                 angle1 = angle2;
             });
         };
-          //rotate();
+        //rotate();
         $("#highpiechart").highcharts(main_chart_options);
-    }
 
+        // Set-up the export button, cf. http://bl.ocks.org/Rokotyan/0556f8facbaf344507cdc45dc3622177
+        d3.select('#saveButton_highpiechart').on('click', function(){
+          var saveAs = Make_saveAs(window);
+          var svgNode = $(".highcharts-container")[0].children[0];
+          var svgString = getSVGString(svgNode);
+          svgString2Image( svgString, svgNode.width.baseVal.value, svgNode.height.baseVal.value, 'png', save ); // passes Blob and filesize String to the callback
+          function save( dataBlob, filesize ){
+            saveAs( dataBlob, "uLogMe activity breakdown" + ppDay(date0) + ".png" ); // FileSaver.js function
+          }
+        });
+    }
 
     // creates the main barcode time visualization for all mapped window titles
     function visualizeEvents(es) {
@@ -344,7 +355,20 @@
       chart_data.data = stats;
       d3utils.drawHorizontalBarChart(d3.select("#keystats"), chart_data);
       d3.select("#keystats p")
+         .append("button").attr("id", "saveButton_keystats").text("Save to PNG")
          .append("a").attr("class", "headerlink").attr("href", "#keystats").attr("title", "Anchor for this #keystats").text("¶");
+
+      // Set-up the export button, cf. http://bl.ocks.org/Rokotyan/0556f8facbaf344507cdc45dc3622177
+      d3.select('#saveButton_keystats').on('click', function(){
+        console.log("#saveButton_keystats on click...");
+        var saveAs = Make_saveAs(window);
+        var svgNode = $("#keystats svg")[0];
+        var svgString = getSVGString(svgNode);
+        svgString2Image( svgString, svgNode.width.baseVal.value, svgNode.height.baseVal.value, 'png', save ); // passes Blob and filesize String to the callback
+        function save( dataBlob, filesize ){
+          saveAs( dataBlob, "uLogMe Total number of key strokes.png" ); // FileSaver.js function
+        }
+      });
     }
 
     // simple plot of key frequencies over time
@@ -369,7 +393,20 @@
         .attr("d", line);
 
       div.append("p").attr("class", "al").text("Keystroke frequency")
+         .append("button").attr("id", "saveButton_keygraph").text("Save to PNG")
          .append("a").attr("class", "headerlink").attr("href", "#keygraph").attr("title", "Anchor for this #keygraph").text("¶");
+
+        // Set-up the export button, cf. http://bl.ocks.org/Rokotyan/0556f8facbaf344507cdc45dc3622177
+        d3.select('#saveButton_keygraph').on('click', function(){
+          console.log("#saveButton_keygraph on click...");
+          var saveAs = Make_saveAs(window);
+          var svgNode = $("#keygraph svg")[0];
+          var svgString = getSVGString(svgNode);
+          function save( dataBlob, filesize ){
+            saveAs( dataBlob, "uLogMe Keystroke frequency.png" ); // FileSaver.js function
+          }
+          svgString2Image( svgString, Math.floor(svgNode.width.baseVal.value), Math.floor(svgNode.height.baseVal.value), 'png', save ); // passes Blob and filesize String to the callback
+        });
     }
 
     function visualizeNotes(es) {
@@ -638,7 +675,7 @@
 
         visualizeEvents(events);
         writeHeader();
-        createPieChart(events, etypes);
+        // createPieChart(events, etypes);
         createHighPieChart(events, etypes);
         computeKeyStats(events, key_events);
         hacking_stats = computeHackingStats(events, key_events, hacking_titles);
@@ -908,11 +945,11 @@
         </div>
       </div>
       <div id="piecharts">
-          <h3>Activity breakdown: <a class="headerlink" href="#highpiechart" title="Anchor for this « Activity breakdown » pie chart">¶</a></h3>
+          <h3>Activity breakdown: <a class="headerlink" href="#highpiechart" title="Anchor for this « Activity breakdown » pie chart">¶</a> <button id="saveButton_highpiechart">Save to PNG</button></h3>
           <div id="highpiechart"></div>
       </div>
       <div id="keygraph">
-          <h3>Keystroke frequency: <a class="headerlink" href="#keygraph" title="Anchor for this « Keystroke frequency » chart">¶</a></h3>
+          <h3>Keystroke frequency: <a class="headerlink" href="#keygraph" title="Anchor for this « Keystroke frequency » chart">¶</a> <button id="saveButton_keygraph">Save to PNG</button></h3>
       </div>
       <div id="hackingvis">
           <h3>Continuous typing: <a class="headerlink" href="#hackingvis" title="Anchor for this « Continuous typing » chart">¶</a></h3>
@@ -924,7 +961,7 @@
           </p>
       </div>
       <div id="keystats">
-          <h3>Total number of key strokes: <a class="headerlink" href="#keystats" title="Anchor for this « Total number of key strokes » chart">¶</a></h3>
+          <h3>Total number of key strokes: <a class="headerlink" href="#keystats" title="Anchor for this « Total number of key strokes » chart">¶</a> <button id="saveButton_keystats">Save to PNG</button></h3>
       </div>
       <div id="notesinfo">
         <div id="notesinfohide">×</div>

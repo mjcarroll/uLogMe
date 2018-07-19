@@ -23,3 +23,8 @@ a.headerlink {
         background-color: #c60f0f;
         color: white;
     }
+
+h3 button, p button {
+    float: right;
+    margin-right: 2%;
+}
