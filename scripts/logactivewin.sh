@@ -16,7 +16,7 @@ readonly LANG=en_US.utf8
 # (with 2 second frequency check time), or every 10 minutes if
 # no changes occur.
 
-waittime="2"  # number of seconds between executions of loop
+waittime="2"   # number of seconds between executions of loop
 maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
 
 
@@ -49,23 +49,23 @@ do
 	# screensaver commands accordingly.
 	if [[ X"$GDMSESSION" == X'xfce' ]]; then
 		# Assume XFCE folks use xscreensaver (the default).
-		screensaverstate=$(xscreensaver-command -time | cut -f2 -d: | cut -f2-3 -d' ')
-		if [[ $screensaverstate =~ "screen non-blanked" ]]; then
+		screensaverstate="$(xscreensaver-command -time | cut -f2 -d: | cut -f2-3 -d' ')"
+		if [[ "$screensaverstate" =~ "screen non-blanked" ]]; then
 			islocked=false
 		fi
 	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' ]]; then
 		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
-		screensaverstate=$(gnome-screensaver-command -q 2>&1 /dev/null)
-		if [[ $screensaverstate =~ .*inactive.* ]]; then
+		screensaverstate="$(gnome-screensaver-command -q 2>&1 > /dev/null)"
+		if [[ "$screensaverstate" =~ .*inactive.* ]]; then
 			islocked=false
 		fi
-    elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
-		screensaverstate=$(cinnamon-screensaver-command -q 2> /dev/null)
-		if [[ $screensaverstate =~ .*inactive.* ]]; then
+	elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
+		screensaverstate="$(cinnamon-screensaver-command -q 2>&1 > /dev/null)"
+		if [[ "$screensaverstate" =~ .*inactive.* ]]; then
 			islocked=false
 		fi
 	elif [[ X"$XDG_SESSION_DESKTOP" == X'KDE' ]]; then
-		islocked=$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)
+		islocked="$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)"
 	else
 		# If we can't find the screensaver, assume it's missing.
 		islocked=false
@@ -146,7 +146,3 @@ do
 	lasttitle="$curtitle"  # swap
 	sleep "$waittime"  # sleep
 done
-
-
-
-
