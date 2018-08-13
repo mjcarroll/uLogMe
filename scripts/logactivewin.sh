@@ -53,9 +53,14 @@ do
 		if [[ $screensaverstate =~ "screen non-blanked" ]]; then
 			islocked=false
 		fi
-	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' || X"$GDMSESSION" == X'cinnamon' ]]; then
-		# Assume the GNOME/Ubuntu/cinnamon folks are using gnome-screensaver.
+	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' ]]; then
+		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
 		screensaverstate=$(gnome-screensaver-command -q 2>&1 /dev/null)
+		if [[ $screensaverstate =~ .*inactive.* ]]; then
+			islocked=false
+		fi
+    elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
+		screensaverstate=$(cinnamon-screensaver-command -q 2> /dev/null)
 		if [[ $screensaverstate =~ .*inactive.* ]]; then
 			islocked=false
 		fi
