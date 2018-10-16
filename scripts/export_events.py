@@ -104,6 +104,15 @@ def updateEvents():
     # DONE in a more Pythonic way
     if not os.path.isdir(RENDER_ROOT):
         os.makedirs(RENDER_ROOT)
+    # FIXED Now the json/ path is created automatically, see https://github.com/Naereen/uLogMe/issues/30#issuecomment-430121035
+    render_json_path = os.path.join(RENDER_ROOT, "json")
+    if not os.path.isdir(render_json_path):
+        if os.path.exists(render_json_path):
+            raise ValueError("Error: the file '{}' already exists but it is not a directory, impossible to create it! Remove it or rename it manually please...")
+        else:
+            print("The path '{}' did not exists but it is needed to export the list of events to a JSON file...\nCreating it...")
+            os.mkdir(render_json_path)
+
     t = mint
     out_list = []
     for t in ts:
@@ -160,13 +169,6 @@ def updateEvents():
                 except TypeError:
                     f.write(json.dumps(eout))
 
-    render_json_path = os.path.join(RENDER_ROOT, "json")
-    if not os.path.isdir(render_json_path):
-        if os.path.exists(render_json_path):
-            raise ValueError("Error: the file '{}' already exists but it is not a directory, impossible to create it! Remove it or rename it manually please...")
-        else:
-            print("The path '{}' did not exists but it is needed to export the list of events to a JSON file...\nCreating it...")
-            os.mkdir(render_json_path)
     assert os.path.exists(render_json_path), "Error: the path '{}' do not exist but it should. Try again (or fill an issue, https://github.com/Naereen/uLogMe/issues/new)."  # DEBUG
     fwrite = os.path.join(render_json_path, "export_list.json")
     with open(fwrite, "w") as f:
