@@ -10,7 +10,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 mkdir -p ../logs/
 
-read -p "Enter note: " n
+read -r -p "Enter note: " n
 
 if [ -z "$1" ]; then
     T="$(date +%s)" # default to current time

@@ -16,7 +16,7 @@ readonly LANG=en_US.utf8
 
 # Configuration variables
 POLLING_INTERVAL=10
-COMPRESS_LOG_FILE=false  # FIXME is it supported by my version of the UI? Yes
+COMPRESS_LOG_FILE=false  # DONE is it supported by my version of the UI? Yes
 
 readonly MODIFIER_KEYS="$(xmodmap -pk | grep -iE '\b(shift_[lr]|alt_[lr]|control_[lr]|caps_lock)\b' | cut -f 1 | xargs | tr ' ' '|')"
 
@@ -31,7 +31,7 @@ last_log_file=""
 # First message to inform that the script was started correctly
 echo -e "${green}$0 has been started successfully.${reset}"
 nb_virtual_kb=$(xinput | grep 'slave  keyboard' | grep -o 'id=[0-9]*' | cut -d= -f2 | wc -l)
-nb_real_kb=$(xinput | grep 'keyboard.*slave.*keyboard' | grep -v 'Virtual' | wc -l)
+nb_real_kb=$(xinput | grep 'keyboard.*slave.*keyboard' | grep -c -v 'Virtual')
 echo -e "  - It will ${red}constantly${reset} record the keyboard(s) of your laptop (currently there seems to be ${black}${nb_virtual_kb}${reset} virtual keyboard(s) and ${black}${nb_real_kb}${reset} real keyboard(s))."
 echo -e "  - It will work in time window of ${red}$POLLING_INTERVAL${reset} seconds."
 [ $COMPRESS_LOG_FILE = true ] && echo -e "  - It will regularly compress the log files."
@@ -50,7 +50,7 @@ while true; do
         fileName="${HELPER_FILE}.$kbd_id"
         # Works in windows of $POLLING_INTERVAL seconds.
         # Use stdbuf to remove output buffering otherwise it does not log keys before it's terminated by timeout command
-        { (stdbuf -o0 timeout -s 10 $POLLING_INTERVAL xinput test $kbd_id 2>/dev/null `# Grab key events for $POLLING_INTERVAL seconds` \
+        { (stdbuf -o0 timeout -s 10 "$POLLING_INTERVAL" xinput test "$kbd_id" 2>/dev/null `# Grab key events for $POLLING_INTERVAL seconds` \
             | grep press 2>/dev/null `# Filter out only press events (I am getting doubled release events for some reason)` \
             | tr -dc '0-9\n' `# Keep only keycodes` \
             | grep -vE "$MODIFIER_KEYS" `# Remove modifier keys` \
@@ -63,14 +63,13 @@ while true; do
 
 
     # Count number of key release events
-    # num=$(grep -c release "$filesToGrep")
     num=$(cat $filesToGrep | wc -l)
 
     # Append unix time stamp and the number into file
     log_file="../logs/keyfreq_$(python3 rewind7am.py).txt"
     # Only print and log if $num > 0
-    if [ "$num" -gt 0 ]; then
-        echo -e "Logged ${yellow}key frequency${reset}: \tat ${magenta}$(date)${reset}, ${green}$(printf "%5i " ${num})${reset} key release events, written to '${black}${log_file}${reset}'"
+    if [ "${num:-0}" -gt 0 ]; then
+        echo -e "Logged ${yellow}key frequency${reset}: \tat ${magenta}$(date)${reset}, ${green}$(printf "%5i " "${num}")${reset} key release events, written to '${black}${log_file}${reset}'"
         echo "$(date +%s) $num"  >> "$log_file"
     fi
 

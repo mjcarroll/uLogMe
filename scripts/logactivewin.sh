@@ -17,7 +17,7 @@ readonly LANG=en_US.utf8
 # no changes occur.
 
 waittime="2"   # number of seconds between executions of loop
-maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
+# maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
 
 
 type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${reset}, idle time detection will not be available (screen saver / lock screen detection only) ..."
@@ -75,7 +75,7 @@ do
 		curtitle="__LOCKEDSCREEN"  # Special tag
 	else
 		id="$(xdotool getactivewindow)"
-		# curtitle=$(wmctrl -lpG | while read -a a; do w=${a[0]}; if (($((16#${w:2}))==id)) ; then echo "${a[@]:8}"; break; fi; done)
+		# curtitle=$(wmctrl -lpG | while read ] && [a; do w=${a[0]}; if (($((16#${w:2}))==id)) ; then echo "${a[@]:8}"; break; fi; done)
 		# Quicker and simpler method!
 		curtitle="$(xdotool getwindowname "${id}")"
 	fi
@@ -129,13 +129,13 @@ do
 	fi;
 
 	# log window switch if appropriate
-	if [ "$perform_write" = true -a -n "$curtitle"  ]; then
+	if [ "$perform_write" = true ] && [ -n "$curtitle"  ]; then
         # Get rewind time, day starts at 7am and ends at 6:59am next day
         rewind7am=$(python3 ./rewind7am.py)
         # One logfile daily
         log_file="../logs/window_${rewind7am}.txt"
         # If computer was just awaken, log suspend event unless it happened before 7am
-        if [ $was_awaken = true -a "${suspended_at:-0}" -ge "$rewind7am" ]; then
+        if [ $was_awaken = true ] && [ "${suspended_at:-0}" -ge "$rewind7am" ]; then
             echo "$suspended_at __SUSPEND" >> "$log_file"
 		fi
 		echo "$T $curtitle" >> "$log_file"
