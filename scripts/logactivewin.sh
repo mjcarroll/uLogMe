@@ -85,10 +85,10 @@ do
     was_awaken=false
 
     # First technic
-    suspended_at="$(grep "Freezing user space processes ... *$" /var/log/kern.log | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ')"
+    suspended_at="$(grep "Freezing user space processes ... *$" /var/log/TOTOkern.log 2>/dev/null | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ' || echo "")"
     if [ -z "$suspended_at" ]; then
         # Second technic
-        suspended_at=$(grep -E ': (performing suspend|Awake)' /var/log/pm-suspend.log | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p')
+        suspended_at="$(grep -E ': (performing suspend|Awake)' /var/log/TOTOpm-suspend.log 2>/dev/null | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p' || echo "")"
     fi
     if [ -n "$suspended_at" ]; then
         # echo -e "${red}suspended_at = ${suspended_at}${reset} ..."  # DEBUG
