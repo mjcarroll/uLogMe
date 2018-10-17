@@ -18,7 +18,7 @@ from random import choice
 from subprocess import Popen
 
 
-# XXX Unused callback function for the notifications
+# WARNING Unused callback function for the notifications
 def open_the_ulogme_page(notification, label, args=("localhost", 8124)):
     """ Open the http://{}:{}/ URL in a new tab of your favorite browser. """
     print("notify.notify(): open_the_ulogme_page callback function ...")
@@ -31,8 +31,8 @@ def open_the_ulogme_page(notification, label, args=("localhost", 8124)):
 
 # Constants for the program
 PROGRAM_NAME = "uLogMe server (ulogme_serve.py)"
-ICON_PATH    = join("..", "scripts", "icons", "pikachu.png")
-ICON_PATHS   = glob(join("..", "scripts", "icons", "*.png"))
+ICON_PATH = join("..", "scripts", "icons", "pikachu.png")
+ICON_PATHS = glob(join("..", "scripts", "icons", "*.png"))
 
 
 def choose_icon(random=True):
@@ -69,6 +69,7 @@ except ImportError:
     print("(For more details, cf. 'http://www.devdungeon.com/content/desktop-notifications-python-libnotify')")
 
     def load_icon(random=True):
+        print("Fake icon, random = {}.".format(random))  # DEBUG
         return None
 
 
@@ -89,10 +90,10 @@ except ImportError:
 
 # Define the first notify function, with gi.repository.Notify
 def notify_gi(body, summary=PROGRAM_NAME,
-              icon="random",
-              IP="localhost", PORT=8124,  # FIXED use this in ulogme_serve.py
-              timeout=5  # In seconds
-              ):
+        icon="random", addCallback=False,
+        IP="localhost", PORT=8124,  # FIXED use this in ulogme_serve.py
+        timeout=5  # In seconds
+    ):
     """
     Send a notification, with gi.repository.Notify.
 
@@ -102,7 +103,6 @@ def notify_gi(body, summary=PROGRAM_NAME,
         # Trying to fix a bug:
         # g-dbus-error-quark: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name :1.5124 was not provided by any .service files (2)
         Notify.init(PROGRAM_NAME)
-        # XXX maybe the PROGRAM_NAME should be random?
 
         # Cf. http://www.devdungeon.com/content/desktop-notifications-python-libnotify
         # Create the notification object
@@ -110,7 +110,7 @@ def notify_gi(body, summary=PROGRAM_NAME,
             notification = Notify.Notification.new(
                 summary,  # Title of the notification
                 body,     # Optional content of the notification
-                icon      # XXX Should not indicate it here
+                icon      # WARNING Should not indicate it here
             )
         else:
             notification = Notify.Notification.new(
@@ -133,16 +133,15 @@ def notify_gi(body, summary=PROGRAM_NAME,
         # add duration, lower than 10 seconds (5 second is enough).
         notification.set_timeout(timeout * 1000)
 
-        # # XXX add a callback that open the browser tab/page on uLogMe when clicked on it
-        # # The notification will have a button that says "View uLogMe page".
-        # #    "default",
-        # notification.add_action(
-        #     "action_click",
-        #     "View uLogMe page",
-        #     open_the_ulogme_page,
-        #     (IP, PORT)  # Arguments given to open_the_ulogme_page
-        # )
-        # FIXME how to disable on jarvisPRO but keep it on jarvisOld ?
+        # DONE add a callback that open the browser tab/page on uLogMe when clicked on it
+        # The notification will have a button that says "View uLogMe page".
+        if addCallback:
+            notification.add_action(
+                "action_click",
+                "View uLogMe page",
+                open_the_ulogme_page,
+                (IP, PORT)  # Arguments given to open_the_ulogme_page
+            )
 
         # Actually show the notification on screen
         notification.show()
@@ -157,13 +156,15 @@ def notify_gi(body, summary=PROGRAM_NAME,
 
 # Define the second notify function, with a subprocess call to 'notify-send'
 def notify_cli(body, summary=PROGRAM_NAME,
-               icon="random",
-               IP="localhost", PORT=8124,  # XXX unused here, notify-send does not accept callback functions
-               timeout=5  # In seconds
-               ):
+        icon="random", addCallback=False,
+        IP="localhost", PORT=8124,  # XXX unused here, notify-send does not accept callback functions
+        timeout=5  # In seconds
+    ):
     """
     Send a notification, with a subprocess call to 'notify-send'.
     """
+    if addCallback:
+        print("Warning: addCallback = True but notify-send does not accept callback functions (for IP = {}, PORT = {}).".format(IP, PORT))  # DEBUG
     try:
         print("notify.notify(): Trying to use the command line program 'notify-send' ...")
         if icon == "random":
@@ -183,22 +184,21 @@ def notify_cli(body, summary=PROGRAM_NAME,
 
 # Define the unified notify.notify() function
 def notify(body, summary=PROGRAM_NAME,
-           icon="random",
-           IP="localhost", PORT=8124,  # FIXED use this in ulogme_serve.py
-           timeout=5  # In seconds
-           ):
+        icon="random", addCallback=False,
+        IP="localhost", PORT=8124,  # FIXED use this in ulogme_serve.py
+        timeout=5  # In seconds
+    ):
     # print("Notification: '{}', from '{}' with icon '{}'.".format(body, summary, icon))  # DEBUG
     if not has_Notify:
         print("notify.notify(): Warning, desktop notification from Python seems to not be available ...")
-        return notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout)
-    else:
-        try:
-            return_code = notify_gi(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout)
-            if return_code < 0:
-                return_code = notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout)
-        except Exception:
-            return_code = notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout)
-        return return_code
+        return notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout, addCallback=addCallback)
+    try:
+        return_code = notify_gi(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout, addCallback=addCallback)
+        if return_code < 0:
+            return_code = notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout, addCallback=addCallback)
+    except Exception:
+        return_code = notify_cli(body, summary=summary, icon=icon, IP=IP, PORT=PORT, timeout=timeout, addCallback=addCallback)
+    return return_code
 
 
 if __name__ == "__main__":

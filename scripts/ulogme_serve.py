@@ -66,15 +66,21 @@ def writenote(note, time_=None):
 
 # Custom handler
 class CustomHandler(http_server.SimpleHTTPRequestHandler):
+    """ Custom handler for the http_server:
+
+    - handles the GET by default,
+    - handles some POST request as an API: /refresh, /addnote, /blog.
+    """
     def __init__(self, *args):
         self.rootdir = os.getcwd()
         super(CustomHandler, self).__init__(*args)
 
     def do_GET(self):
-        # default behavior
+        """Default behavior for the GET."""
         http_server.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
+        """Custom behavior for the POST."""
         form = cgi.FieldStorage(
             fp=self.rfile,
             headers=self.headers,
@@ -122,7 +128,8 @@ class CustomHandler(http_server.SimpleHTTPRequestHandler):
             printc("<green>Adding a blog post in uLogMe<reset>, with content '<blue>{}<reset>' and time '<magenta>{!s}<reset>' ...".format(post, ppDay(int(post_time))))
             notify("Adding a blog post in <b>uLogMe</b>, with content '<i>{}</i>' and time '<i>{!s}</i>' ...".format(post, ppDay(int(post_time))), icon="note")  # DEBUG
             os.chdir(self.rootdir)  # pop out
-            trev = rewindTime(post_time)
+            # trev = rewindTime(post_time)
+            # print("trev =", trev)  # DEBUG
             with open(os.path.join("..", "logs", "blog_%d.txt" % (post_time, )), "w") as f:
                 f.write(post)
             updateEvents()  # defined in export_events.py
@@ -157,7 +164,6 @@ if __name__ == "__main__":
         # Instead of "", more secure, thanks to https://github.com/karpathy/ulogme/issues/48
 
     # Serve render/ folder, not current folder
-    # rootdir = os.getcwd()  # XXX Not used anymore
     os.chdir(os.path.join("..", "render"))
 
     try:

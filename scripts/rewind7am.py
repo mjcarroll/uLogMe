@@ -3,6 +3,18 @@
 # rewind7am.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
+""" rewind7am.py for uLogMe:
+
+Usage:
+$ rewind7am.py
+
+Simple utility script that takes unix time (as int)
+and returns unix time at 7am of the day that the corresponding ulogme
+event belongs to. ulogme day breaks occur at 7am, so e.g. 3am late
+night session will count towards previous day activity
+
+Note: works in both Python 2 and 3.
+"""
 from __future__ import print_function   # Python 2 compatibility
 from __future__ import absolute_import  # Python 2 compatibility
 

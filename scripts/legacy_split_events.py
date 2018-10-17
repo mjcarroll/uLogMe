@@ -3,6 +3,15 @@
 # legacy_split_events.py for https://github.com/Naereen/uLogMe/
 # MIT Licensed, https://lbesson.mit-license.org/
 #
+""" legacy_split_events.py for uLogMe:
+
+Usage:
+$ legacy_split_events.py
+
+Old file, to convert old log files in text (.txt) format in the uLogMe/logs/ folder, and generate the JSON files in uLogMe/render/json/ folder.
+
+Note: works in both Python 2 and 3.
+"""
 from __future__ import print_function   # Python 2 compatibility
 from __future__ import absolute_import  # Python 2 compatibility
 
@@ -31,8 +40,8 @@ def loadEvents(fname):
     events = []
 
     try:
-        with open(fname, "r") as f:
-            ws = f.read().splitlines()
+        with open(fname, "r") as thisfile:
+            ws = thisfile.read().splitlines()
         events = []
         for w in ws:
             ix = w.find(" ")  # find first space, that's where stamp ends
@@ -92,20 +101,20 @@ if __name__ == "__main__":
         # write out log files split up
         if e3:
             fout = os.path.join(ROOT, "..", "logs", "notes_%d.txt" % (t0, ))
-            with open(fout, "w") as f:
-                f.write("".join(["%d %s\n" % (x["t"], x["s"]) for x in e3]))
+            with open(fout, "w") as thisotherfile:
+                thisotherfile.write("".join(["%d %s\n" % (x["t"], x["s"]) for x in e3]))
             print("wrote to", fout)
 
         if e2:
             fout = os.path.join(ROOT, "..", "logs", "keyfreq_%d.txt" % (t0, ))
-            with open(fout, "w") as f:
-                f.write("".join(["%d %s\n" % (x["t"], x["s"]) for x in e2]))
+            with open(fout, "w") as thisotherfile:
+                thisotherfile.write("".join(["%d %s\n" % (x["t"], x["s"]) for x in e2]))
             print("wrote to", fout)
 
         if e1:
             fout = os.path.join(ROOT, "..", "logs", "window_%d.txt" % (t0, ))
-            with open(fout, "w") as f:
-                f.write("".join(["%d %s\n" % (x["t"], x["s"]) for x in e1]))
+            with open(fout, "w") as thisotherfile:
+                thisotherfile.write("".join(["%d %s\n" % (x["t"], x["s"]) for x in e1]))
             print("wrote to", fout)
 
         curtime += 60 * 60 * 24

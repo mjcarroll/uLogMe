@@ -1,6 +1,6 @@
 # **uLogMe**
 
-> ### How productive were you today? How much code have you written? Where did your time go?
+> **How productive were you today? How much code have you written? Where did your time go?**
 
 Keep track of your computer activity throughout the day: visualize your active window titles and the number and frequency of keystrokes, in beautiful and responsive HTML timelines.
 
@@ -30,7 +30,7 @@ See a blog post (along with multiple screenshots) describing the project [here.]
 
 ## Getting started
 
-**To install uLogMe**
+### To install uLogMe
 
 1. Clone the repository to some folder: `$ git clone https://github.com/Naereen/uLogMe.git`
 2. If you're on Ubuntu, make sure you have the dependencies: the `xdotool` `xinput` `wmctrl` `xprintidle` packages are *required* (to install them: `$ sudo apt-get install xdotool xinput wmctrl xprintidle`). On other Linux distribution, install them also, and you may also need gnome-screensaver (`$ sudo PACKAGEMANAGER install gnome-screensaver` where `PACKAGEMANAGER=pacman` on ArchLinux, `PACKAGEMANAGER=yum` on Fedora, etc).
@@ -47,7 +47,7 @@ sudo apt install xdotool xinput wmctrl xprintidle
 # or use 'pacman' on ArchLinux or 'yum' on Fedora or 'brew' or a similar tool on Mac OS X
 ```
 
-**To start recording**
+### To start recording
 
 1. `cd uLogMe/scripts` inside the directory and run `$ ./ulogme_data.sh`. This will launch two scripts.
    - The first one, [`keyfreq.sh`](scripts/keyfreq.sh), records the frequency of keystrokes,
@@ -61,7 +61,7 @@ cd scripts/
 ./ulogme_data.sh   # starts collecting data !
 ```
 
-**The user interface**
+### The user interface
 
 1. **Important**. As *a one-time setup*, copy over [the example settings file](render/js/render_settings_example.js) to your own copy: `$ cp render/js/render_settings_example.js render/js/render_settings.js` to create your own `render_settings.js` settings file. In this file modify everything to your own preferences. Follow the provided example to specify title mappings: A raw window title comes in, and we match it against regular expressions to determine what type of activity it is. For example, the code would convert "Google Chrome - some cool website" into just "Chrome", or "GitHub - Mozilla Firefox" into just "GitHub". Follow [the provided example](render/js/render_settings_example.js) and read the comments for all settings in the file.
 2. Once that is set up, start the web server viewer: `$ python ulogme_serve.py`, and go to [the provided address](https://localhost:8443) (by default, it is `https://localhost:8443`) in your browser. Hit the refresh button on top right every time you would like to refresh the results based on most recently recorded activity (it erases cache). You can also use a convenience file [`ulogme_serve.sh`](scripts/ulogme_serve.sh) to do both: start the server, and open the web-page.
@@ -80,6 +80,7 @@ firefox https://localhost:8443/
 python exports_events.py
 ```
 
+### Bonus with tmux
 Bonus: **If you are using [tmux](https://tmux.github.io/)**
 
 1. The script `ulogme_tmux.sh` can be used to create a new tab in your current [tmux](https://tmux.github.io/) session, name it "uLogMe", split it in half vertically, and then it starts the user interface script in the left column, and the data recording in the right column. Very convenient!
@@ -181,7 +182,7 @@ For more projects, [this question on Personal Productivity Stack Exchange](https
 ## :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/uLogMe.svg)](https://github.com/Naereen/uLogMe/blob/master/LICENSE)
 [MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
 
-© 2014-2016 [Andrej Karpathy](https://GitHub.com/karpathy) and [GitHub collaborators](https://GitHub.com/karpathy/ulogme/graphs/contributors/), and © 2016-2017 [Lilian Besson](https://GitHub.com/Naereen) and [GitHub collaborators](https://GitHub.com/Naereen/uLogMe/graphs/contributors/).
+© 2014-2016 [Andrej Karpathy](https://GitHub.com/karpathy) and [GitHub collaborators](https://GitHub.com/karpathy/ulogme/graphs/contributors/), and © 2016-2018 [Lilian Besson](https://GitHub.com/Naereen) and [GitHub collaborators](https://GitHub.com/Naereen/uLogMe/graphs/contributors/).
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/uLogMe/graphs/commit-activity)
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)

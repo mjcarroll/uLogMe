@@ -24,10 +24,6 @@ import ssl
 import socket
 from subprocess import check_output
 try:
-    import socketserver
-except ImportError:                      # https://stackoverflow.com/questions/13329761/no-module-named-serversocket
-    import SocketServer as socketserver  # Python 2 compatibility
-try:
     import http.server as http_server
 except ImportError:
     import SimpleHTTPServer as http_server  # Python 2 compatibility
@@ -43,6 +39,7 @@ default_fpem_path = os.path.join("..", "render", default_fpem)
 
 
 def generate_certificate(fpem=default_fpem_path):
+    """ Use openssl command line (ugly) to generate a SSL certificate: 4096 bits, valid 10 years. See the code for more details."""
     print("Generating the SSL certificate to {} in the current directory ({}) ...".format(fpem, os.getcwd()))
     args = [
         "openssl",
@@ -79,21 +76,21 @@ if __name__ == "__main__":
 
     # Certificate setting
     if len(sys.argv) > 3:
-        fpem = str(sys.argv[3])
+        myfpem = str(sys.argv[3])
     else:
-        fpem = default_fpem_path
+        myfpem = default_fpem_path
 
-    if not os.path.isfile(fpem):
-        printc("<red>The SSL certificate<reset> file <black>{}<reset> is not present, trying to generate it with a 'openssl' command ...".format(fpem))
-        generate_certificate(fpem)
-    printc("<green>Using the SSL certificate<reset> from the information in the file <black>{}<reset> ...".format(fpem))
+    if not os.path.isfile(myfpem):
+        printc("<red>The SSL certificate<reset> file <black>{}<reset> is not present, trying to generate it with a 'openssl' command ...".format(myfpem))
+        generate_certificate(myfpem)
+    printc("<green>Using the SSL certificate<reset> from the information in the file <black>{}<reset> ...".format(myfpem))
 
     # Serve render/ folder, not current folder
     os.chdir(os.path.join("..", "render"))
 
     try:
         httpd = http_server.HTTPServer((IP, PORT), CustomHandler)
-        httpd.socket = ssl.wrap_socket(httpd.socket, certfile=fpem, server_side=True)
+        httpd.socket = ssl.wrap_socket(httpd.socket, certfile=myfpem, server_side=True)
         sa = httpd.socket.getsockname()
         IP, PORT = sa[0], sa[1]
         printc("<green>Serving uLogMe<reset> on a HTTPS server, see it locally on '<u><black>https://{}:{}<reset><U>' ...".format(IP, PORT))
