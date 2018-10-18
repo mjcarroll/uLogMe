@@ -44,26 +44,31 @@ echo
 # Start the main loop
 while true
 do
-	islocked=true
+	# By default the title was marked as locked if detection failed, now it's the opposite: it should fix #26
+	# FIXED, cf. https://github.com/Naereen/uLogMe/issues/26#issuecomment-430977096
+	islocked=false
 	# Try to figure out which Desktop Manager is running and set the
 	# screensaver commands accordingly.
 	if [[ X"$GDMSESSION" == X'xfce' ]]; then
 		# Assume XFCE folks use xscreensaver (the default).
-		screensaverstate="$(xscreensaver-command -time | cut -f2 -d: | cut -f2-3 -d' ')"
-		if [[ "$screensaverstate" =~ "screen non-blanked" ]]; then
-			islocked=false
+		type xscreensaver-command 2>&1 > /dev/null
+		if [ "X$?" = "X0 "]; then
+			islocked=true
+			screensaverstate="$(xscreensaver-command -time | cut -f2 -d: | cut -f2-3 -d' ')"
+			if [[ "$screensaverstate" =~ "screen non-blanked" ]]; then
+				islocked=false
+			fi
 		fi
 	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' ]]; then
 		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
 		type gnome-screensaver-command 2>&1 > /dev/null
 		if [ "X$?" = "X0 "]; then
 			screensaverstate="$(gnome-screensaver-command -q 2>&1 > /dev/null)"
-			if [[ "$screensaverstate" =~ .*inactive.* ]]; then
-				islocked=false
+			if [[ "$screensaverstate" =~ .*active.* ]]; then
+				islocked=true
 			fi
 		fi
-		# FIXME, cf. https://github.com/Naereen/uLogMe/issues/26#issuecomment-430977096
-		# # We can also try the xdg-screensaver command?
+		# XXX We cannot use the xdg-screensaver command
 		# type xdg-screensaver 2>&1 > /dev/null
 		# if [ "X$?" = "X0 "]; then
 		# 	screensaverstate="$(xdg-screensaver status 2>&1 > /dev/null)"
@@ -75,8 +80,8 @@ do
 		type cinnamon-screensaver-command 2>&1 > /dev/null
 		if [ "X$?" = "X0 "]; then
 			screensaverstate="$(cinnamon-screensaver-command -q 2>&1 > /dev/null)"
-			if [[ "$screensaverstate" =~ .*inactive.* ]]; then
-				islocked=false
+			if [[ "$screensaverstate" =~ .*active.* ]]; then
+				islocked=true
 			fi
 		fi
 	elif [[ X"$XDG_SESSION_DESKTOP" == X'KDE' ]]; then
