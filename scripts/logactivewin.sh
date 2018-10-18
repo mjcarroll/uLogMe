@@ -6,7 +6,8 @@
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
 [ -f color.sh ] && . color.sh
 
-# Constants
+# For the language to be in English for this script
+# XXX This is not very pretty but it works: the sleep detection and other code look for patterns in the command line output of some commands
 readonly LANGUAGE=en
 readonly LANG=en_US.utf8
 
@@ -20,12 +21,11 @@ waittime="2"   # number of seconds between executions of loop
 # maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
 
 
-type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${reset}, idle time detection will not be available (screen saver / lock screen detection only) ..."
+type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${reset}, idle time detection will not be available (screen saver / lock screen detection only) ...\nPlease install 'xprintidle' with the following command:\nsudo apt install xprintidle"
 
 # Get idle time in seconds. If xprintidle is not installed, returns 0.
 function get_idle_time() {
     type xprintidle >/dev/null 2>&1 && echo $(( $(timeout -s 9 1 xprintidle) / 1000 )) || echo 0
-    # TODO code it better!
 }
 
 
@@ -55,17 +55,35 @@ do
 		fi
 	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' ]]; then
 		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
-		screensaverstate="$(gnome-screensaver-command -q 2>&1 > /dev/null)"
-		if [[ "$screensaverstate" =~ .*inactive.* ]]; then
-			islocked=false
+		type gnome-screensaver-command 2>&1 > /dev/null
+		if [ "X$?" = "X0 "]; then
+			screensaverstate="$(gnome-screensaver-command -q 2>&1 > /dev/null)"
+			if [[ "$screensaverstate" =~ .*inactive.* ]]; then
+				islocked=false
+			fi
 		fi
+		# FIXME, cf. https://github.com/Naereen/uLogMe/issues/26#issuecomment-430977096
+		# # We can also try the xdg-screensaver command?
+		# type xdg-screensaver 2>&1 > /dev/null
+		# if [ "X$?" = "X0 "]; then
+		# 	screensaverstate="$(xdg-screensaver status 2>&1 > /dev/null)"
+		# 	if [[ "$screensaverstate" =~ .*disabled.* ]]; then
+		# 		islocked=false
+		# 	fi
+		# fi
 	elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
-		screensaverstate="$(cinnamon-screensaver-command -q 2>&1 > /dev/null)"
-		if [[ "$screensaverstate" =~ .*inactive.* ]]; then
-			islocked=false
+		type cinnamon-screensaver-command 2>&1 > /dev/null
+		if [ "X$?" = "X0 "]; then
+			screensaverstate="$(cinnamon-screensaver-command -q 2>&1 > /dev/null)"
+			if [[ "$screensaverstate" =~ .*inactive.* ]]; then
+				islocked=false
+			fi
 		fi
 	elif [[ X"$XDG_SESSION_DESKTOP" == X'KDE' ]]; then
-		islocked="$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)"
+		type qdbus 2>&1 > /dev/null
+		if [ "X$?" = "X0 "]; then
+			islocked="$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)"
+		fi
 	else
 		# If we can't find the screensaver, assume it's missing.
 		islocked=false
