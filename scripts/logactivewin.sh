@@ -51,7 +51,7 @@ do
 	# screensaver commands accordingly.
 	if [[ X"$GDMSESSION" == X'xfce' ]]; then
 		# Assume XFCE folks use xscreensaver (the default).
-		type xscreensaver-command 2>&1 > /dev/null
+		type xscreensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
 			islocked=true
 			screensaverstate="$(xscreensaver-command -time | cut -f2 -d: | cut -f2-3 -d' ')"
@@ -61,31 +61,31 @@ do
 		fi
 	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' ]]; then
 		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
-		type gnome-screensaver-command 2>&1 > /dev/null
+		type gnome-screensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
-			screensaverstate="$(gnome-screensaver-command -q 2>&1 > /dev/null)"
+			screensaverstate="$(gnome-screensaver-command -q 2>/dev/null >/dev/null)"
 			if [[ "$screensaverstate" =~ .*active.* ]]; then
 				islocked=true
 			fi
 		fi
 		# XXX We cannot use the xdg-screensaver command
-		# type xdg-screensaver 2>&1 > /dev/null
+		# type xdg-screensaver 2>/dev/null >/dev/null
 		# if [ "X$?" = "X0" ]; then
-		# 	screensaverstate="$(xdg-screensaver status 2>&1 > /dev/null)"
+		# 	screensaverstate="$(xdg-screensaver status 2>/dev/null >/dev/null)"
 		# 	if [[ "$screensaverstate" =~ .*disabled.* ]]; then
 		# 		islocked=false
 		# 	fi
 		# fi
 	elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
-		type cinnamon-screensaver-command 2>&1 > /dev/null
+		type cinnamon-screensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
-			screensaverstate="$(cinnamon-screensaver-command -q 2>&1 > /dev/null)"
+			screensaverstate="$(cinnamon-screensaver-command -q 2>/dev/null >/dev/null)"
 			if [[ "$screensaverstate" =~ .*active.* ]]; then
 				islocked=true
 			fi
 		fi
 	elif [[ X"$XDG_SESSION_DESKTOP" == X'KDE' ]]; then
-		type qdbus 2>&1 > /dev/null
+		type qdbus 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
 			islocked="$(qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.GetActive)"
 		fi
