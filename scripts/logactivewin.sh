@@ -21,11 +21,11 @@ waittime="2"   # number of seconds between executions of loop
 # maxtime="600"  # if last write happened more than this many seconds ago, write even if no window title changed
 
 
-type xprintidle >/dev/null 2>&1 || echo -e "${red}WARNING: 'xprintidle' not installed${reset}, idle time detection will not be available (screen saver / lock screen detection only) ...\nPlease install 'xprintidle' with the following command:\nsudo apt install xprintidle"
+type xprintidle 2>/dev/null >/dev/null || echo -e "${red}WARNING: 'xprintidle' not installed${reset}, idle time detection will not be available (screen saver / lock screen detection only) ...\nPlease install 'xprintidle' with the following command:\nsudo apt install xprintidle"
 
 # Get idle time in seconds. If xprintidle is not installed, returns 0.
 function get_idle_time() {
-    type xprintidle >/dev/null 2>&1 && echo $(( $(timeout -s 9 1 xprintidle) / 1000 )) || echo 0
+    type xprintidle 2>/dev/null >/dev/null && echo $(( $(timeout -s 9 1 xprintidle) / 1000 )) || echo 0
 }
 
 
@@ -63,15 +63,15 @@ do
 		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
 		type gnome-screensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
-			screensaverstate="$(gnome-screensaver-command -q 2>/dev/null >/dev/null)"
-			if [[ "$screensaverstate" =~ .*active.* ]]; then
+			screensaverstate="$(gnome-screensaver-command -q 2>/dev/null | grep -o "[^ ]*active")"
+			if [[ "$screensaverstate" = active ]]; then
 				islocked=true
 			fi
 		fi
 		# XXX We cannot use the xdg-screensaver command
 		# type xdg-screensaver 2>/dev/null >/dev/null
 		# if [ "X$?" = "X0" ]; then
-		# 	screensaverstate="$(xdg-screensaver status 2>/dev/null >/dev/null)"
+		# 	screensaverstate="$(xdg-screensaver status 2>/dev/null)"
 		# 	if [[ "$screensaverstate" =~ .*disabled.* ]]; then
 		# 		islocked=false
 		# 	fi
@@ -79,8 +79,8 @@ do
 	elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
 		type cinnamon-screensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
-			screensaverstate="$(cinnamon-screensaver-command -q 2>/dev/null >/dev/null)"
-			if [[ "$screensaverstate" =~ .*active.* ]]; then
+			screensaverstate="$(cinnamon-screensaver-command -q 2>/dev/null | grep -o "[^ ]*active")"
+			if [[ "$screensaverstate" = active ]]; then
 				islocked=true
 			fi
 		fi
@@ -115,7 +115,7 @@ do
     fi
     if [ -n "$suspended_at" ]; then
         # echo -e "${red}suspended_at = ${suspended_at}${reset} ..."  # DEBUG
-        if date -d "$suspended_at" +%s &>/dev/null; then
+        if date -d "$suspended_at" +%s 2>/dev/null >/dev/null ; then
             suspended_at="$(date -d "$suspended_at" +%s)"
             # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
             suspended_at=$((suspended_at + 30))
@@ -145,7 +145,7 @@ do
 
 	# additional check, do not log private browsing windows (if you have something to hide?)
 	# XXX customize here the regexp capturing the titles you don't want to count
-	if echo "$curtitle" | grep "\(privée\|InPrivate\|Private\|Incognito\)"  &>/dev/null
+	if echo "$curtitle" | grep "\(privée\|InPrivate\|Private\|Incognito\)" 2>/dev/null >/dev/null
 	then
 		echo -e "${red}Not logged private window title ...${reset}"
 		curtitle=""
