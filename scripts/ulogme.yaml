@@ -8,4 +8,4 @@ windows:
     - ./keyfreq.sh
     - ./logactivewin.sh
     - ./logdesktop.sh
-    - echo forth pane          # pane no. 4
+    - ./ulogme_serve.sh

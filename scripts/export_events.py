@@ -19,6 +19,7 @@ import os
 import os.path
 import glob
 
+LOGDIR = os.getenv('LOGDIR')
 
 # Import a printc function to use ANSI colors in the stdout output
 try:
@@ -94,9 +95,9 @@ def mtime(f):
 def updateEvents():
     """ Goes down the list of .txt log files and writes all .json files that can be used by the frontend. """
     logFiles = []
-    logFiles.extend(glob.glob(os.path.join("..", "logs", "keyfreq_*.txt")))
-    logFiles.extend(glob.glob(os.path.join("..", "logs", "window_*.txt")))
-    logFiles.extend(glob.glob(os.path.join("..", "logs", "notes_*.txt")))
+    logFiles.extend(glob.glob(os.path.join(LOGDIR, "keyfreq_*.txt")))
+    logFiles.extend(glob.glob(os.path.join(LOGDIR, "window_*.txt")))
+    logFiles.extend(glob.glob(os.path.join(LOGDIR, "notes_*.txt")))
     logFiles = [f for f in logFiles if not os.path.islink(f)]
 
     # extract all times. all log files of form {type}_{stamp}.txt
@@ -130,10 +131,10 @@ def updateEvents():
         out_list.append({"t0": t0, "t1": t1, "fname": fout})
 
         fwrite = os.path.join(RENDER_ROOT, fout)
-        e1f = os.path.join("..", "logs", "window_%d.txt" % (t0, ))
-        e2f = os.path.join("..", "logs", "keyfreq_%d.txt" % (t0, ))
-        e3f = os.path.join("..", "logs", "notes_%d.txt" % (t0, ))
-        e4f = os.path.join("..", "logs", "blog_%d.txt" % (t0, ))
+        e1f = os.path.join(LOGDIR, "window_%d.txt" % (t0, ))
+        e2f = os.path.join(LOGDIR, "keyfreq_%d.txt" % (t0, ))
+        e3f = os.path.join(LOGDIR, "notes_%d.txt" % (t0, ))
+        e4f = os.path.join(LOGDIR, "blog_%d.txt" % (t0, ))
 
         dowrite = False
 
