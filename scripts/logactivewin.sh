@@ -156,7 +156,7 @@ do
         # Get rewind time, day starts at 7am and ends at 6:59am next day
         rewind7am=$(python3 ./rewind7am.py)
         # One logfile daily
-        log_file="../logs/window_${rewind7am}.txt"
+        log_file="${LOGDIR}/window_${rewind7am}.txt"
         # If computer was just awaken, log suspend event unless it happened before 7am
         if [ $was_awaken = true ] && [ "${suspended_at:-0}" -ge "$rewind7am" ]; then
             echo "$suspended_at __SUSPEND" >> "$log_file"

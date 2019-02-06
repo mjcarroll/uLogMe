@@ -11,8 +11,10 @@
 # wait time in seconds
 waittime="60"
 # directory to save screenshots to
-saveprefix="../desktopscr/scr"
-mkdir -p ../desktopscr
+
+saveprefix="${LOGDIR}/scr"
+mkdir -p ${LOGDIR}/scr
+cd ${LOGDIR}
 
 #------------------------------
 
@@ -27,9 +29,9 @@ do
 	then
 		# take screenshot into file
 		T="$(date +%s)"
-		fname="${saveprefix}_${T}.jpg"
+		fname="${saveprefix}_${T}.png"
 		# q is quality. Higher is higher quality
-		scrot -q 50 "$fname"
+		scrot "$fname"
 	else
 		echo -e "${red}Screen is locked, waiting ...${reset}"
 	fi

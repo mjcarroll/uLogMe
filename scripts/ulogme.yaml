@@ -1,0 +1,11 @@
+session_name: ulogme
+windows:
+- window_name: dev window
+  layout: tiled
+  shell_command_before:
+    - export LOGDIR=${HOME}/Private/ulogme/$( hostname )
+  panes:
+    - ./keyfreq.sh
+    - ./logactivewin.sh
+    - ./logdesktop.sh
+    - echo forth pane          # pane no. 4

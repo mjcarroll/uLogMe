@@ -7,6 +7,8 @@
 
 set -o nounset  # Stricter mode
 
+mkdir ${LOGDIR}
+
 # Use https://bitbucket.org/lbesson/bin/src/master/.color.sh to add colors in Bash scripts
 [ -f color.sh ] && . color.sh
 
@@ -23,10 +25,7 @@ readonly MODIFIER_KEYS="$(xmodmap -pk | grep -iE '\b(shift_[lr]|alt_[lr]|control
 # Shared memory, instead of a temporary file: more secure, and quicker
 readonly HELPER_FILE=/dev/shm/keyfreqraw
 
-
-mkdir -p ../logs
 last_log_file=""
-
 
 # First message to inform that the script was started correctly
 echo -e "${green}$0 has been started successfully.${reset}"
@@ -58,32 +57,13 @@ while true; do
             ) > "$fileName"; } &
         filesToGrep+="$fileName "
     done
-
     wait
-
 
     # Count number of key release events
     num=$(cat $filesToGrep | wc -l)
 
     # Append unix time stamp and the number into file
-    log_file="../logs/keyfreq_$(python3 rewind7am.py).txt"
+    log_file="${LOGDIR}/keyfreq_$(python3 rewind7am.py).txt"
     echo -e "Logged ${yellow}key frequency${reset}: \tat ${magenta}$(date)${reset}, ${green}$(printf "%5i " "${num}")${reset} key release events, written to '${black}${log_file}${reset}'"
     echo "$(date +%s) $num"  >> "$log_file"
-
-    if [ "$last_log_file" != "$log_file" ]; then
-        # Optionally compress the log file (remove extraneous 0 key counts)
-        if [ $COMPRESS_LOG_FILE = true ] && [ -s "$last_log_file" ]; then
-            grep -s -v " 0$" -A 1 -B 1 "$last_log_file" \
-                | sort -u \
-                | grep -s -v "^\-\-$" > "${last_log_file}.compressed"
-            echo "${blue}Compressing keyfreq log file${reset}: ${yellow}$(ls -hsx ${last_log_file}*)${reset}"
-            mv -f -- "${last_log_file}.compressed" "$last_log_file"
-        fi
-        # Create symlink to most recent log file everytime it changes its name,
-        # so we can use something like "tail -F ../logs/keyfreq_today.txt"
-        ln -s -f "$(basename "$log_file")" "../logs/keyfreq_today.txt"
-        last_log_file="$log_file"
-        # XXX I don't use this feature, but alright
-    fi
 done
-
