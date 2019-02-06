@@ -67,12 +67,8 @@ while true; do
 
     # Append unix time stamp and the number into file
     log_file="../logs/keyfreq_$(python3 rewind7am.py).txt"
-    # Only print and log if $num > 0
-    if [ "${num:-0}" -gt 0 ]; then
-        echo -e "Logged ${yellow}key frequency${reset}: \tat ${magenta}$(date)${reset}, ${green}$(printf "%5i " "${num}")${reset} key release events, written to '${black}${log_file}${reset}'"
-        echo "$(date +%s) $num"  >> "$log_file"
-    fi
-
+    echo -e "Logged ${yellow}key frequency${reset}: \tat ${magenta}$(date)${reset}, ${green}$(printf "%5i " "${num}")${reset} key release events, written to '${black}${log_file}${reset}'"
+    echo "$(date +%s) $num"  >> "$log_file"
 
     if [ "$last_log_file" != "$log_file" ]; then
         # Optionally compress the log file (remove extraneous 0 key counts)
