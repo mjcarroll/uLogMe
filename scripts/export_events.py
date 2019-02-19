@@ -98,6 +98,7 @@ def updateEvents():
     logFiles.extend(glob.glob(os.path.join(LOGDIR, "keyfreq_*.txt")))
     logFiles.extend(glob.glob(os.path.join(LOGDIR, "window_*.txt")))
     logFiles.extend(glob.glob(os.path.join(LOGDIR, "notes_*.txt")))
+    logFiles.extend(glob.glob(os.path.join(LOGDIR, "steps_*.txt")))
     logFiles = [f for f in logFiles if not os.path.islink(f)]
 
     # extract all times. all log files of form {type}_{stamp}.txt
@@ -135,6 +136,7 @@ def updateEvents():
         e2f = os.path.join(LOGDIR, "keyfreq_%d.txt" % (t0, ))
         e3f = os.path.join(LOGDIR, "notes_%d.txt" % (t0, ))
         e4f = os.path.join(LOGDIR, "blog_%d.txt" % (t0, ))
+        e5f = os.path.join(LOGDIR, "steps_%d.txt" % (t0, ))
 
         dowrite = False
 
@@ -146,12 +148,19 @@ def updateEvents():
             e2mod = mtime(e2f)
             e3mod = mtime(e3f)
             e4mod = mtime(e4f)
-            if e1mod > tmod or e2mod > tmod or e3mod > tmod or e4mod > tmod:
+            e5mod = mtime(e5f)
+
+            if os.path.exists(e5f) and not os.path.exists(e2f):
+                dowrite = False
+            elif e1mod > tmod or e2mod > tmod or e3mod > tmod or e4mod > tmod or e5mod > tmod:
                 dowrite = True  # better update!
                 printc("<yellow>A log file has changed<reset>, so will update '<black>%s<reset>' ..." % (fwrite, ))
         else:
-            # output file does not exist, so write.
-            dowrite = True
+            if os.path.exists(e5f) and not os.path.exists(e2f):
+                dowrite = False
+            else:
+                # output file does not exist, so write.
+                dowrite = True
 
         if dowrite:
             # okay lets do work
@@ -165,11 +174,16 @@ def updateEvents():
             if os.path.isfile(e4f):
                 e4 = open(e4f, "r").read()
 
+            e5 = loadEvents(e5f)
+            for k in e5:
+                k["s"] = int(k["s"])  # int convert
+
             eout = {
                 "window_events": e1,
                 "keyfreq_events": e2,
                 "notes_events": e3,
-                "blog": e4
+                "blog": e4,
+                "steps_events": e5,
             }
             # print("eout =", eout)  # DEBUG
             with open(fwrite, "w") as f:
@@ -181,6 +195,15 @@ def updateEvents():
     assert os.path.exists(render_json_path), "Error: the path '{}' do not exist but it should. Try again (or fill an issue, https://github.com/Naereen/uLogMe/issues/new)."  # DEBUG
     fwrite = os.path.join(render_json_path, "export_list.json")
     with open(fwrite, "w") as f:
+        out_list = []
+        events = glob.glob(os.path.join(render_json_path, 'events_*.json'))
+        for event in events:
+            t0 = int(event.split('_')[1].split('.')[0])
+            t1 = t0 + 60 * 60 * 24  # 24 hrs later
+            fout = os.path.join("json", "events_%d.json" % (t0, ))
+            out_list.append({"t0": t0, "t1": t1, "fname": fout})
+
+
         try:  # We have a bytes, as in Python2
             f.write(json.dumps(out_list).encode("utf8"))
         except TypeError:  # We have a string, as in Python3

@@ -4,8 +4,8 @@ windows:
   layout: tiled
   shell_command_before:
     - export LOGDIR=${HOME}/Private/ulogme/$( hostname )
+    - cd ${HOME}/repos/uLogMe/scripts
   panes:
     - ./keyfreq.sh
     - ./logactivewin.sh
-    - ./logdesktop.sh
     - ./ulogme_serve.sh

@@ -29,7 +29,6 @@ function get_idle_time() {
 }
 
 
-mkdir -p ../logs
 last_write="0"
 lasttitle=""
 
@@ -59,7 +58,7 @@ do
 				islocked=false
 			fi
 		fi
-	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback' ]]; then
+	elif [[ X"$GDMSESSION" == X'ubuntu' || X"$GDMSESSION" == X'ubuntu-2d' || X"$GDMSESSION" == X'gnome-shell' || X"$GDMSESSION" == X'gnome-classic' || X"$GDMSESSION" == X'gnome-fallback'  || X"$GDMSESSION" == X'budgie-desktop'  ]]; then
 		# Assume the GNOME/Ubuntu folks are using gnome-screensaver.
 		type gnome-screensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
@@ -68,14 +67,6 @@ do
 				islocked=true
 			fi
 		fi
-		# XXX We cannot use the xdg-screensaver command
-		# type xdg-screensaver 2>/dev/null >/dev/null
-		# if [ "X$?" = "X0" ]; then
-		# 	screensaverstate="$(xdg-screensaver status 2>/dev/null)"
-		# 	if [[ "$screensaverstate" =~ .*disabled.* ]]; then
-		# 		islocked=false
-		# 	fi
-		# fi
 	elif [[ X"$GDMSESSION" == X'cinnamon' ]]; then
 		type cinnamon-screensaver-command 2>/dev/null >/dev/null
 		if [ "X$?" = "X0" ]; then
@@ -108,18 +99,16 @@ do
     was_awaken=false
 
     # First technic
-    suspended_at="$(grep "Freezing user space processes ... *$" /var/log/TOTOkern.log 2>/dev/null | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ' || echo "")"
-    if [ -z "$suspended_at" ]; then
-        # Second technic
-        suspended_at="$(grep -E ': (performing suspend|Awake)' /var/log/TOTOpm-suspend.log 2>/dev/null | tail -n 2 | tr '\n' '|' | sed -rn 's/^(.*): performing suspend.*\|.*: Awake.*/\1/p' || echo "")"
-    fi
+    suspended_at="$(sudo cat /var/log/syslog | grep 'Suspending system...' | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ' || echo "")"
+    awakened_at="$(sudo cat /var/log/syslog | grep 'System resumed.' | tail -n 1 | awk ' { print $1 " " $2 " " $3 } ' || echo "")"
+
     if [ -n "$suspended_at" ]; then
         # echo -e "${red}suspended_at = ${suspended_at}${reset} ..."  # DEBUG
         if date -d "$suspended_at" +%s 2>/dev/null >/dev/null ; then
             suspended_at="$(date -d "$suspended_at" +%s)"
             # XXX add 30 seconds, just to be sure that the laptop was indeed asleep at that time
             suspended_at=$((suspended_at + 30))
-            if [ "$suspended_at" -ge "$last_write" ]; then
+            if [[ "$last_write" -ne "0" && "$suspended_at" -ge "$last_write" ]]; then
                 echo -e "${red}Suspend occured after last event${reset}, '${black}was_awaken${reset}' = true ...${reset}"
                 was_awaken=true
             fi

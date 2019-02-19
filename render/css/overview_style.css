@@ -68,6 +68,11 @@ h2 {
     margin-left: auto;
     margin-right: auto;
 }
+#stepstats {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .al {
     float: left;
     font-size: 16px;
@@ -90,13 +95,13 @@ h2 {
 .skipdrawno {
     text-decoration: underline;
 }
-#keysummary, #timesummary {
+#keysummary, #timesummary, #stepsummary {
     display: inline-block;
 }
-    #keysummary text, #timesummary text {
-        font-family: Impact, Charcoal, sans-serif;
-        font-size: 20px;
-    }
+#keysummary text, #timesummary text, #stepsummary text {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 20px;
+}
 #summaries {
     margin-top: 30px;
     margin-bottom: 40px;
@@ -111,7 +116,7 @@ h2 {
     .linksfooter a:hover {
         text-decoration: underline;
     }
-    
+
     .linksfooter .love {
       display: inline-block;
       position: relative;
@@ -124,15 +129,15 @@ h2 {
          -moz-animation: love .5s infinite linear alternate-reverse;
               animation: love .5s infinite linear alternate-reverse;
     }
-    
+
     @-webkit-keyframes love {
       to { -webkit-transform: scale(1.1); }
     }
-    
+
     @-moz-keyframes love {
       to { -moz-transform: scale(1.1); }
     }
-    
+
     @keyframes love {
       to { transform: scale(1.1); }
     }

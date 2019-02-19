@@ -372,7 +372,7 @@
     }
 
     // simple plot of key frequencies over time
-    function visualizeKeyFreq(es) {
+    function visualizeKeyFreq(es, ss) {
       $("#keygraph").empty();
 
       var W = $(window).width() - 40;
@@ -383,14 +383,25 @@
       .attr("height", 100);
 
       var sx = (ft-t00) / W;
+
       var line = d3.svg.line()
         .x(function(d) { return (d.t -t00) / sx; })
+        .y(function(d) { return 100 - d.s; });
+
+      var line2 = d3.svg.line()
+        .x(function(d) { return (d.t - t00) / sx; })
         .y(function(d) { return 100 - d.s; });
 
       svg.append("path")
         .datum(es)
         .attr("class", "line")
         .attr("d", line);
+
+      svg.append("path")
+        .datum(ss)
+        .attr("class", "line")
+        .style("stroke", "red")
+        .attr("d", line2);
 
       div.append("p").attr("class", "al").text("Keystroke frequency")
          .append("button").attr("id", "saveButton_keygraph").text("Save to PNG")
@@ -651,6 +662,7 @@
         // nb_events = data["nb_window_events"]
         key_events = data["keyfreq_events"];
         notes_events = data["notes_events"];
+        steps_events = data["steps_events"];
 
         // map all window titles through the (customizable) mapwin function
         _.each(events, function(e) { e.m = mapwin(e.s); });
@@ -670,6 +682,14 @@
           ft = daylog.t1;
         }
 
+        if(steps_events.length > 0) {
+          t00s = _.min(_.pluck(steps_events, "t"));
+          fts = _.max(_.map(steps_events, function(e) { return e.t + e.dt; }))
+        }
+
+        t00 = Math.min(t00, t00s);
+        ft = Math.max(ft, fts);
+
         // render blog entry
         renderBlogEntry('blog' in data ? data['blog'] : '');
 
@@ -683,7 +703,7 @@
         visualizeWinSwitches(events.length);
         key_stats = computeKeyStats(events, key_events);
         visualizeKeyStats(key_stats, etypes);
-        visualizeKeyFreq(key_events);
+        visualizeKeyFreq(key_events, steps_events);
         visualizeNotes(notes_events);
       });
     }
